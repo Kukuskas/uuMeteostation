@@ -1,0 +1,24 @@
+{
+  "product": "uun_biot21sft02g01",
+  "version": "0.1.0",
+  "license": "License Commercial",
+  "description": {
+    "en": "",
+    "cs": ""
+  },
+  "docUri": "",
+  "flsUri": "",
+  "imageUri": "",
+  "devkit": {
+    "development": {
+      "appBoxLocationUri": "----- VALUE REQUIRED -----",
+      "appDeploymentUri": null,
+      "resourcePoolUri": "----- VALUE REQUIRED -----"
+    }
+  },
+  "uun_biot21sft02g01": {
+    "namespace": "UunBiot21sft02",
+    "sourceUri": "https://cdn.plus4u.net/uun-biot21sft02g01/%s/uun_biot21sft02g01.min.js",
+    "componentList": []
+  }
+}
