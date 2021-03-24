@@ -1,0 +1,6 @@
+{
+  "uuapp.perflog.logger.log_level": "OFF",
+  "scriptEngineBaseUri": "----- VALUE REQUIRED -----",
+  "scriptConsoleUri": "----- VALUE REQUIRED -----",
+  "createBinaryUri": "----- VALUE REQUIRED -----"
+}

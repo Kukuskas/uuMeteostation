@@ -3,13 +3,13 @@
   "schemaSpecificationUri": "https://uuapp.plus4u.net/uu-bookkit-maing01/bef682626ed943f28cde360ccb325981/book/page?code=uuSubAppInstanceDescriptor",
   "uuSubApp": {
     "code": "UUN.BIOT21SFT02.MAING01",
-    "version": "0.1.0",
+    "version": "0.1.0-pre_alpha",
     "name": "uunBiot21sft02Maing01",
-    "description": "",
+    "description": "uunWeatherstationMaing01 2021 BIOT project.",
     "license": "License Commercial",
     "asidRequired": true,
     "awidCount": 1,
-    "resourcePoolUri": "----- VALUE REQUIRED -----",
+    "resourcePoolUri": "ues:UCL-BT:UUN_STUDENTS01_AWE",
     "uuAppNodeSetMap": {
       "CMD": {
         "nodeSize": "G1_S",
@@ -30,6 +30,24 @@
       }
     },
     "uuConfigMap": {
+      "asid_license_owner_list": [
+        "26-6991-1"
+      ]
+    }
+  },
+  "uuSubAppInstance": {
+    "asid": "f2722998d84642cdb29204a7da74ba75",
+    "asidOwner": "26-6991-1",
+    "awidList": [
+      {
+        "awid": "44701e7183e94852859303f2bfca9a7f",
+        "awidOwner": "26-6992-1"
+      }
+    ],
+    "uuAppObjectStoreMap": {
+      "OSID_1": {
+        "osid": "ac308bf2bf8943df8a40715942b4ff81"
+      }
     }
   }
 }

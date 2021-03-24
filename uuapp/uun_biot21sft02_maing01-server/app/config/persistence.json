@@ -1,11 +1,21 @@
 {
+  "maxNoa": 20,
   "uuSubAppDataStore": {
     "primary": {
       "type": "uuAppObjectStore",
       "realization": "MongoDB",
       "schemaMap": {
-        "biot21sft02Main": {
-          "realization": "dao/Biot21sft02MainMongo"
+        "uuAppInstance": {
+          "realization": "dao/UuAppInstanceMongo",
+          "maxNoi": 1
+        },
+        "gateway": {
+          "realization": "dao/GatewayMongo",
+          "maxNoi": 100
+        },
+        "dataset": {
+          "realization": "dao/DatasetMongo",
+          "maxNoi": 500000
         }
       }
     }
