@@ -1,8 +1,9 @@
 "use strict";
 const Biot21sft02MainUseCaseError = require("./biot21sft02-main-use-case-error.js");
+const UU_APP_INSTANCE_ERROR_PREFIX = `${Biot21sft02MainUseCaseError.ERROR_PREFIX}/uuAppInstance`
 
 const Init = {
-  UC_CODE: `${Biot21sft02MainUseCaseError.ERROR_PREFIX}init/`,
+  UC_CODE: `${UU_APP_INSTANCE_ERROR_PREFIX}init/`,
 
   InvalidDtoIn: class extends Biot21sft02MainUseCaseError {
     constructor() {

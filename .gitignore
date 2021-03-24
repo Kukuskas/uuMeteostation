@@ -6,6 +6,7 @@
 .yardoc
 .gradle
 .devkit-token
+.npmrc
 *.tgz
 *.iws
 *.iml

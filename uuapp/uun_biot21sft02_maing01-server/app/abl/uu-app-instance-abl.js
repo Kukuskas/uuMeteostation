@@ -6,7 +6,7 @@ const { Profile, AppClientTokenService, UuAppWorkspace, UuAppWorkspaceError } = 
 const { UriBuilder } = require("uu_appg01_server").Uri;
 const { LoggerFactory } = require("uu_appg01_server").Logging;
 const { AppClient } = require("uu_appg01_server");
-const Errors = require("../api/errors/biot21sft02-main-error.js");
+const Errors = require("../api/errors/uu-app-instance-error.js");
 
 const WARNINGS = {
   initUnsupportedKeys: {
@@ -16,9 +16,11 @@ const WARNINGS = {
 
 const logger = LoggerFactory.get("Biot21sft02MainAbl");
 
-class Biot21sft02MainAbl {
+class UuAppInstanceAbl {
+
   constructor() {
     this.validator = Validator.load();
+    this.dao = DaoFactory.getDao("uuAppInstance");
   }
 
   async init(uri, dtoIn, session) {
@@ -62,7 +64,6 @@ class Biot21sft02MainAbl {
       const appClientToken = await AppClientTokenService.createToken(uri, uuBtBaseUri);
       const callOpts = AppClientTokenService.setToken({ session }, appClientToken);
 
-      // TODO HDS
       let awscId;
       try {
         const awscDtoOut = await AppClient.post(awscCreateUri, createAwscDtoIn, callOpts);
@@ -112,6 +113,7 @@ class Biot21sft02MainAbl {
       uuAppErrorMap: uuAppErrorMap,
     };
   }
+
 }
 
-module.exports = new Biot21sft02MainAbl();
+module.exports = new UuAppInstanceAbl();

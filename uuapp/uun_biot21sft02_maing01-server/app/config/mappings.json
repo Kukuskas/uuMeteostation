@@ -2,7 +2,7 @@
   "{vendor}-{uuApp}-{uuSubApp}": {
     "useCaseMap": {
       "sys/uuAppWorkspace/init": {
-        "realization": "api/controllers/Biot21sft02MainController.init",
+        "realization": "api/controllers/UuAppInstanceController.init",
         "httpMethod": "POST",
         "type": "CMD"
       },
@@ -15,6 +15,16 @@
         "realization": "index.html",
         "httpMethod": "GET",
         "type": "UVE"
+      },
+      "gateway/create": {
+        "realization": "api/controllers/GatewayController.create",
+        "httpMethod": "POST",
+        "type": "CMD"
+      },
+      "dataset/get": {
+        "realization": "api/controllers/DatasetController.get",
+        "httpMethod": "POST",
+        "type": "CMD"
       }
     }
   }
