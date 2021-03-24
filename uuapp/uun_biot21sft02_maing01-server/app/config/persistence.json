@@ -6,15 +6,15 @@
       "realization": "MongoDB",
       "schemaMap": {
         "uuAppInstance": {
-          "realization": "dao/UuAppInstance",
+          "realization": "dao/UuAppInstanceMongo",
           "maxNoi": 1
         },
         "gateway": {
-          "realization": "dao/Gateway",
+          "realization": "dao/GatewayMongo",
           "maxNoi": 100
         },
         "dataset": {
-          "realization": "dao/Dataset",
+          "realization": "dao/DatasetMongo",
           "maxNoi": 500000
         }
       }
