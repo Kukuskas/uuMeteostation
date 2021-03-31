@@ -29,3 +29,6 @@ package-lock.json
 gradle-app.setting
 gradlew
 gradlew.bat
+yarn.lock
+yarn-error.log
+.yarnrc

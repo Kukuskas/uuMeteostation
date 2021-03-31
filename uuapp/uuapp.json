@@ -1,6 +1,6 @@
 {
   "product": "uun_biot21sft02_maing01",
-  "version": "0.1.0",
+  "version": "0.1.0-prealpha",
   "license": "License Commercial",
   "description": {
     "en": "",
@@ -8,8 +8,8 @@
   },
   "devkit": {
     "development": {
-      "appBoxLocationUri": "----- VALUE REQUIRED -----",
-      "appDeploymentUri": null
+      "appBoxLocationUri": "ues:UCL-BT:OPR.RSP/APPBOXES",
+      "appDeploymentUri": "ues:UCL-BT[118500965363973101]:UUN_STUDENTS01_AWE[5f9fea37f439f9fab6743983]:UUN.BIOT21SFT02.MAING01[605ca518f439f9d75475fe06]"
     }
   },
   "uun_biot21sft02_maing01-hi": {},

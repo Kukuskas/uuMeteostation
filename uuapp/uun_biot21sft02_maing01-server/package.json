@@ -1,6 +1,6 @@
 {
   "name": "uun_biot21sft02_maing01-server",
-  "version": "0.1.0",
+  "version": "0.1.0-prealpha",
   "description": "",
   "license": "License Commercial",
   "spec": "nodejs-app; uu_appg01_devkit@4.0.1",
