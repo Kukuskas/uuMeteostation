@@ -1,7 +1,7 @@
 "use strict";
 const { UseCaseError } = require("uu_appg01_server").AppServer;
 
-class Biot21sft02MainUseCaseError extends UseCaseError {
+class Biot21sft02UseCaseError extends UseCaseError {
   static get ERROR_PREFIX() {
     return "uun-biot21sft02-main/";
   }
@@ -15,4 +15,4 @@ class Biot21sft02MainUseCaseError extends UseCaseError {
   }
 }
 
-module.exports = Biot21sft02MainUseCaseError;
+module.exports = Biot21sft02UseCaseError;

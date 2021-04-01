@@ -7,31 +7,24 @@ class UuAppInstanceMongo extends UuObjectDao {
   }
 
   async create(uuObject) {
-    return await super.insertOne(uuObject);
+    return await super.insertOne(this._prepareObject(uuObject));
   }
 
-  async get(awid, id) {
-    let filter = {
-      awid: awid,
-      id: id,
+
+  async update(uuObject) {
+    const filter = {
+      awid: uuObject.awid
     };
+    return await super.findOneAndUpdate(filter, this._prepareObject(uuObject), "NONE");
+  }
+
+  async getByAwid(awid) {
+    const filter = { awid };
     return await super.findOne(filter);
   }
 
-  async update(uuObject) {
-    let filter = {
-      awid: uuObject.awid,
-      id: uuObject.id,
-    };
-    return await super.findOneAndUpdate(filter, uuObject, "NONE");
-  }
-
-  async remove(uuObject) {
-    let filter = {
-      awid: uuObject.awid,
-      id: uuObject.id,
-    };
-    return await super.deleteOne(filter);
+  _prepareObject(uuObject) {
+    return uuObject;
   }
 }
 
