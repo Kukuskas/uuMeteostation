@@ -4,7 +4,7 @@ const { convertToObjectId, convertToDate } = require("./helpers/dao-common.js");
 
 class DatasetMongo extends UuObjectDao {
   async createSchema() {
-    await super.createIndex({ awid: 1, id: 1 }, { unique: true });
+    await super.createIndex({ awid: 1, _id: 1 }, { unique: true });
     await super.createIndex({ awid: 1, gatewayId: 1, type: 1, startDate: 1 }, { unique: true });
     await super.createIndex({ awid: 1, endDate: 1 });
     await super.createIndex({ awid: 1, type: 1, aggregated: 1 });
