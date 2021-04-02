@@ -183,10 +183,10 @@ class UuAppInstanceAbl {
 
 
   async checkAndGet(awid, notExistError, allowedStates = null, incorrectStateError = null, dtoOut = {}, ) {
-    let uuAppInstance = this.dao.getByAwid(awid);
+    let uuAppInstance = await this.dao.getByAwid(awid);
     if (!uuAppInstance) {
       throw new notExistError(dtoOut, { awid });
-    } else if (allowedState && allowedStates.includes(uuAppInstance.state)) {
+    } else if (allowedStates && !allowedStates.includes(uuAppInstance.state)) {
       throw new incorrectStateError(dtoOut, { awid, state: uuAppInstance.state, allowedStates });
     }
     return uuAppInstance;

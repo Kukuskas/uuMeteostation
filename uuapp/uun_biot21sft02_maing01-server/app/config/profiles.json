@@ -24,6 +24,10 @@
       "dataset/get": {
         "sysStateList": ["active"],
         "profileList": ["Authorities","Gateways"]
+      },
+      "gateway/update": {
+        "sysStateList": ["active"],
+        "profileList": ["Authorities"]
       }
     }
   }

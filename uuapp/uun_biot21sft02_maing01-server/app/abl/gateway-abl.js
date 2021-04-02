@@ -16,6 +16,15 @@ const WARNINGS = {
     unsupportedKeys: {
       code: `${Errors.Create.UC_CODE}unsupportedKeys`
     }
+  },
+  update: {
+    unsupportedKeys: {
+      code: `${Errors.Update.UC_CODE}unsupportedKeys`
+    },
+    gatewayCodeIsChanged: {
+      code: `${Errors.Update.UC_CODE}gatewayCodeIsChanged`,
+      message: `Gateway code has been changed. If this gateway has any external references, please change them.`
+    }
   }
 };
 
@@ -28,7 +37,7 @@ class GatewayAbl {
 
   async create(awid, dtoIn) {
     // 1
-    let uuAppInstance = instanceAbl.checkAndGet(
+    let uuAppInstance = await instanceAbl.checkAndGet(
       awid,
       Errors.Create.UuAppInstanceDoesNotExist,
       ["active", "restricted"],
@@ -85,7 +94,7 @@ class GatewayAbl {
     }
 
     // 6
-    let gateway = {...dtoIn};
+    let gateway = { ...dtoIn };
     const gatewayDefaults = {
       awid,
       state: "created",
@@ -106,6 +115,89 @@ class GatewayAbl {
     }
 
     // 7
+    let dtoOut = { ...gateway, uuAppErrorMap };
+    return dtoOut;
+  }
+
+  async update(awid, dtoIn) {
+    // 1
+    let uuAppInstance = await instanceAbl.checkAndGet(
+      awid,
+      Errors.Update.UuAppInstanceDoesNotExist,
+      ["active", "restricted"],
+      Errors.Update.UuAppInstanceIsNotInCorrectState
+    );
+
+    // 2
+    let validationResult = this.validator.validate("gatewayCreateDtoInType", dtoIn);
+    let uuAppErrorMap = ValidationHelper.processValidationResult(
+      dtoIn,
+      validationResult,
+      WARNINGS.update.unsupportedKeys.code,
+      Errors.Update.InvalidDtoIn
+    );
+
+    // 3
+    let gateway = await this.dao.get(awid, dtoIn.id);
+    if (gateway) {
+      throw new Errors.Update.GatewayDoesNotExist({ uuAppErrorMap }, { awid, id: dtoIn.id });
+    }
+
+    // 4
+    if (gateway.state === "closed" && dtoIn.state === "closed") {
+      throw new Errors.Update.GatewayIsNotInCorrectState(
+        { uuAppErrorMap },
+        { awid, id: dtoIn.id, state: gateway.state }
+      );
+    }
+
+    // 5
+    if (dtoIn.code && dtoIn.code !== gateway.code) {
+      const collidingGateway = await this.dao.getByCode(awid, dtoIn.code);
+      if (collidingGateway) {
+        throw new Errors.Update.CodeAlreadyExists({ uuAppErrorMap }, { awid, code: dtoIn.code });
+      }
+      ValidationHelper.addWarning(
+        uuAppErrorMap,
+        WARNINGS.update.gatewayCodeIsChanged.code,
+        WARNINGS.update.gatewayCodeIsChanged.message,
+        { awid, oldCode: gateway.code, newCode: dtoIn.code }
+      );
+    }
+
+    // 6
+    if (dtoIn.uuEe && dtoIn.uuEe !== gateway.uuEe) {
+      try {
+        await Permission.delete(awid, "Gateways", gateway.uuEe);
+      } catch (e) {
+        if (e instanceof UuAppWorkspaceError) {
+          throw new Errors.Update.PermissionDeleteFailed({ uuAppErrorMap }, { uuEe: gateway.uuEe }, e);
+        }
+        throw e;
+      }
+
+      try {
+        await Permission.create(awid, "Gateways", dtoIn.uuEe);
+      } catch (e) {
+        if (e instanceof UuAppWorkspaceError) {
+          throw new Errors.Update.PermissionCreateFailed({ uuAppErrorMap }, { uuEe: dtoIn.uuEe }, e);
+        }
+        throw e;
+      }
+    }
+
+    // 7
+    gateway = defaultsDeep(gateway, dtoIn);
+    try {
+      gateway = await this.dao.update(gateway);
+    } catch (e) {
+      if (e instanceof ObjectStoreError) {
+        throw new Errors.Update.GatewayDaoUpdateFailed({ uuAppErrorMap }, e);
+      }
+      throw e;
+    }
+
+    // 8
     let dtoOut = { ...gateway, uuAppErrorMap };
     return dtoOut;
   }

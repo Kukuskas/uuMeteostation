@@ -25,6 +25,11 @@
         "realization": "api/controllers/DatasetController.get",
         "httpMethod": "POST",
         "type": "CMD"
+      },
+      "gateway/update": {
+        "realization": "api/controllers/GatewayController.update",
+        "httpMethod": "POST",
+        "type": "CMD"
       }
     }
   }
