@@ -8,10 +8,18 @@ const { LoggerFactory } = require("uu_appg01_server").Logging;
 const { AppClient } = require("uu_appg01_server");
 const Errors = require("../api/errors/uu-app-instance-error.js");
 
+const defaultsDeep = require("lodash.defaultsdeep");
+
 const WARNINGS = {
-  initUnsupportedKeys: {
-    code: `${Errors.Init.UC_CODE}unsupportedKeys`,
-  },
+  init: {
+    unsupportedKeys: {
+      code: `${Errors.Init.UC_CODE}unsupportedKeys`,
+    },
+    applicationIsAlreadyConnected: {
+      code: `${Errors.Init.UC_CODE}applicationIsAlreadyConnected`,
+      message: "Awsc already exists."
+    }
+  }
 };
 
 const logger = LoggerFactory.get("Biot21sft02MainAbl");
@@ -25,18 +33,41 @@ class UuAppInstanceAbl {
 
   async init(uri, dtoIn, session) {
     const awid = uri.getAwid();
-    // HDS 1
+
+    // 1
+    let instance = await this.dao.getByAwid(awid);
+
+    if (instance) {
+      throw new Errors.Init.InstanceAlreadyExists({ uuAppErrorMap: {} }, { awid });
+    }
+
+    // 2
     let validationResult = this.validator.validate("initDtoInType", dtoIn);
     // A1, A2
     let uuAppErrorMap = ValidationHelper.processValidationResult(
       dtoIn,
       validationResult,
-      WARNINGS.initUnsupportedKeys.code,
+      WARNINGS.init.unsupportedKeys.code,
       Errors.Init.InvalidDtoIn
     );
 
-    // HDS 2
-    const schemas = ["biot21sft02Main"];
+    const defaults = {
+      state: "active",
+
+      sysState: "active",
+      uuAppProfileAuthorities: null,
+      uuBtLocationUri: null,
+
+      retentionPolicy: {
+        detailed: null,
+        daily: null
+      }
+    }
+
+    dtoIn = defaultsDeep(dtoIn, defaults);
+
+    // 3
+    const schemas = ["uuAppInstance", "gateway", "dataset"];
     let schemaCreateResults = schemas.map(async (schema) => {
       try {
         return await DaoFactory.getDao(schema).createSchema();
@@ -47,6 +78,7 @@ class UuAppInstanceAbl {
     });
     await Promise.all(schemaCreateResults);
 
+    // 4
     if (dtoIn.uuBtLocationUri) {
       const baseUri = uri.getBaseUri();
       const uuBtUriBuilder = UriBuilder.parse(dtoIn.uuBtLocationUri);
@@ -89,7 +121,7 @@ class UuAppInstanceAbl {
       );
     }
 
-    // HDS 3
+    // 5
     if (dtoIn.uuAppProfileAuthorities) {
       try {
         await Profile.set(awid, "Authorities", dtoIn.uuAppProfileAuthorities);
@@ -102,16 +134,62 @@ class UuAppInstanceAbl {
       }
     }
 
-    // HDS 4 - HDS N
-    // TODO Implement according to application needs...
+    // 6
+    let uuAppInstance = {
+      awid
+    }
 
-    // HDS N+1
-    const workspace = UuAppWorkspace.get(awid);
+    const copiedProps = ["name", "desc", "state", "retentionPolicy"];
+    copiedProps.forEach((prop) => {
+      uuAppInstance[prop] = dtoIn[prop]
+    });
 
+    const emptyScriptData = {
+      scriptUri: null,
+      cron: null,
+      lastCallback: null,
+      lastDtoOut: {},
+      jobId: null,
+      progressCode: null
+    }
+    uuAppInstance.externalResources = {
+      uuConsoleUri: null,
+      uuConsoleCode: null,
+      uuScriptEngineUri: null,
+      scripts: {
+        aggregate: emptyScriptData,
+        trim: emptyScriptData,
+        checkGateway: emptyScriptData
+      }
+    }
+
+    try {
+      uuAppInstance = await this.dao.create(uuAppInstance);
+    } catch (e) {
+      throw new Errors.Init.UuAppInstanceDaoCreateFailed({ uuAppErrorMap }, { awid }, e);
+    }
+
+    // 7
+    const workspace = await UuAppWorkspace.get(awid);
+
+    // 8
     return {
-      ...workspace,
-      uuAppErrorMap: uuAppErrorMap,
+      ...uuAppInstance,
+      workspace,
+      uuAppErrorMap,
     };
+  }
+
+
+
+  async checkAndGet(awid, notExistError, dtoOut = {}, allowedStates = null, incorrectStateError = null) {
+    let uuAppInstance = this.dao.getByAwid(awid);
+    if (!uuAppInstance) {
+      throw new notExistError(dtoOut, { awid });
+    } else if (allowedState && allowedStates.includes(uuAppInstance.state)) {
+      throw new incorrectStateError(dtoOut, { awid, state: uuAppInstance.state, allowedStates });
+    }
+    return uuAppInstance;
   }
 
 }

@@ -1,11 +1,19 @@
 "use strict";
-const Biot21sft02MainUseCaseError = require("./biot21sft02-use-case-error.js");
-const UU_APP_INSTANCE_ERROR_PREFIX = `${Biot21sft02MainUseCaseError.ERROR_PREFIX}/uuAppInstance`
+const Biot21sft02UseCaseError = require("./biot21sft02-use-case-error.js");
+const UU_APP_INSTANCE_ERROR_PREFIX = `${Biot21sft02UseCaseError.ERROR_PREFIX}/uuAppInstance`
 
 const Init = {
   UC_CODE: `${UU_APP_INSTANCE_ERROR_PREFIX}init/`,
 
-  InvalidDtoIn: class extends Biot21sft02MainUseCaseError {
+  InstanceAlreadyExists: class extends Biot21sft02UseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${Init.UC_CODE}instanceAlreadyExists`;
+      this.message = "This instance has already been initialized.";
+    }
+  },
+
+  InvalidDtoIn: class extends Biot21sft02UseCaseError {
     constructor() {
       super(...arguments);
       this.code = `${Init.UC_CODE}invalidDtoIn`;
@@ -13,7 +21,7 @@ const Init = {
     }
   },
 
-  SchemaDaoCreateSchemaFailed: class extends Biot21sft02MainUseCaseError {
+  SchemaDaoCreateSchemaFailed: class extends Biot21sft02UseCaseError {
     constructor() {
       super(...arguments);
       this.status = 500;
@@ -22,7 +30,7 @@ const Init = {
     }
   },
 
-  SetProfileFailed: class extends Biot21sft02MainUseCaseError {
+  SetProfileFailed: class extends Biot21sft02UseCaseError {
     constructor() {
       super(...arguments);
       this.code = `${Init.UC_CODE}sys/setProfileFailed`;
@@ -30,15 +38,29 @@ const Init = {
     }
   },
 
-  CreateAwscFailed: class extends Biot21sft02MainUseCaseError {
+  CreateAwscFailed: class extends Biot21sft02UseCaseError {
     constructor() {
       super(...arguments);
       this.code = `${Init.UC_CODE}createAwscFailed`;
       this.message = "Create uuAwsc failed.";
     }
   },
+
+  UuAppInstanceDaoCreateFailed: class extends Biot21sft02UseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${Init.UC_CODE}uuAppInstanceDaoCreateFailed`;
+      this.message = "Failed to insert uuAppInstance into uuAppObjectStore.";
+    }
+  }
+};
+
+const PlugInExternalServices = {
+  UC_CODE: `${UU_APP_INSTANCE_ERROR_PREFIX}plugInExternalServices/`,
+  
 };
 
 module.exports = {
+  PlugInExternalServices,
   Init,
 };
