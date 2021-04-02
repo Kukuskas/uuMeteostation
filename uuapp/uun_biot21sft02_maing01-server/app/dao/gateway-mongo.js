@@ -1,10 +1,10 @@
 "use strict";
 const { UuObjectDao } = require("uu_appg01_server").ObjectStore;
-const { convertToObjectId, convertArrayToIn } = require("./helpers/dao-common.js");
+const { convertArrayToIn } = require("./helpers/dao-common.js");
 
 class GatewayMongo extends UuObjectDao {
   async createSchema() {
-    await super.createIndex({ awid: 1, id: 1 }, { unique: true });
+    await super.createIndex({ awid: 1, _id: 1 }, { unique: true });
     await super.createIndex({ awid: 1, code: 1 }, { unique: true });
     await super.createIndex({ awid: 1, state: 1 });
     await super.createIndex({ awid: 1, uuEe: 1 });
