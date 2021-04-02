@@ -4,7 +4,7 @@
     "useCaseMap": {}
   },
   "*": {
-    "profileList": ["Authorities","Gateways","Auditors","Workers","AwidLicenseOwner","Public"],
+    "profileList": ["Authorities","Gateways","Auditors","AwidLicenseOwner","Public"],
     "useCaseMap": {
       "sys/uuAppWorkspace/init": {
         "sysStateList": ["created"],

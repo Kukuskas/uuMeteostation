@@ -182,7 +182,7 @@ class UuAppInstanceAbl {
 
 
 
-  async checkAndGet(awid, notExistError, dtoOut = {}, allowedStates = null, incorrectStateError = null) {
+  async checkAndGet(awid, notExistError, allowedStates = null, incorrectStateError = null, dtoOut = {}, ) {
     let uuAppInstance = this.dao.getByAwid(awid);
     if (!uuAppInstance) {
       throw new notExistError(dtoOut, { awid });
