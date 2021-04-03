@@ -36,6 +36,10 @@
       "gateway/list": {
         "sysStateList": ["active"],
         "profileList": ["Authorities","Auditors"]
+      },
+      "gateway/postData": {
+        "sysStateList": ["active"],
+        "profileList": ["Authorities","Gateways"]
       }
     }
   }

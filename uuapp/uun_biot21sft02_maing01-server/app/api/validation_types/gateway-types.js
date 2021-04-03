@@ -32,3 +32,12 @@ const gatewayListDtoInType = shape({
     pageSize: integer(1, 100)
   })
 });
+
+const gatewayPostDataDtoInType = shape({
+  id: mongoId(),
+  data: array(shape({
+    timestamp: datetime().isRequired(),
+    temperature: float(-273.15, null, 3).isRequired(),
+    humidity: float(0, 100, 3).isRequired()
+  }), 1, null).isRequired()
+});

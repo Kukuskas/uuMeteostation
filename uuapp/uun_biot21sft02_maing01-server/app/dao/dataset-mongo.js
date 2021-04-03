@@ -84,14 +84,8 @@ class DatasetMongo extends UuObjectDao {
     uuObject.gatewayId = convertToObjectId(uuObject.gatewayId);
 
     for (const dateProp of ["startDate", "endDate"]) {
-      uuObject[dateProp] = convertToDate(uuObject.dateProp);
+      uuObject[dateProp] = convertToDate(uuObject[dateProp]);
     }
-
-    uuObject.data = uuObject.data.map(entry => {
-      let newEntry = { ...entry };
-      newEntry.timestamp = convertToDate(newEntry.timestamp);
-      return newEntry;
-    });
 
     return uuObject;
   }

@@ -224,7 +224,95 @@ const List = {
   },
 };
 
+const PostData = {
+  UC_CODE: `${GATEWAY_ERROR_PREFIX}postData/`,
+  
+  UuAppInstanceDoesNotExist: class extends Biot21sft02UseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${PostData.UC_CODE}uuAppInstanceDoesNotExist`;
+      this.message = "UuAppInstance does not exist.";
+    }
+  },
+
+  UuAppInstanceIsNotInCorrectState: class extends Biot21sft02UseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${PostData.UC_CODE}uuAppInstanceIsNotInCorrectState`;
+      this.message = "UuAppInstance is not in correct state.";
+    }
+  },
+
+  InvalidDtoIn: class extends Biot21sft02UseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${PostData.UC_CODE}invalidDtoIn`;
+      this.message = "DtoIn is not valid.";
+    }
+  },
+
+  NotAuthorizedToSpecifyId: class extends Biot21sft02UseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${PostData.UC_CODE}notAuthorizedToSpecifyId`;
+      this.message = "User is not authorized to specify the id of the gateway.";
+    }
+  },
+
+  GatewayDoesNotExist: class extends Biot21sft02UseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${PostData.UC_CODE}gatewayDoesNotExist`;
+      this.message = "Gateway does not exist.";
+    }
+  },
+
+  GatewayIsNotInCorrectState: class extends Biot21sft02UseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${PostData.UC_CODE}gatewayIsNotInCorrectState`;
+      this.message = "Only gateways which are not closed may receive new data.";
+    }
+  },
+
+  InvalidEntryDate: class extends Biot21sft02UseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${PostData.UC_CODE}invalidEntryDate`;
+      this.message = "At least one of the entries is not from the same date.";
+    }
+  },
+
+  DatasetDaoUpdateFailed: class extends Biot21sft02UseCaseError {
+    constructor() {
+      super(...arguments);
+      this.status = 500;
+      this.code = `${PostData.UC_CODE}datasetDaoUpdateFailed`;
+      this.message = "Failed to update dataset uuObject";
+    }
+  },
+
+  DatasetDaoCreateFailed: class extends Biot21sft02UseCaseError {
+    constructor() {
+      super(...arguments);
+      this.status = 500;
+      this.code = `${PostData.UC_CODE}datasetDaoUpdateFailed`;
+      this.message = "Failed to create new dataset uuObject.";
+    }
+  },
+
+  GatewayDaoUpdateFailed: class extends Biot21sft02UseCaseError {
+    constructor() {
+      super(...arguments);
+      this.status = 500;
+      this.code = `${PostData.UC_CODE}gatewayDaoUpdateFailed`;
+      this.message = "Failed to update gateway uuObject.";
+    }
+  },
+};
+
 module.exports = {
+  PostData,
   Create,
   Update,
   Get,

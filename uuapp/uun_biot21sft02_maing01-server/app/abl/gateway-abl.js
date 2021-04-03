@@ -8,6 +8,8 @@ const Errors = require("../api/errors/gateway-error.js");
 
 const instanceAbl = require("./uu-app-instance-abl.js");
 
+const { strToDate, isSameDate, sortIsoDates } = require("./helpers/date-helper.js");
+
 const random = require("crypto-random-string");
 const defaultsDeep = require("lodash.defaultsdeep");
 
@@ -35,6 +37,11 @@ const WARNINGS = {
     unsupportedKeys: {
       code: `${Errors.List.UC_CODE}unsupportedKeys`
     },
+  },
+  postData: {
+    unsupportedKeys: {
+      code: `${Errors.PostData.UC_CODE}unsupportedKeys`
+    },
   }
 };
 
@@ -43,6 +50,7 @@ class GatewayAbl {
   constructor() {
     this.validator = Validator.load();
     this.dao = DaoFactory.getDao("gateway");
+    this.datasetDao = DaoFactory.getDao("dataset");
   }
 
   async create(awid, dtoIn) {
@@ -314,6 +322,123 @@ class GatewayAbl {
     return dtoOut;
   }
 
+  async postData(awid, dtoIn, session, authorizationResult) {
+    // 1
+    let uuAppInstance = await instanceAbl.checkAndGet(
+      awid,
+      Errors.PostData.UuAppInstanceDoesNotExist,
+      ["active", "restricted"],
+      Errors.PostData.UuAppInstanceIsNotInCorrectState
+    );
+
+    // 2
+    let validationResult = this.validator.validate("gatewayPostDataDtoInType", dtoIn);
+    let uuAppErrorMap = ValidationHelper.processValidationResult(
+      dtoIn,
+      validationResult,
+      WARNINGS.postData.unsupportedKeys.code,
+      Errors.PostData.InvalidDtoIn
+    );
+
+    // 3
+    if (dtoIn.id && !instanceAbl.isAuthority(authorizationResult)) {
+      throw new Errors.PostData.NotAuthorizedToSpecifyId();
+    }
+
+    // 4
+    let gateway;
+    let identifier;
+    if (dtoIn.id) {
+      gateway = await this.dao.get(awid, dtoIn.id);
+      identifier = { awid, id: dtoIn.id }
+    } else {
+      const uuEe = session.getIdentity().getUuIdentity();
+      identifier = { awid, uuEe };
+      gateway = await this.dao.getByUuEe(awid, uuEe);
+    }
+
+    if (!gateway) {
+      throw new Errors.PostData.GatewayDoesNotExist({ uuAppErrorMap }, identifier);
+    }
+    const allowedStates = ["created", "active", "disconnected"];
+    if (!allowedStates.includes(gateway.state)) {
+      throw new Errors.PostData.GatewayIsNotInCorrectState(
+        { uuAppErrorMap },
+        { awid, id: gateway.id, state: gateway.state, allowedStates }
+      );
+    }
+
+    // 5
+    const receivedDateString = dtoIn.data[0].timestamp;
+    const datasetDate = strToDate(receivedDateString);
+    dtoIn.data.forEach((entry) => {
+      if (!isSameDate(receivedDateString, entry.timestamp)) {
+        throw new Errors.PostData.InvalidEntryDate(
+          { uuAppErrorMap },
+          { expectedDate: datasetDate, dataEntry: entry }
+        );
+      }
+    });
+
+    // 6
+    let dataset = await this.datasetDao.getByTypeAndDate(awid, gateway.id, "detailed", datasetDate);
+    if (!dataset) {
+      dataset = {
+        awid,
+        gatewayId: gateway.id,
+        startDate: datasetDate,
+        endDate: datasetDate,
+        type: "detailed",
+        data: [],
+        aggregated: false
+      };
+    }
+
+    // 7
+    dataset.data = this._mergeDatasetData(dataset.data, dtoIn.data);
+
+    // 8
+    if (dataset.id) {
+      try {
+        dataset = await this.datasetDao.update(dataset);
+      } catch (e) {
+        if (e instanceof ObjectStoreError) {
+          throw new Errors.PostData.DatasetDaoUpdateFailed({ uuAppErrorMap }, e);
+        }
+        throw e;
+      }
+    } else {
+      try {
+        dataset = await this.datasetDao.create(dataset);
+      } catch (e) {
+        if (e instanceof ObjectStoreError) {
+          throw new Errors.PostData.DatasetDaoCreateFailed({ uuAppErrorMap }, e);
+        }
+        throw e;
+      }
+    }
+
+    // 9
+    const latestEntry = dataset.data[dataset.data.length -1];
+    const lastEnteredTimestamp = new Date(latestEntry.timestamp);
+    const lastGatewayUpdate = new Date(gateway.current.timestamp);
+    if (lastGatewayUpdate < lastEnteredTimestamp || gateway.current.timestamp === null) {
+      gateway.current = latestEntry;
+      if (!dtoIn.id) {
+        gateway.state = "active";
+      }
+      try {
+        gateway = await this.dao.update(gateway);
+      } catch (e) {
+        throw new Errors.PostData.GatewayDaoUpdateFailed({ uuAppErrorMap }, e);
+      }
+    }
+
+    // 10
+    let dtoOut = { ...dataset, gateway, uuAppErrorMap };
+    return dtoOut;
+  }
+
   async _generateUniqueCode(awid) {
     let code = null;
     let instance = null;
@@ -324,6 +449,24 @@ class GatewayAbl {
     return code;
   }
 
+  _mergeDatasetData(...dataArrays) {
+    let dataObject = {};
+    dataArrays.forEach((dataArray) => {
+      dataArray.forEach((entry) => {
+        dataObject[entry.timestamp] = entry;
+      });
+    });
+
+    let timestamps = Object.keys(dataObject);
+    timestamps = sortIsoDates(timestamps);
+
+    let dataArray = [];
+    timestamps.forEach((entry) => {
+      dataArray.push(dataObject[entry]);
+    });
+
+    return dataArray;
+  }
 }
 
 module.exports = new GatewayAbl();

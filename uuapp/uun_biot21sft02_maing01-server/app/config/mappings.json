@@ -40,6 +40,11 @@
         "realization": "api/controllers/GatewayController.list",
         "httpMethod": "GET",
         "type": "CMD"
+      },
+      "gateway/postData": {
+        "realization": "api/controllers/GatewayController.postData",
+        "httpMethod": "POST",
+        "type": "CMD"
       }
     }
   }
