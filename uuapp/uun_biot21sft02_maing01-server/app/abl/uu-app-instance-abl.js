@@ -192,6 +192,13 @@ class UuAppInstanceAbl {
     return uuAppInstance;
   }
 
+  isAuthority(authorizationResult) {
+    const userProfiles = authorizationResult.getAuthorizedProfiles();
+    const authorityProfiles = ["Authorities", "AwidLicenseOwner"];
+
+    return authorityProfiles.some((aprof) => userProfiles.includes(aprof));
+  }
+
 }
 
 module.exports = new UuAppInstanceAbl();

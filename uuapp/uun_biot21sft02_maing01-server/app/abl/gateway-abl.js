@@ -25,6 +25,16 @@ const WARNINGS = {
       code: `${Errors.Update.UC_CODE}gatewayCodeIsChanged`,
       message: `Gateway code has been changed. If this gateway has any external references, please change them.`
     }
+  },
+  get: {
+    unsupportedKeys: {
+      code: `${Errors.Get.UC_CODE}unsupportedKeys`
+    },
+  },
+  list: {
+    unsupportedKeys: {
+      code: `${Errors.List.UC_CODE}unsupportedKeys`
+    },
   }
 };
 
@@ -102,6 +112,14 @@ class GatewayAbl {
         temperature: null,
         humidity: null,
         timestamp: null
+      },
+      min: {
+        temperature: null,
+        humidity: null
+      },
+      max: {
+        temperature: null,
+        humidity: null
       }
     };
     gateway = defaultsDeep(gateway, gatewayDefaults);
@@ -129,7 +147,7 @@ class GatewayAbl {
     );
 
     // 2
-    let validationResult = this.validator.validate("gatewayCreateDtoInType", dtoIn);
+    let validationResult = this.validator.validate("gatewayUpdateDtoInType", dtoIn);
     let uuAppErrorMap = ValidationHelper.processValidationResult(
       dtoIn,
       validationResult,
@@ -199,6 +217,100 @@ class GatewayAbl {
 
     // 8
     let dtoOut = { ...gateway, uuAppErrorMap };
+    return dtoOut;
+  }
+
+  async get(awid, dtoIn, authorizationResult) {
+    // 1
+    let uuAppInstance = await instanceAbl.checkAndGet(
+      awid,
+      Errors.Get.UuAppInstanceDoesNotExist,
+      ["active", "restricted"],
+      Errors.Get.UuAppInstanceIsNotInCorrectState
+    );
+
+    // 2
+    let validationResult = this.validator.validate("gatewayGetDtoInType", dtoIn);
+    let uuAppErrorMap = ValidationHelper.processValidationResult(
+      dtoIn,
+      validationResult,
+      WARNINGS.get.unsupportedKeys.code,
+      Errors.Get.InvalidDtoIn
+    );
+
+    // 3
+    if (uuAppInstance.state === "restricted" && !instanceAbl.isAuthority(authorizationResult)) {
+      throw new Errors.Get.NotAuthorized();
+    }
+
+    // 4
+    let gateway;
+    let identifier;
+    if (dtoIn.id) {
+      identifier = "id";
+      gateway = await this.dao.get(awid, dtoIn.id);
+    } else if (dtoIn.code) {
+      identifier = "code";
+      gateway = await this.dao.getByCode(awid, dtoIn.code);
+    } else {
+      identifier = "uuEe";
+      gateway = await this.dao.getByUuEe(awid, dtoIn.uuEe);
+    }
+
+    if (!gateway) {
+      const errorParams = {
+        awid,
+        [identifier]: dtoIn[identifier]
+      };
+      throw new Errors.Get.GatewayDoesNotExist({ uuAppErrorMap }, errorParams);
+    }
+
+    // 5
+    let dtoOut = { ...gateway, uuAppErrorMap };
+    return dtoOut;
+  }
+
+  async list(awid, dtoIn, authorizationResult) {
+    // 1
+    let uuAppInstance = await instanceAbl.checkAndGet(
+      awid,
+      Errors.Get.UuAppInstanceDoesNotExist,
+      ["active", "restricted"],
+      Errors.Get.UuAppInstanceIsNotInCorrectState
+    );
+
+    // 2
+    let validationResult = this.validator.validate("gatewayListDtoInType", dtoIn);
+    let uuAppErrorMap = ValidationHelper.processValidationResult(
+      dtoIn,
+      validationResult,
+      WARNINGS.list.unsupportedKeys.code,
+      Errors.List.InvalidDtoIn
+    );
+
+    const defaults = {
+      pageInfo: {
+        pageIndex: 0,
+        pageSize: 100
+      }
+    }
+    dtoIn = defaultsDeep(dtoIn, defaults);
+
+    // 3
+    if (uuAppInstance.state === "restricted" && !instanceAbl.isAuthority(authorizationResult)) {
+      throw new Errors.List.NotAuthorized();
+    }
+
+    // 4
+    let dtoOut;
+    if (dtoIn.state) {
+      dtoOut = await this.dao.listByState(awid, dtoIn.state, dtoIn.pageInfo)
+    } else {
+      dtoOut = await this.dao.list(awid, dtoIn.pageInfo);
+    }
+
+    // 5
+    dtoOut.uuAppErrorMap = uuAppErrorMap;
     return dtoOut;
   }
 

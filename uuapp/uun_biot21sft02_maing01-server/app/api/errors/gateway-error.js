@@ -144,7 +144,89 @@ const Update = {
   },
 };
 
+const Get = {
+  UC_CODE: `${GATEWAY_ERROR_PREFIX}get/`,
+  
+  UuAppInstanceDoesNotExist: class extends Biot21sft02UseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${Get.UC_CODE}uuAppInstanceDoesNotExist`;
+      this.message = "UuAppInstance does not exist.";
+    }
+  },
+
+  UuAppInstanceIsNotInCorrectState: class extends Biot21sft02UseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${Get.UC_CODE}uuAppInstanceIsNotInCorrectState`;
+      this.message = "UuAppInstance is not in correct state.";
+    }
+  },
+
+  InvalidDtoIn: class extends Biot21sft02UseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${Get.UC_CODE}invalidDtoIn`;
+      this.message = "DtoIn is not valid.";
+    }
+  },
+
+  NotAuthorized: class extends Biot21sft02UseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${Get.UC_CODE}notAuthorized`;
+      this.message = "User is not authorized to access this workspace in its current state.";
+    }
+  },
+
+  GatewayDoesNotExist: class extends Biot21sft02UseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${Get.UC_CODE}gatewayDoesNotExist`;
+      this.message = "These identifiers do not correspond to an existing gateway.";
+    }
+  },
+};
+
+const List = {
+  UC_CODE: `${GATEWAY_ERROR_PREFIX}list/`,
+  
+  UuAppInstanceDoesNotExist: class extends Biot21sft02UseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${List.UC_CODE}uuAppInstanceDoesNotExist`;
+      this.message = "UuAppInstance does not exist.";
+    }
+  },
+
+  UuAppInstanceIsNotInCorrectState: class extends Biot21sft02UseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${List.UC_CODE}uuAppInstanceIsNotInCorrectState`;
+      this.message = "UuAppInstance is not in correct state.";
+    }
+  },
+
+  InvalidDtoIn: class extends Biot21sft02UseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${List.UC_CODE}invalidDtoIn`;
+      this.message = "DtoIn is not valid.";
+    }
+  },
+
+  NotAuthorized: class extends Biot21sft02UseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${List.UC_CODE}notAuthorized`;
+      this.message = "User is not authorized to access this workspace in its current state.";
+    }
+  },
+};
+
 module.exports = {
   Create,
-  Update
+  Update,
+  Get,
+  List,
 };

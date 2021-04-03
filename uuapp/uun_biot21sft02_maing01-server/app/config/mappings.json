@@ -30,6 +30,16 @@
         "realization": "api/controllers/GatewayController.update",
         "httpMethod": "POST",
         "type": "CMD"
+      },
+      "gateway/get": {
+        "realization": "api/controllers/GatewayController.get",
+        "httpMethod": "GET",
+        "type": "CMD"
+      },
+      "gateway/list": {
+        "realization": "api/controllers/GatewayController.list",
+        "httpMethod": "GET",
+        "type": "CMD"
       }
     }
   }
