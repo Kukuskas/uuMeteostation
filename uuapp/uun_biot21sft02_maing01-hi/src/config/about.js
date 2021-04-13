@@ -34,15 +34,15 @@ export const About = {
   },
   leadingAuthors: [
     {
-      name: "Some Name",
-      uuIdentity: "4-4-1",
+      name: "Jan Bambousek",
+      uuIdentity: "25-1618-1",
       role: {
         en: "Chief Business Architect & Stakeholder",
       },
     },
     {
-      name: "Other Name",
-      uuIdentity: "4-4-1",
+      name: "Alexandr Kozlov",
+      uuIdentity: "25-1622-1",
       role: {
         en: "Head of Development",
       },
@@ -50,15 +50,29 @@ export const About = {
   ],
   otherAuthors: [
     {
-      name: "Your Name",
-      uuIdentity: "4-4-1",
+      name: "Lucie Pokorná",
+      uuIdentity: "25-214-1",
       role: {
         en: "Developer",
       },
     },
     {
-      name: "More Names",
-      uuIdentity: "4-4-1",
+      name: "Kiryl Nazarau",
+      uuIdentity: "25-1609-1",
+      role: {
+        en: "Developer",
+      },
+    },
+    {
+      name: "Radovan Procházka",
+      uuIdentity: "24-9960-1",
+      role: {
+        en: "Developer",
+      },
+    },
+    {
+      name: "Elisei Barmushkin",
+      uuIdentity: "25-1606-1",
       role: {
         en: "Developer",
       },

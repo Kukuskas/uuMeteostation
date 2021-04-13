@@ -3,7 +3,7 @@
   "schemaSpecificationUri": "https://uuapp.plus4u.net/uu-bookkit-maing01/bef682626ed943f28cde360ccb325981/book/page?code=uuSubAppInstanceDescriptor",
   "uuSubApp": {
     "code": "UUN.BIOT21SFT02.MAING01",
-    "version": "0.1.0-pre_alpha",
+    "version": "0.1.0",
     "name": "uunBiot21sft02Maing01",
     "description": "uunWeatherstationMaing01 2021 BIOT project.",
     "license": "License Commercial",
