@@ -21,11 +21,6 @@
         "httpMethod": "POST",
         "type": "CMD"
       },
-      "dataset/get": {
-        "realization": "api/controllers/DatasetController.get",
-        "httpMethod": "POST",
-        "type": "CMD"
-      },
       "gateway/update": {
         "realization": "api/controllers/GatewayController.update",
         "httpMethod": "POST",
@@ -49,6 +44,11 @@
       "gateway/delete": {
         "realization": "api/controllers/GatewayController.delete",
         "httpMethod": "POST",
+        "type": "CMD"
+      },
+      "dataset/get": {
+        "realization": "api/controllers/DatasetController.get",
+        "httpMethod": "GET",
         "type": "CMD"
       }
     }
