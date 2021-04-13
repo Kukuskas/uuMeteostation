@@ -2,8 +2,8 @@ import UU5 from "uu5g04";
 
 export const About = {
   about: {
-    cs: "Demo aplikace je šablona pro vývoj nových aplikací.",
-    en: "Demo application is a template for developing new applications.",
+    cs: "UunWeatherStation je aplikace pro pravidelný sběr dat z několika jednoduchých IoT meteostanic a jejich následné zpracování a zobrazení.",
+    en: "The uunWeatherStation is an application for periodically collecting data from several simple IoT weather stations and their further processing and displaying.",
   },
   licence: {
     termsOfUse: "https://unicorn.com/tou/your_product",
@@ -34,31 +34,45 @@ export const About = {
   },
   leadingAuthors: [
     {
-      name: "Some Name",
-      uuIdentity: "4-4-1",
+      name: "Jan Bambousek",
+      uuIdentity: "25-1618-1",
       role: {
-        en: "Chief Business Architect & Stakeholder",
+        en: "Business Architect",
       },
     },
     {
-      name: "Other Name",
-      uuIdentity: "4-4-1",
+      name: "Alexandr Kozlov",
+      uuIdentity: "25-1622-1",
       role: {
-        en: "Head of Development",
+        en: "Head of FE Development",
       },
     },
   ],
   otherAuthors: [
     {
-      name: "Your Name",
-      uuIdentity: "4-4-1",
+      name: "Lucie Pokorná",
+      uuIdentity: "25-214-1",
       role: {
         en: "Developer",
       },
     },
     {
-      name: "More Names",
-      uuIdentity: "4-4-1",
+      name: "Kiryl Nazarau",
+      uuIdentity: "25-1609-1",
+      role: {
+        en: "Developer",
+      },
+    },
+    {
+      name: "Radovan Procházka",
+      uuIdentity: "24-9960-1",
+      role: {
+        en: "Developer",
+      },
+    },
+    {
+      name: "Elisei Barmushkin",
+      uuIdentity: "25-1606-1",
       role: {
         en: "Developer",
       },
