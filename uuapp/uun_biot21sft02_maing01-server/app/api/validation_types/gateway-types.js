@@ -7,14 +7,14 @@ const gatewayCreateDtoInType = shape({
   uuEe: uuIdentity().isRequired(), //uuId of the uuEE worker
 });
 
-const gatewayUpdateDtoInType = {
+const gatewayUpdateDtoInType = shape({
   id: id().isRequired(),
   name: string(200),
   location: gps(),
   code: code(),
   uuEe: uuIdentity(), // uuId of the uuEE worker
   state: oneOf(["active", "closed"])
-};
+});
 
 const gatewayGetDtoInType = shape({
   id: id().isRequired(["code", "uuEe"]),
@@ -37,7 +37,11 @@ const gatewayPostDataDtoInType = shape({
   id: mongoId(),
   data: array(shape({
     timestamp: datetime().isRequired(),
-    temperature: float(-273.15, null, 3).isRequired(),
-    humidity: float(0, 100, 3).isRequired()
+    temperature: float(-273.15, null, 3),
+    humidity: float(0, 100, 3)
   }), 1, null).isRequired()
 });
+
+const gatewayDeleteDtoInType = shape({
+  id: id().isRequired()
+ });

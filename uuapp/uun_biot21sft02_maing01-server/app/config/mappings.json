@@ -45,6 +45,11 @@
         "realization": "api/controllers/GatewayController.postData",
         "httpMethod": "POST",
         "type": "CMD"
+      },
+      "gateway/delete": {
+        "realization": "api/controllers/GatewayController.delete",
+        "httpMethod": "POST",
+        "type": "CMD"
       }
     }
   }

@@ -40,6 +40,10 @@
       "gateway/postData": {
         "sysStateList": ["active"],
         "profileList": ["Authorities","Gateways"]
+      },
+      "gateway/delete": {
+        "sysStateList": ["active"],
+        "profileList": ["Authorities"]
       }
     }
   }

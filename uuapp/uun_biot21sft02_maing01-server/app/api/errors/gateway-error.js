@@ -311,10 +311,82 @@ const PostData = {
   },
 };
 
+const Delete = {
+  UC_CODE: `${GATEWAY_ERROR_PREFIX}delete/`,
+  
+  UuAppInstanceDoesNotExist: class extends Biot21sft02UseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${Delete.UC_CODE}uuAppInstanceDoesNotExist`;
+      this.message = "UuAppInstance does not exist.";
+    }
+  },
+
+  UuAppInstanceIsNotInCorrectState: class extends Biot21sft02UseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${Delete.UC_CODE}uuAppInstanceIsNotInCorrectState`;
+      this.message = "UuAppInstance is not in correct state.";
+    }
+  },
+
+  InvalidDtoIn: class extends Biot21sft02UseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${Delete.UC_CODE}invalidDtoIn`;
+      this.message = "DtoIn is not valid.";
+    }
+  },
+
+  GatewayDoesNotExist: class extends Biot21sft02UseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${Delete.UC_CODE}gatewayDoesNotExist`;
+      this.message = "Gateway does not exist.";
+    }
+  },
+
+  GatewayIsNotInCorrectState: class extends Biot21sft02UseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${Delete.UC_CODE}gatewayIsNotInCorrectState`;
+      this.message = "Only gateways which are in closed state may be deleted.";
+    }
+  },
+
+  DatasetDaoDeleteFailed: class extends Biot21sft02UseCaseError {
+    constructor() {
+      super(...arguments);
+      this.status = 500;
+      this.code = `${Delete.UC_CODE}datasetDaoDeleteFailed`;
+      this.message = "Failed to delete related dataset uuObjects.";
+    }
+  },
+
+  PermissionDeleteFailed: class extends Biot21sft02UseCaseError {
+    constructor() {
+      super(...arguments);
+      this.status = 500;
+      this.code = `${Delete.UC_CODE}permissionDeleteFailed`;
+      this.message = "Failed to remove related uuEE from Gateways profile.";
+    }
+  },
+
+  GatewayDaoDeleteFailed: class extends Biot21sft02UseCaseError {
+    constructor() {
+      super(...arguments);
+      this.status = 500;
+      this.code = `${Delete.UC_CODE}gatewayDaoDeleteFailed`;
+      this.message = "Failed to delete gateway uuObject.";
+    }
+  },
+};
+
 module.exports = {
-  PostData,
   Create,
   Update,
   Get,
   List,
+  Delete,
+  PostData,
 };

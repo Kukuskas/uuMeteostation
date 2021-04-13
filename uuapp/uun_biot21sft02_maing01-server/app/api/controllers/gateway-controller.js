@@ -23,6 +23,10 @@ class GatewayController {
     return GatewayAbl.postData(ucEnv.getUri().getAwid(), ucEnv.getDtoIn(), ucEnv.getSession(), ucEnv.getAuthorizationResult());
   }
 
+  delete(ucEnv) {
+    return GatewayAbl.delete(ucEnv.getUri().getAwid(), ucEnv.getDtoIn());
+  }
+
 }
 
 module.exports = new GatewayController();

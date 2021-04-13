@@ -42,7 +42,12 @@ const WARNINGS = {
     unsupportedKeys: {
       code: `${Errors.PostData.UC_CODE}unsupportedKeys`
     },
-  }
+  },
+  delete: {
+    unsupportedKeys: {
+      code: `${Errors.Delete.UC_CODE}unsupportedKeys`
+    },
+  },
 };
 
 class GatewayAbl {
@@ -165,12 +170,12 @@ class GatewayAbl {
 
     // 3
     let gateway = await this.dao.get(awid, dtoIn.id);
-    if (gateway) {
+    if (!gateway) {
       throw new Errors.Update.GatewayDoesNotExist({ uuAppErrorMap }, { awid, id: dtoIn.id });
     }
 
     // 4
-    if (gateway.state === "closed" && dtoIn.state === "closed") {
+    if (gateway.state === "closed" && dtoIn.state !== "closed") {
       throw new Errors.Update.GatewayIsNotInCorrectState(
         { uuAppErrorMap },
         { awid, id: dtoIn.id, state: gateway.state }
@@ -213,7 +218,7 @@ class GatewayAbl {
     }
 
     // 7
-    gateway = defaultsDeep(gateway, dtoIn);
+    gateway = defaultsDeep(dtoIn, gateway);
     try {
       gateway = await this.dao.update(gateway);
     } catch (e) {
@@ -419,7 +424,7 @@ class GatewayAbl {
     }
 
     // 9
-    const latestEntry = dataset.data[dataset.data.length -1];
+    const latestEntry = dataset.data[dataset.data.length - 1];
     const lastEnteredTimestamp = new Date(latestEntry.timestamp);
     const lastGatewayUpdate = new Date(gateway.current.timestamp);
     if (lastGatewayUpdate < lastEnteredTimestamp || gateway.current.timestamp === null) {
@@ -436,6 +441,72 @@ class GatewayAbl {
 
     // 10
     let dtoOut = { ...dataset, gateway, uuAppErrorMap };
+    return dtoOut;
+  }
+
+  async delete(awid, dtoIn) {
+    // 1
+    let uuAppInstance = await instanceAbl.checkAndGet(
+      awid,
+      Errors.Delete.UuAppInstanceDoesNotExist,
+      ["active", "restricted"],
+      Errors.Delete.UuAppInstanceIsNotInCorrectState
+    );
+
+    // 2
+    let validationResult = this.validator.validate("gatewayDeleteDtoInType", dtoIn);
+    let uuAppErrorMap = ValidationHelper.processValidationResult(
+      dtoIn,
+      validationResult,
+      WARNINGS.delete.unsupportedKeys.code,
+      Errors.Delete.InvalidDtoIn
+    );
+
+    // 3
+    const gateway = await this.dao.get(awid, dtoIn.id);
+    if (!gateway) {
+      throw new Errors.Delete.GatewayDoesNotExist({ uuAppErrorMap }, { awid, id: dtoIn.id });
+    }
+    const allowedStates = ["closed"];
+    if (!allowedStates.includes(gateway.state)) {
+      throw new Errors.Delete.GatewayIsNotInCorrectState(
+        { uuAppErrorMap },
+        { awid, id: dtoIn.id, state: gateway.state, allowedStates }
+      );
+    }
+
+    // 4
+    try {
+      await this.datasetDao.deleteByGatewayId(awid, dtoIn.id);
+    } catch (e) {
+      if (e instanceof ObjectStoreError) {
+        throw new Errors.Delete.Dataset({ uuAppErrorMap }, e);
+      }
+      throw e;
+    }
+
+    // 5
+    try {
+      await Permission.delete(awid, "Gateways", gateway.uuEe);
+    } catch (e) {
+      if (e instanceof UuAppWorkspaceError) {
+        throw new Errors.Delete.PermissionDeleteFailed({ uuAppErrorMap }, { uuEe: gateway.uuEe }, e);
+      }
+      throw e;
+    }
+
+    // 6
+    try {
+      await this.dao.delete(awid, dtoIn.id);
+    } catch (e) {
+      if (e instanceof ObjectStoreError) {
+        throw new Errors.Delete.GatewayDaoDeleteFailed({ uuAppErrorMap }, { awid, id: dtoIn.id }, e);
+      }
+      throw e;
+    }
+
+    // 7
+    let dtoOut = { success: true, uuAppErrorMap };
     return dtoOut;
   }
 
