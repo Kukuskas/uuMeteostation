@@ -25,6 +25,31 @@
         "realization": "api/controllers/DatasetController.get",
         "httpMethod": "POST",
         "type": "CMD"
+      },
+      "gateway/update": {
+        "realization": "api/controllers/GatewayController.update",
+        "httpMethod": "POST",
+        "type": "CMD"
+      },
+      "gateway/get": {
+        "realization": "api/controllers/GatewayController.get",
+        "httpMethod": "GET",
+        "type": "CMD"
+      },
+      "gateway/list": {
+        "realization": "api/controllers/GatewayController.list",
+        "httpMethod": "GET",
+        "type": "CMD"
+      },
+      "gateway/postData": {
+        "realization": "api/controllers/GatewayController.postData",
+        "httpMethod": "POST",
+        "type": "CMD"
+      },
+      "gateway/delete": {
+        "realization": "api/controllers/GatewayController.delete",
+        "httpMethod": "POST",
+        "type": "CMD"
       }
     }
   }

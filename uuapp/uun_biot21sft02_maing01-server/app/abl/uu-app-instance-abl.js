@@ -182,14 +182,21 @@ class UuAppInstanceAbl {
 
 
 
-  async checkAndGet(awid, notExistError, dtoOut = {}, allowedStates = null, incorrectStateError = null) {
-    let uuAppInstance = this.dao.getByAwid(awid);
+  async checkAndGet(awid, notExistError, allowedStates = null, incorrectStateError = null, dtoOut = {}, ) {
+    let uuAppInstance = await this.dao.getByAwid(awid);
     if (!uuAppInstance) {
       throw new notExistError(dtoOut, { awid });
-    } else if (allowedState && allowedStates.includes(uuAppInstance.state)) {
+    } else if (allowedStates && !allowedStates.includes(uuAppInstance.state)) {
       throw new incorrectStateError(dtoOut, { awid, state: uuAppInstance.state, allowedStates });
     }
     return uuAppInstance;
+  }
+
+  isAuthority(authorizationResult) {
+    const userProfiles = authorizationResult.getAuthorizedProfiles();
+    const authorityProfiles = ["Authorities", "AwidLicenseOwner"];
+
+    return authorityProfiles.some((aprof) => userProfiles.includes(aprof));
   }
 
 }
