@@ -44,6 +44,10 @@
       "gateway/delete": {
         "sysStateList": ["active"],
         "profileList": ["Authorities"]
+      },
+      "dataset/listByDates": {
+        "sysStateList": ["active"],
+        "profileList": ["Authorities","AwidOwner","Auditors","Public"]
       }
     }
   }

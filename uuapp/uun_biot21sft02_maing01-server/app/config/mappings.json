@@ -50,6 +50,11 @@
         "realization": "api/controllers/DatasetController.get",
         "httpMethod": "GET",
         "type": "CMD"
+      },
+      "dataset/listByDates": {
+        "realization": "api/controllers/DatasetController.listByDates",
+        "httpMethod": "GET",
+        "type": "CMD"
       }
     }
   }

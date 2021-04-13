@@ -7,6 +7,10 @@ class DatasetController {
     return DatasetAbl.get(ucEnv.getUri().getAwid(), ucEnv.getDtoIn(), ucEnv.getAuthorizationResult());
   }
 
+  listByDates(ucEnv) {
+    return DatasetAbl.listByDates(ucEnv.getUri().getAwid(), ucEnv.getDtoIn(), ucEnv.getAuthorizationResult());
+  }
+
 }
 
 module.exports = new DatasetController();
