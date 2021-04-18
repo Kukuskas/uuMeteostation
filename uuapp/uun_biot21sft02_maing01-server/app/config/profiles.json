@@ -48,6 +48,10 @@
       "dataset/listByDates": {
         "sysStateList": ["active"],
         "profileList": ["Authorities","AwidOwner","Auditors","Public"]
+      },
+      "dataset/listUnaggregatedData": {
+        "sysStateList": ["active"],
+        "profileList": ["Authorities","AwidOwner"]
       }
     }
   }

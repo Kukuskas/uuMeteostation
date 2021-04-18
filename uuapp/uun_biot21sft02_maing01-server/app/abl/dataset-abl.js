@@ -21,6 +21,11 @@ const WARNINGS = {
       code: `${Errors.ListByDates.UC_CODE}unsupportedKeys`
     },
   },
+  listUnaggregatedData: {
+    unsupportedKeys: {
+      code: `${Errors.ListUnaggregatedData.UC_CODE}unsupportedKeys`
+    },
+  },
 };
 
 class DatasetAbl {
@@ -154,6 +159,40 @@ class DatasetAbl {
     let dtoOut = this.dao.listByTypeAndDateRange(awid, gateway.id, dtoIn.type, dtoIn.startDate, dtoIn.endDate, dtoIn.pageInfo);
 
     // 7
+    dtoOut.uuAppErrorMap = uuAppErrorMap;
+    return dtoOut;
+  }
+
+  async listUnaggregatedData(awid, dtoIn) {
+    // 1
+    let uuAppInstance = await instanceAbl.checkAndGet(
+      awid,
+      Errors.ListUnaggregatedData.UuAppInstanceDoesNotExist,
+      ["active", "restricted"],
+      Errors.ListUnaggregatedData.UuAppInstanceIsNotInCorrectState
+    );
+
+    // 2
+    let validationResult = this.validator.validate("datasetListUnaggregatedDataDtoInType", dtoIn);
+    let uuAppErrorMap = ValidationHelper.processValidationResult(
+      dtoIn,
+      validationResult,
+      WARNINGS.listUnaggregatedData.unsupportedKeys.code,
+      Errors.ListUnaggregatedData.InvalidDtoIn
+    );
+
+    const defaults = {
+      pageInfo: {
+        pageIndex: 0,
+        pageSize: 100
+      }
+    };
+    dtoIn = defaultsDeep(dtoIn, defaults);
+
+    // 3
+    let dtoOut = await this.dao.listByAggregation(awid, dtoIn.type, false, dtoIn.pageInfo);
+
+    // 4
     dtoOut.uuAppErrorMap = uuAppErrorMap;
     return dtoOut;
   }

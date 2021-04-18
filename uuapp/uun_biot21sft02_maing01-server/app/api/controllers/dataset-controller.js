@@ -3,6 +3,10 @@ const DatasetAbl = require("../../abl/dataset-abl.js");
 
 class DatasetController {
 
+  listUnaggregatedData(ucEnv) {
+    return DatasetAbl.listUnaggregatedData(ucEnv.getUri().getAwid(), ucEnv.getDtoIn());
+  }
+
   get(ucEnv) {
     return DatasetAbl.get(ucEnv.getUri().getAwid(), ucEnv.getDtoIn(), ucEnv.getAuthorizationResult());
   }

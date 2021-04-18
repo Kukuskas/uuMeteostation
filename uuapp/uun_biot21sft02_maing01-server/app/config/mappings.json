@@ -55,6 +55,11 @@
         "realization": "api/controllers/DatasetController.listByDates",
         "httpMethod": "GET",
         "type": "CMD"
+      },
+      "dataset/listUnaggregatedData": {
+        "realization": "api/controllers/DatasetController.listUnaggregatedData",
+        "httpMethod": "POST",
+        "type": "CMD"
       }
     }
   }

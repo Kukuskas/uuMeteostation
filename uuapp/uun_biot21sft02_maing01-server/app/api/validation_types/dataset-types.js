@@ -18,3 +18,11 @@ const datasetListByDatesDtoInType = shape({
     pageSize: integer(1, 100)
   })
 });
+
+const datasetListUnaggregatedDataDtoInType = shape({
+  type: oneOf(["detailed", "hourly", "daily"]).isRequired(),
+  pageInfo: shape({
+    pageIndex: integer(0, null),
+    pageSize: integer(1, 2000)
+  })
+});
