@@ -9,7 +9,7 @@ const datasetGetDtoInType = shape({
 
 const datasetListByDatesDtoInType = shape({
   gatewayId: mongoId().isRequired(["gatewayCode"]),
-  code: code().isRequired(["gatewayId"]),
+  gatewayCode: code().isRequired(["gatewayId"]),
   type: oneOf(["detailed", "hourly", "daily", "weekly", "monthly"]).isRequired(),
   startDate: date().isRequired(),
   endDate: date().isRequired(),

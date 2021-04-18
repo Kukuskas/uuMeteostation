@@ -91,9 +91,9 @@ class DatasetAbl {
     // 1
     let uuAppInstance = await instanceAbl.checkAndGet(
       awid,
-      Errors.Get.UuAppInstanceDoesNotExist,
+      Errors.ListByDates.UuAppInstanceDoesNotExist,
       ["active", "restricted"],
-      Errors.Get.UuAppInstanceIsNotInCorrectState
+      Errors.ListByDates.UuAppInstanceIsNotInCorrectState
     );
 
     // 2
@@ -101,8 +101,8 @@ class DatasetAbl {
     let uuAppErrorMap = ValidationHelper.processValidationResult(
       dtoIn,
       validationResult,
-      WARNINGS.get.unsupportedKeys.code,
-      Errors.Get.InvalidDtoIn
+      WARNINGS.listByDates.unsupportedKeys.code,
+      Errors.ListByDates.InvalidDtoIn
     );
 
     const defaults = {
@@ -115,7 +115,7 @@ class DatasetAbl {
 
     // 3
     if (uuAppInstance.state === "restricted" && !instanceAbl.isAuthority(authorizationResult)) {
-      throw new Errors.Get.NotAuthorized();
+      throw new Errors.ListByDates.NotAuthorized();
     }
 
     // 4
@@ -129,7 +129,7 @@ class DatasetAbl {
     }
 
     if (!gateway) {
-      throw new Errors.Get.GatewayDoesNotExist({ uuAppErrorMap }, identifier);
+      throw new Errors.ListByDates.GatewayDoesNotExist({ uuAppErrorMap }, identifier);
     }
 
     // 5
