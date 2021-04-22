@@ -79,10 +79,11 @@ class GatewayAbl {
     const enteredCode = dtoIn.hasOwnProperty("code");
 
     const defaults = {
-      code: this._generateUniqueCode(awid),
+      code: await this._generateUniqueCode(awid),
       name: "",
       location: null
     }
+    console.log({ defaults })
     dtoIn = defaultsDeep(dtoIn, defaults);
 
 
@@ -137,7 +138,7 @@ class GatewayAbl {
     };
     gateway = defaultsDeep(gateway, gatewayDefaults);
     try {
-      gateway = this.dao.create(gateway);
+      gateway = await this.dao.create(gateway);
     } catch (e) {
       if (e instanceof ObjectStoreError) {
         throw new Errors.Create.GatewayDaoCreateFailed({ uuAppErrorMap }, e);

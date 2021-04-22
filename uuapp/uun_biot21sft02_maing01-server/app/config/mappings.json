@@ -60,6 +60,11 @@
         "realization": "api/controllers/DatasetController.listUnaggregatedData",
         "httpMethod": "POST",
         "type": "CMD"
+      },
+      "dataset/postAggregatedData": {
+        "realization": "api/controllers/DatasetController.postAggregatedData",
+        "httpMethod": "POST",
+        "type": "CMD"
       }
     }
   }

@@ -52,6 +52,10 @@
       "dataset/listUnaggregatedData": {
         "sysStateList": ["active"],
         "profileList": ["Authorities","AwidOwner"]
+      },
+      "dataset/postAggregatedData": {
+        "sysStateList": ["active"],
+        "profileList": ["Authorities","AwidOwner"]
       }
     }
   }
