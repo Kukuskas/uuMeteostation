@@ -79,10 +79,11 @@ class GatewayAbl {
     const enteredCode = dtoIn.hasOwnProperty("code");
 
     const defaults = {
-      code: this._generateUniqueCode(awid),
+      code: await this._generateUniqueCode(awid),
       name: "",
       location: null
     }
+    console.log({ defaults })
     dtoIn = defaultsDeep(dtoIn, defaults);
 
 

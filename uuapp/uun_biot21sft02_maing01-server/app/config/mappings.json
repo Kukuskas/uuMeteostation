@@ -21,11 +21,6 @@
         "httpMethod": "POST",
         "type": "CMD"
       },
-      "dataset/get": {
-        "realization": "api/controllers/DatasetController.get",
-        "httpMethod": "POST",
-        "type": "CMD"
-      },
       "gateway/update": {
         "realization": "api/controllers/GatewayController.update",
         "httpMethod": "POST",
@@ -48,6 +43,36 @@
       },
       "gateway/delete": {
         "realization": "api/controllers/GatewayController.delete",
+        "httpMethod": "POST",
+        "type": "CMD"
+      },
+      "dataset/get": {
+        "realization": "api/controllers/DatasetController.get",
+        "httpMethod": "GET",
+        "type": "CMD"
+      },
+      "dataset/listByDates": {
+        "realization": "api/controllers/DatasetController.listByDates",
+        "httpMethod": "GET",
+        "type": "CMD"
+      },
+      "dataset/listUnaggregatedData": {
+        "realization": "api/controllers/DatasetController.listUnaggregatedData",
+        "httpMethod": "POST",
+        "type": "CMD"
+      },
+      "dataset/postAggregatedData": {
+        "realization": "api/controllers/DatasetController.postAggregatedData",
+        "httpMethod": "POST",
+        "type": "CMD"
+      },
+      "dataset/markAggregated": {
+        "realization": "api/controllers/DatasetController.markAggregated",
+        "httpMethod": "POST",
+        "type": "CMD"
+      },
+      "dataset/trimData": {
+        "realization": "api/controllers/DatasetController.trimData",
         "httpMethod": "POST",
         "type": "CMD"
       }

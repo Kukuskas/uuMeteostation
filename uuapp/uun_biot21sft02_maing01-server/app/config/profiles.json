@@ -44,6 +44,26 @@
       "gateway/delete": {
         "sysStateList": ["active"],
         "profileList": ["Authorities"]
+      },
+      "dataset/listByDates": {
+        "sysStateList": ["active"],
+        "profileList": ["Authorities","AwidOwner","Auditors","Public"]
+      },
+      "dataset/listUnaggregatedData": {
+        "sysStateList": ["active"],
+        "profileList": ["Authorities","AwidOwner"]
+      },
+      "dataset/postAggregatedData": {
+        "sysStateList": ["active"],
+        "profileList": ["Authorities","AwidOwner"]
+      },
+      "dataset/markAggregated": {
+        "sysStateList": ["active"],
+        "profileList": ["Authorities","AwidOwner"]
+      },
+      "dataset/trimData": {
+        "sysStateList": ["active"],
+        "profileList": ["Authorities","AwidOwner"]
       }
     }
   }
