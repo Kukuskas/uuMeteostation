@@ -56,6 +56,10 @@
       "dataset/postAggregatedData": {
         "sysStateList": ["active"],
         "profileList": ["Authorities","AwidOwner"]
+      },
+      "dataset/markAggregated": {
+        "sysStateList": ["active"],
+        "profileList": ["Authorities","AwidOwner"]
       }
     }
   }

@@ -55,3 +55,8 @@ const datasetPostAggregatedDataDtoInType = shape({
     }).isRequired()
   }), 1, 366).isRequired()
 });
+
+const datasetMarkAggregatedDtoInType = shape({
+  datasetIdList: array(id()).isRequired(),
+  modifiedBefore: datetime().isRequired()
+});

@@ -3,6 +3,10 @@ const DatasetAbl = require("../../abl/dataset-abl.js");
 
 class DatasetController {
 
+  markAggregated(ucEnv) {
+    return DatasetAbl.markAggregated(ucEnv.getUri().getAwid(), ucEnv.getDtoIn());
+  }
+
   postAggregatedData(ucEnv) {
     return DatasetAbl.postAggregatedData(ucEnv.getUri().getAwid(), ucEnv.getDtoIn());
   }

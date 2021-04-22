@@ -230,9 +230,47 @@ const PostAggregatedData = {
   }
 };
 
+const MarkAggregated = {
+  UC_CODE: `${DATASET_ERROR_PREFIX}markAggregated/`,
+  
+  UuAppInstanceDoesNotExist: class extends Biot21sft02UseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${MarkAggregated.UC_CODE}uuAppInstanceDoesNotExist`;
+      this.message = "UuAppInstance does not exist.";
+    }
+  },
+
+  UuAppInstanceIsNotInCorrectState: class extends Biot21sft02UseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${MarkAggregated.UC_CODE}uuAppInstanceIsNotInCorrectState`;
+      this.message = "UuAppInstance is not in correct state.";
+    }
+  },
+
+  InvalidDtoIn: class extends Biot21sft02UseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${MarkAggregated.UC_CODE}invalidDtoIn`;
+      this.message = "DtoIn is not valid.";
+    }
+  },
+
+  DatasetDaoUpdateFailed: class extends Biot21sft02UseCaseError {
+    constructor() {
+      super(...arguments);
+      this.status = 500;
+      this.code = `${MarkAggregated.UC_CODE}datasetDaoUpdateFailed`;
+      this.message = "Failed to update dataset uuObject.";
+    }
+  },
+};
+
 module.exports = {
   Get,
   ListByDates,
   ListUnaggregatedData,
   PostAggregatedData,
+  MarkAggregated,
 };

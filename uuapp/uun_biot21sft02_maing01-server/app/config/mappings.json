@@ -65,6 +65,11 @@
         "realization": "api/controllers/DatasetController.postAggregatedData",
         "httpMethod": "POST",
         "type": "CMD"
+      },
+      "dataset/markAggregated": {
+        "realization": "api/controllers/DatasetController.markAggregated",
+        "httpMethod": "POST",
+        "type": "CMD"
       }
     }
   }

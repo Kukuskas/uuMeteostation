@@ -36,6 +36,15 @@ const WARNINGS = {
       code: `${Errors.PostAggregatedData.UC_CODE}datasetAlreadyExists`,
       message: "Dataset of this type for this gateway and period already exist. Specified data will be merged into it."
     }
+  },
+  markAggregated: {
+    unsupportedKeys: {
+      code: `${Errors.MarkAggregated.UC_CODE}unsupportedKeys`
+    },
+    datasetsDoNotExist: {
+      code: `${Errors.MarkAggregated.UC_CODE}datasetsDoNotExist`,
+      message: "Some datasets requested to be marked do not exist."
+    }
   }
 };
 
@@ -428,6 +437,76 @@ class DatasetAbl {
     }
 
     // 10
+    dtoOut.uuAppErrorMap = uuAppErrorMap;
+    return dtoOut;
+  }
+
+  async markAggregated(awid, dtoIn) {
+    let uuAppInstance = await instanceAbl.checkAndGet(
+      awid,
+      Errors.MarkAggregated.UuAppInstanceDoesNotExist,
+      ["active", "restricted"],
+      Errors.MarkAggregated.UuAppInstanceIsNotInCorrectState
+    );
+
+    // 2
+    let validationResult = this.validator.validate("datasetMarkAggregatedDtoInType", dtoIn);
+    let uuAppErrorMap = ValidationHelper.processValidationResult(
+      dtoIn,
+      validationResult,
+      WARNINGS.markAggregated.unsupportedKeys.code,
+      Errors.MarkAggregated.InvalidDtoIn
+    );
+
+    // 3
+    let dtoOut = {
+      requested: dtoIn.datasetIdList.length,
+      marked: 0,
+      unmarked: 0,
+      umarkedIdList: []
+    };
+
+    let datasetsDoNotExist = {
+      awid,
+      count: 0,
+      invalidIdList: []
+    };
+
+    // 4
+    const beforeDate = new Date(dtoIn.modifiedBefore);
+    for (const datasetId of dtoIn.datasetIdList) {
+      const dataset = await this.dao.get(awid, datasetId);
+      if (!dataset) {
+        datasetsDoNotExist.invalidIdList.push(datasetId);
+        datasetsDoNotExist.count++;
+      } else if (dataset.sys.mts >= beforeDate) {
+        dtoOut.umarkedIdList.push(datasetId);
+        dtoOut.unmarked++;
+      } else {
+        dataset.aggregated = true;
+        try {
+          await this.dao.update(dataset);
+        } catch (e) {
+          if (e instanceof ObjectStoreError) {
+            throw new Errors.MarkAggregated.DatasetDaoUpdateFailed({ uuAppErrorMap }, { awid, id: datasetId });
+          }
+          throw e;
+        }
+        dtoOut.marked++;
+      }
+    }
+
+    // 5
+    if (datasetsDoNotExist.count > 0) {
+      ValidationHelper.addWarning(
+        uuAppErrorMap,
+        WARNINGS.markAggregated.datasetsDoNotExist.code,
+        WARNINGS.markAggregated.datasetsDoNotExist.message,
+        datasetsDoNotExist
+      );
+    }
+
+    // 6
     dtoOut.uuAppErrorMap = uuAppErrorMap;
     return dtoOut;
   }
