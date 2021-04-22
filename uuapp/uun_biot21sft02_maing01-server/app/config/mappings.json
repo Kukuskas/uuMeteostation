@@ -70,6 +70,11 @@
         "realization": "api/controllers/DatasetController.markAggregated",
         "httpMethod": "POST",
         "type": "CMD"
+      },
+      "dataset/trimData": {
+        "realization": "api/controllers/DatasetController.trimData",
+        "httpMethod": "POST",
+        "type": "CMD"
       }
     }
   }

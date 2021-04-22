@@ -60,3 +60,8 @@ const datasetMarkAggregatedDtoInType = shape({
   datasetIdList: array(id()).isRequired(),
   modifiedBefore: datetime().isRequired()
 });
+
+const datasetTrimDataDtoInType = shape({
+  datasetType: oneOf(["detailed", "hourly", "daily", "weekly", "monthly"]).isRequired(),
+  endsBefore: date().isRequired()
+});

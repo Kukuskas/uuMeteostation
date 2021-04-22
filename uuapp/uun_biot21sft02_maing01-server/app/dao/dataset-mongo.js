@@ -65,10 +65,11 @@ class DatasetMongo extends UuObjectDao {
     return await super.unlockOne(filter, lock);
   }
 
-  async deleteByTypeAndDate(awid, type, endBefore) {
+  async deleteByTypeAndAggregationAndDate(awid, type, aggregated, endBefore) {
     endBefore = convertToDate(endBefore);
     const filter = {
       awid, type,
+      aggregated,
       endDate: { $lte: endBefore }
     };
     return await super.deleteMany(filter);

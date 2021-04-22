@@ -45,6 +45,11 @@ const WARNINGS = {
       code: `${Errors.MarkAggregated.UC_CODE}datasetsDoNotExist`,
       message: "Some datasets requested to be marked do not exist."
     }
+  },
+  trimData: {
+    unsupportedKeys: {
+      code: `${Errors.TrimData.UC_CODE}unsupportedKeys`
+    },
   }
 };
 
@@ -488,7 +493,7 @@ class DatasetAbl {
           await this.dao.update(dataset);
         } catch (e) {
           if (e instanceof ObjectStoreError) {
-            throw new Errors.MarkAggregated.DatasetDaoUpdateFailed({ uuAppErrorMap }, { awid, id: datasetId });
+            throw new Errors.MarkAggregated.DatasetDaoUpdateFailed({ uuAppErrorMap }, { awid, id: datasetId }, e);
           }
           throw e;
         }
@@ -508,6 +513,43 @@ class DatasetAbl {
 
     // 6
     dtoOut.uuAppErrorMap = uuAppErrorMap;
+    return dtoOut;
+  }
+
+  async trimData(awid, dtoIn) {
+    let uuAppInstance = await instanceAbl.checkAndGet(
+      awid,
+      Errors.TrimData.UuAppInstanceDoesNotExist,
+      ["active", "restricted"],
+      Errors.TrimData.UuAppInstanceIsNotInCorrectState
+    );
+
+    // 2
+    let validationResult = this.validator.validate("datasetTrimDataDtoInType", dtoIn);
+    let uuAppErrorMap = ValidationHelper.processValidationResult(
+      dtoIn,
+      validationResult,
+      WARNINGS.trimData.unsupportedKeys.code,
+      Errors.TrimData.InvalidDtoIn
+    );
+
+    // 3
+    try {
+      await this.dao.deleteByTypeAndAggregationAndDate(
+        awid,
+        dtoIn.datasetType,
+        true,
+        dtoIn.endsBefore
+      );
+    } catch (e) {
+      if (e instanceof ObjectStoreError) {
+        throw new Errors.TrimData.DatasetDaoDeleteFailed({ uuAppErrorMap }, e);
+      }
+      throw e;
+    }
+
+    // 4
+    let dtoOut = { uuAppErrorMap };
     return dtoOut;
   }
 

@@ -60,6 +60,10 @@
       "dataset/markAggregated": {
         "sysStateList": ["active"],
         "profileList": ["Authorities","AwidOwner"]
+      },
+      "dataset/trimData": {
+        "sysStateList": ["active"],
+        "profileList": ["Authorities","AwidOwner"]
       }
     }
   }
