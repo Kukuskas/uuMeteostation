@@ -137,7 +137,7 @@ class GatewayAbl {
     };
     gateway = defaultsDeep(gateway, gatewayDefaults);
     try {
-      gateway = await this.dao.create(gateway);
+      gateway = this.dao.create(gateway);
     } catch (e) {
       if (e instanceof ObjectStoreError) {
         throw new Errors.Create.GatewayDaoCreateFailed({ uuAppErrorMap }, e);
