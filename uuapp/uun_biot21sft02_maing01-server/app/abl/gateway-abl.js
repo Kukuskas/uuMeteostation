@@ -4,6 +4,7 @@ const { Validator } = require("uu_appg01_server").Validation;
 const { DaoFactory, ObjectStoreError } = require("uu_appg01_server").ObjectStore;
 const { ValidationHelper } = require("uu_appg01_server").AppServer;
 const { Permission, UuAppWorkspaceError } = require("uu_appg01_server").Workspace;
+const { LoggerFactory } = require("uu_appg01_server").Logging;
 const Errors = require("../api/errors/gateway-error.js");
 
 const instanceAbl = require("./uu-app-instance-abl.js");
@@ -43,12 +44,19 @@ const WARNINGS = {
       code: `${Errors.PostData.UC_CODE}unsupportedKeys`
     },
   },
+  logMessage: {
+    unsupportedKeys: {
+      code: `${Errors.LogMessage.UC_CODE}unsupportedKeys`
+    },
+  },
   delete: {
     unsupportedKeys: {
       code: `${Errors.Delete.UC_CODE}unsupportedKeys`
     },
   },
 };
+
+const gatewayLogLogger = LoggerFactory.get("Gateway:GatewayLog");
 
 class GatewayAbl {
 
@@ -122,6 +130,7 @@ class GatewayAbl {
     const gatewayDefaults = {
       awid,
       state: "created",
+      log: [],
       current: {
         temperature: null,
         humidity: null,
@@ -442,6 +451,70 @@ class GatewayAbl {
 
     // 10
     let dtoOut = { ...dataset, gateway, uuAppErrorMap };
+    return dtoOut;
+  }
+
+  async logMessage(awid, dtoIn, session) {
+    // 1
+    let uuAppInstance = await instanceAbl.checkAndGet(
+      awid,
+      Errors.LogMessage.UuAppInstanceDoesNotExist,
+      ["active", "restricted"],
+      Errors.LogMessage.UuAppInstanceIsNotInCorrectState
+    );
+
+    // 2
+    let validationResult = this.validator.validate("gatewayLogMessageDtoInType", dtoIn);
+    let uuAppErrorMap = ValidationHelper.processValidationResult(
+      dtoIn,
+      validationResult,
+      WARNINGS.logMessage.unsupportedKeys.code,
+      Errors.LogMessage.InvalidDtoIn
+    );
+
+    // 3'
+    const uuEe = session.getIdentity().getUuIdentity();
+    let gateway = await this.dao.getByUuEe(awid, uuEe);
+    if (!gateway) {
+      throw new Errors.LogMessage.GatewayDoesNotExist({ uuAppErrorMap }, { awid, uuEe });
+    }
+    const allowedStates = ["created", "active"];
+    if (!allowedStates.includes(gateway.state)) {
+      throw new Errors.LogMessage.GatewayIsNotInCorrectState(
+        { uuAppErrorMap },
+        { awid, id: gateway.id, state: gateway.state, allowedStates }
+      );
+    }
+
+    // 4
+    let gatewayLog = {
+      awid,
+      gatewayId: gateway.id,
+      ...dtoIn
+    };
+    gatewayLogLogger.log(gatewayLog);
+
+    // 5
+    let gatewayLogEntry = {
+      timestamp: new Date().toISOString(),
+      ...dtoIn
+    };
+    if (!gateway.log) {
+      gateway.log = [];
+    }
+    gateway.log.unshift(gatewayLogEntry);
+    gateway.log = gateway.log.slice(0, 10);
+    try {
+      gateway = await this.dao.update(gateway);
+    } catch (e) {
+      if (e instanceof ObjectStoreError) {
+        throw new Errors.LogMessage.GatewayDaoUpdateFailed({ uuAppErrorMap }, e);
+      }
+      throw e;
+    }
+
+    // 6
+    let dtoOut = { ...gateway, uuAppErrorMap };
     return dtoOut;
   }
 

@@ -42,6 +42,12 @@ const gatewayPostDataDtoInType = shape({
   }), 1, null).isRequired()
 });
 
+const gatewayLogMessageDtoInType = shape({
+  type: oneOf(["info", "warn", "error"]).isRequired(),
+  message: string().isRequired(),
+  info: shape({}, true)
+});
+
 const gatewayDeleteDtoInType = shape({
   id: id().isRequired()
  });

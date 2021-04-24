@@ -64,6 +64,10 @@
       "dataset/trimData": {
         "sysStateList": ["active"],
         "profileList": ["Authorities","AwidOwner"]
+      },
+      "gateway/logMessage": {
+        "sysStateList": ["active"],
+        "profileList": ["Gateways"]
       }
     }
   }
