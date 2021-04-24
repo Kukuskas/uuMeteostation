@@ -2,6 +2,8 @@
 const { UuObjectDao } = require("uu_appg01_server").ObjectStore;
 const { convertToObjectId, convertToDate } = require("./helpers/dao-common.js");
 
+const DEFAULT_SORT = { gatewayId: 1, type: 1, startDate: 1 };
+
 class DatasetMongo extends UuObjectDao {
   async createSchema() {
     await super.createIndex({ awid: 1, _id: 1 }, { unique: true });
@@ -38,12 +40,12 @@ class DatasetMongo extends UuObjectDao {
     return await super.findOne(filter);
   }
 
-  async listByAggregation(awid, type, aggregated, pageInfo = {}) {
+  async listByAggregation(awid, type, aggregated, pageInfo = {}, sort = DEFAULT_SORT) {
     const filter = { awid, type, aggregated };
-    return await super.find(filter, pageInfo);
+    return await super.find(filter, pageInfo, sort);
   }
 
-  async listByTypeAndDateRange(awid, gatewayId, type, startDate, endDate, pageInfo = {}) {
+  async listByTypeAndDateRange(awid, gatewayId, type, startDate, endDate, pageInfo = {}, sort = DEFAULT_SORT) {
     gatewayId = convertToObjectId(gatewayId);
     startDate = convertToDate(startDate);
     endDate = convertToDate(endDate);
@@ -52,7 +54,7 @@ class DatasetMongo extends UuObjectDao {
       startDate: { $gte: startDate },
       endDate: { $lte: endDate }
     };
-    return await super.find(filter, pageInfo);
+    return await super.find(filter, pageInfo, sort);
   }
 
   async lock(awid, id, lock) {
