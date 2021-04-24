@@ -50,6 +50,11 @@
         "realization": "api/controllers/GatewayController.delete",
         "httpMethod": "POST",
         "type": "CMD"
+      },
+      "gateway/logMessage": {
+        "realization": "api/controllers/GatewayController.logMessage",
+        "httpMethod": "POST",
+        "type": "CMD"
       }
     }
   }

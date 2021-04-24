@@ -311,6 +311,59 @@ const PostData = {
   },
 };
 
+const LogMessage = {
+  UC_CODE: `${GATEWAY_ERROR_PREFIX}logMessage/`,
+  
+  UuAppInstanceDoesNotExist: class extends Biot21sft02UseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${LogMessage.UC_CODE}uuAppInstanceDoesNotExist`;
+      this.message = "UuAppInstance does not exist.";
+    }
+  },
+
+  UuAppInstanceIsNotInCorrectState: class extends Biot21sft02UseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${LogMessage.UC_CODE}uuAppInstanceIsNotInCorrectState`;
+      this.message = "UuAppInstance is not in correct state.";
+    }
+  },
+
+  InvalidDtoIn: class extends Biot21sft02UseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${LogMessage.UC_CODE}invalidDtoIn`;
+      this.message = "DtoIn is not valid.";
+    }
+  },
+
+  GatewayDoesNotExist: class extends Biot21sft02UseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${LogMessage.UC_CODE}gatewayDoesNotExist`;
+      this.message = "This gateway does not exist.";
+    }
+  },
+
+  GatewayIsNotInCorrectState: class extends Biot21sft02UseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${LogMessage.UC_CODE}gatewayIsNotInCorrectState`;
+      this.message = "Only gateways which are not closed may receive new data.";
+    }
+  },
+
+  GatewayDaoUpdateFailed: class extends Biot21sft02UseCaseError {
+    constructor() {
+      super(...arguments);
+      this.status = 500;
+      this.code = `${LogMessage.UC_CODE}gatewayDaoUpdateFailed`;
+      this.message = "Failed to update gateway uuObject.";
+    }
+  },
+};
+
 const Delete = {
   UC_CODE: `${GATEWAY_ERROR_PREFIX}delete/`,
   
@@ -387,6 +440,7 @@ module.exports = {
   Update,
   Get,
   List,
-  Delete,
   PostData,
+  LogMessage,
+  Delete,
 };

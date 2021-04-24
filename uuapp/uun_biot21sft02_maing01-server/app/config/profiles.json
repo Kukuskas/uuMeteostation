@@ -44,6 +44,10 @@
       "gateway/delete": {
         "sysStateList": ["active"],
         "profileList": ["Authorities"]
+      },
+      "gateway/logMessage": {
+        "sysStateList": ["active"],
+        "profileList": ["Gateways"]
       }
     }
   }
