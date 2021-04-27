@@ -1,9 +1,13 @@
 {
-  "asid_license_owner_list": ["14-2710-1"],
+  "asid_license_owner_list": [
+    "14-2710-1"
+  ],
   "asid": "11111111111111111111111111111111",
   "sysUuAppWorkspace": {
     "awid": "22222222222222222222222222222222",
-    "awidLicenseOwnerList": ["14-2710-1"]
+    "awidLicenseOwnerList": [
+      "14-2710-1"
+    ]
   },
   "userMap": {
     "AsidLicenseOwner": {
@@ -25,7 +29,37 @@
       "accessCode1": "3yMhD1qzi0JUwsAJ7UOsWX2YtrGH_Olk5DxgWyssNW6e_WC4wjKrXODHES92cQXp",
       "accessCode2": "Cq%iaz#9w-#z7C8yZlZoC$DsebIK2JGWyDK8lg8J7vLFSKXtYFt5tn3eI3WthZtI",
       "uuIdentity": "14-2710-1",
-      "profileList": ["Authorities"]
+      "profileList": [
+        "Authorities"
+      ]
+    },
+    "Gateways": {
+      "accessCode1": "4045Br6NT69JL5C1q-kK121s9CS8m-2L",
+      "accessCode2": "22613737q2430ug0342544218_-7836p",
+      "uuIdentity": "25-8074-1",
+      "profileList": []
+    },
+    "Gateways2": {
+      "accessCode1": "-wYCdbbUhLFNmweHc5U1aUdAZDF7Jp_0",
+      "accessCode2": "_vfqqEk6bv59ae3UYP0YCL-T1thuD8mn",
+      "uuIdentity": "25-8075-1",
+      "profileList": []
+    },
+    "Auditors": {
+      "accessCode1": "3yMhD1qzi0JUwsAJ7UOsWX2YtrGH_Olk5DxgWyssNW6e_WC4wjKrXODHES92cQXp",
+      "accessCode2": "Cq%iaz#9w-#z7C8yZlZoC$DsebIK2JGWyDK8lg8J7vLFSKXtYFt5tn3eI3WthZtI",
+      "uuIdentity": "14-2710-1",
+      "profileList": [
+        "Auditors"
+      ]
+    },
+    "Public": {
+      "accessCode1": "3yMhD1qzi0JUwsAJ7UOsWX2YtrGH_Olk5DxgWyssNW6e_WC4wjKrXODHES92cQXp",
+      "accessCode2": "Cq%iaz#9w-#z7C8yZlZoC$DsebIK2JGWyDK8lg8J7vLFSKXtYFt5tn3eI3WthZtI",
+      "uuIdentity": "14-2710-1",
+      "profileList": [
+        "Public"
+      ]
     }
   },
   "log_level": "FATAL",
