@@ -1,24 +1,230 @@
 {
   "product": "uun_biot21sft02g01",
-  "version": "0.1.0",
+  "version": "0.1.0-beta",
   "license": "License Commercial",
   "description": {
-    "en": "",
-    "cs": ""
+    "en": "uuWeatherStation for school project BIOT21SFT02",
+    "cs": "uuWeatherStation pro školní projekt BIOT21SFT02"
   },
   "docUri": "",
   "flsUri": "",
   "imageUri": "",
   "devkit": {
     "development": {
-      "appBoxLocationUri": "----- VALUE REQUIRED -----",
-      "appDeploymentUri": null,
-      "resourcePoolUri": "----- VALUE REQUIRED -----"
+      "appBoxLocationUri": "ues:UCL-BT:OPR.RSP/APPBOXES",
+      "appDeploymentUri": "ues:UCL-BT[118500965363973101]:UUN_STUDENTS01_AWE[5f9fea37f439f9fab6743983]:UUN.BIOT21SFT02G01[6086c3b7f90380667f378ae0]",
+      "resourcePoolUri": "ues:UCL-BT:UUN_STUDENTS01_AWE"
     }
   },
   "uun_biot21sft02g01": {
     "namespace": "UunBiot21sft02",
     "sourceUri": "https://cdn.plus4u.net/uun-biot21sft02g01/%s/uun_biot21sft02g01.min.js",
-    "componentList": []
+    "componentList": [
+      {
+        "code": "UunBiot21sft02.Core.DataPending",
+        "name": "DataPending",
+        "tagList": [
+          "UunBiot21sft02",
+          "Core",
+          "DataPending"
+        ],
+        "docCode": "UunBiot21sft02CoreDataPending",
+        "desc": "",
+        "icon": "",
+        "imageUri": "",
+        "uuEccReady": false,
+        "template": "<UunBiot21sft02.Core.DataPending />"
+      },
+      {
+        "code": "UunBiot21sft02.Core.DataObjectStateResolver",
+        "name": "DataObjectStateResolver",
+        "tagList": [
+          "UunBiot21sft02",
+          "Core",
+          "DataObjectStateResolver"
+        ],
+        "docCode": "UunBiot21sft02CoreDataObjectStateResolver",
+        "desc": "",
+        "icon": "",
+        "imageUri": "",
+        "uuEccReady": false,
+        "template": "<UunBiot21sft02.Core.DataObjectStateResolver />"
+      },
+      {
+        "code": "UunBiot21sft02.Core.DataListStateResolver",
+        "name": "DataListStateResolver",
+        "tagList": [
+          "UunBiot21sft02",
+          "Core",
+          "DataListStateResolver"
+        ],
+        "docCode": "UunBiot21sft02CoreDataListStateResolver",
+        "desc": "",
+        "icon": "",
+        "imageUri": "",
+        "uuEccReady": false,
+        "template": "<UunBiot21sft02.Core.DataListStateResolver />"
+      },
+      {
+        "code": "UunBiot21sft02.Core.DataError",
+        "name": "DataError",
+        "tagList": [
+          "UunBiot21sft02",
+          "Core",
+          "DataError"
+        ],
+        "docCode": "UunBiot21sft02CoreDataError",
+        "desc": "",
+        "icon": "",
+        "imageUri": "",
+        "uuEccReady": false,
+        "template": "<UunBiot21sft02.Core.DataError />"
+      },
+      {
+        "code": "UunBiot21sft02.Gateway.List.List",
+        "name": "List",
+        "tagList": [
+          "UunBiot21sft02",
+          "Gateway",
+          "List",
+          "List"
+        ],
+        "docCode": "UunBiot21sft02GatewayListList",
+        "desc": "",
+        "icon": "",
+        "imageUri": "",
+        "uuEccReady": false,
+        "template": "<UunBiot21sft02.Gateway.List.List />"
+      },
+      {
+        "code": "UunBiot21sft02.Gateway.List.GatewaysList",
+        "name": "GatewaysList",
+        "tagList": [
+          "UunBiot21sft02",
+          "Gateway",
+          "List",
+          "GatewaysList"
+        ],
+        "docCode": "UunBiot21sft02GatewayListGatewaysList",
+        "desc": "",
+        "icon": "",
+        "imageUri": "",
+        "uuEccReady": false,
+        "template": "<UunBiot21sft02.Gateway.List.GatewaysList />"
+      },
+      {
+        "code": "UunBiot21sft02.Gateway.List.Context",
+        "name": "Context",
+        "tagList": [
+          "UunBiot21sft02",
+          "Gateway",
+          "List",
+          "Context"
+        ],
+        "docCode": "UunBiot21sft02GatewayListContext",
+        "desc": "",
+        "icon": "",
+        "imageUri": "",
+        "uuEccReady": false,
+        "template": "<UunBiot21sft02.Gateway.List.Context />"
+      },
+      {
+        "code": "UunBiot21sft02.Gateway.List.Context.GatewaysContext",
+        "name": "GatewaysContext",
+        "tagList": [
+          "UunBiot21sft02",
+          "Gateway",
+          "List",
+          "Context",
+          "GatewaysContext"
+        ],
+        "docCode": "UunBiot21sft02GatewayListContextGatewaysContext",
+        "desc": "",
+        "icon": "",
+        "imageUri": "",
+        "uuEccReady": false,
+        "template": "<UunBiot21sft02.Gateway.List.Context.GatewaysContext />"
+      },
+      {
+        "code": "UunBiot21sft02.Gateway.List.GatewaysLoader",
+        "name": "GatewaysLoader",
+        "tagList": [
+          "UunBiot21sft02",
+          "Gateway",
+          "List",
+          "GatewaysLoader"
+        ],
+        "docCode": "UunBiot21sft02GatewayListGatewaysLoader",
+        "desc": "",
+        "icon": "",
+        "imageUri": "",
+        "uuEccReady": false,
+        "template": "<UunBiot21sft02.Gateway.List.GatewaysLoader />"
+      },
+      {
+        "code": "UunBiot21sft02.Gateway.GatewayLoader",
+        "name": "GatewayLoader",
+        "tagList": [
+          "UunBiot21sft02",
+          "Gateway",
+          "GatewayLoader"
+        ],
+        "docCode": "UunBiot21sft02GatewayGatewayLoader",
+        "desc": "",
+        "icon": "",
+        "imageUri": "",
+        "uuEccReady": false,
+        "template": "<UunBiot21sft02.Gateway.GatewayLoader />"
+      },
+      {
+        "code": "UunBiot21sft02.Gateway.List.GatewayDetail",
+        "name": "GatewayDetail",
+        "tagList": [
+          "UunBiot21sft02",
+          "Gateway",
+          "List",
+          "GatewayDetail"
+        ],
+        "docCode": "UunBiot21sft02GatewayListGatewayDetail",
+        "desc": "",
+        "icon": "",
+        "imageUri": "",
+        "uuEccReady": false,
+        "template": "<UunBiot21sft02.Gateway.List.GatewayDetail />"
+      },
+      {
+        "code": "UunBiot21sft02.Gateway.List.GatewayEditForm",
+        "name": "GatewayEditForm",
+        "tagList": [
+          "UunBiot21sft02",
+          "Gateway",
+          "List",
+          "GatewayEditForm"
+        ],
+        "docCode": "UunBiot21sft02GatewayListGatewayEditForm",
+        "desc": "",
+        "icon": "",
+        "imageUri": "",
+        "uuEccReady": false,
+        "template": "<UunBiot21sft02.Gateway.List.GatewayEditForm />"
+      },
+      {
+        "code": "UunBiot21sft02.Gateway.List.Context.UseGateways",
+        "name": "UseGateways",
+        "tagList": [
+          "UunBiot21sft02",
+          "Gateway",
+          "List",
+          "Context",
+          "UseGateways"
+        ],
+        "docCode": "UunBiot21sft02GatewayListContextUseGateways",
+        "desc": "",
+        "icon": "",
+        "imageUri": "",
+        "uuEccReady": false,
+        "template": "<UunBiot21sft02.Gateway.List.Context.UseGateways />"
+      }
+    ]
   }
 }

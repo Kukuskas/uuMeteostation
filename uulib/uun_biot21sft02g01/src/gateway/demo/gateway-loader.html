@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UunBiot21sft02.Gateway.GatewayLoader Demo</title>
+
+    <script>
+      if (!location.href.match(/^(about:|file:)/)) {
+        var bplCookie = document.cookie.match(/(^|;\s*)uu\.app\.bpl=([^;]+)/);
+        var bplSegmentCount = (bplCookie ? Number(bplCookie[2]) : null);
+        if (typeof bplSegmentCount !== "number" || isNaN(bplSegmentCount) || bplSegmentCount < 0) bplSegmentCount = 2;
+        var appBaseUrlPath = (location.pathname.split(/\//).slice(0,1+bplSegmentCount).join("/")+"/").replace(/\/+/g,"/").replace(/"/g,"");
+        var appAssetsRelativeUrlPath = "public/1.0.0/";
+        document.write('<base href="' + appBaseUrlPath + appAssetsRelativeUrlPath + '" data-uu-app-base="' + appBaseUrlPath + '" data-uu-app-assets-base="' + appAssetsRelativeUrlPath + '">');
+      }
+    </script>
+
+    <script src="https://cdn.plus4u.net/libs/systemjs/0.19.47/system.js" crossorigin="anonymous"></script>
+    <script>
+      SystemJS.config({
+        "paths": {
+          "react": "https://cdn.plus4u.net/libs/react/16.13.1/react.js",
+          "react-dom": "https://cdn.plus4u.net/libs/react-dom/16.13.1/react-dom.js",
+          "create-react-class": "https://cdn.plus4u.net/libs/create-react-class/15.6.3/create-react-class.js",
+          "prop-types": "https://cdn.plus4u.net/libs/prop-types/15.7.2/prop-types.js",
+
+          "uu5g04": "https://cdn.plus4u.net/uu-uu5g04/1.0.0/uu5g04.js",
+          "uu5g04-bricks": "https://cdn.plus4u.net/uu-uu5g04/1.0.0/uu5g04-bricks.js",
+          "uu5g04-forms": "https://cdn.plus4u.net/uu-uu5g04/1.0.0/uu5g04-forms.js",
+          "uu5g04-hooks": "https://cdn.plus4u.net/uu-uu5g04/1.0.0/uu5g04-hooks.js",
+
+          "uu_appg01_core": "https://cdn.plus4u.net/uu-appg01-core/4.0.0/uu_appg01_core.js",
+          "uu_appg01": "https://cdn.plus4u.net/uu-appg01/4.0.0/uu_appg01.js",
+          "uu_appg01_oidc": "https://cdn.plus4u.net/uu-appg01-oidc/2.0.0/uu_appg01_oidc.js",
+
+          "uu_plus4u5g01": "https://cdn.plus4u.net/uu-plus4u5g01/4.0.0/uu_plus4u5g01.js",
+          "uu_plus4u5g01-bricks": "https://cdn.plus4u.net/uu-plus4u5g01/4.0.0/uu_plus4u5g01-bricks.js",
+          "uu_plus4u5g01-app": "https://cdn.plus4u.net/uu-plus4u5g01/4.0.0/uu_plus4u5g01-app.js",
+
+          "uun_biot21sft02g01": "/uun_biot21sft02g01.js",
+        }
+      });
+    </script>
+  </head>
+  <body>
+    <div id="renderHere"></div>
+
+    <script src="https://cdn.plus4u.net/uu-app-templateg01/1.0.0/in-browser-transpilation.js" crossorigin="anonymous"></script>
+    <script type="text/babel">
+      import UU5 from "uu5g04";
+      import "uu5g04-bricks";
+      import { createComponent } from "uu5g04-hooks";
+      import UunBiot21sft02 from "uun_biot21sft02g01";
+
+      const Page = createComponent({
+        render() {
+          return (
+            <UU5.Bricks.Container header="UunBiot21sft02.Gateway.GatewayLoader Demo">
+              <UunBiot21sft02.Gateway.GatewayLoader />
+            </UU5.Bricks.Container>
+          );
+        }
+      });
+
+      UU5.Common.DOM.render(<Page />, document.getElementById("renderHere"));
+    </script>
+  </body>
+</html>

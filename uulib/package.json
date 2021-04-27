@@ -1,11 +1,11 @@
 {
   "name": "uun_biot21sft02g01",
-  "version": "0.1.0",
+  "version": "0.1.0-beta",
   "private": true,
   "workspaces": [
     "uun_biot21sft02g01"
   ],
-  "description": "",
+  "description": "uuWeatherStation for school project BIOT21SFT02",
   "license": "License Commercial",
   "spec": "nodejs-multi; uu_appg01_devkit@4.0.1",
   "dependencies": {},

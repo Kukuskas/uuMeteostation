@@ -1,7 +1,7 @@
 {
   "name": "uun_biot21sft02g01",
-  "version": "0.1.0",
-  "description": "",
+  "version": "0.1.0-beta",
+  "description": "uuWeatherStation for school project BIOT21SFT02",
   "license": "License Commercial",
   "namespace": "UunBiot21sft02",
   "spec": "uu5-lib; uu_appg01_devkit@4.0.1",
