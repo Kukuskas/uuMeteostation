@@ -46,20 +46,48 @@ export const GatewayDetail = createComponent({
 
     return (
       <>
-        <UU5.Bricks.Card  colorSchema={props.colorSchema} >
-          <UU5.Bricks.Button content="Edit" onClick={() => {
-            onEdit(props.gateway);
-          }}/>
-          <UU5.Bricks.Button content="Delete" onClick={() => {
-            onDelete(props.gateway.id);
-          }}/>
-          <UU5.Bricks.Section onClick={() => {
-            onDetail(props.gateway);
-          }}>
-            <UU5.Bricks.Section content={<UU5.Bricks.Lsi lsi={props.gateway.name} />} />
-            <UU5.Bricks.Text content={<UU5.Bricks.Lsi lsi={props.gateway.location} />} />
-            <UU5.Bricks.Text content={props.gateway.current} />
-          </UU5.Bricks.Section>
+        <UU5.Bricks.Card colorSchema={props.colorSchema}>
+          <UU5.Bricks.Box display="flex">
+
+                <UU5.Bricks.Button
+                  content="Edit"
+                  onClick={() => {
+                    props.onUpdate(props.gateway);
+                  }}
+                />
+
+
+                <UU5.Bricks.Button
+                  content="Delete"
+                  onClick={() => {
+                    props.onDelete(props.gateway.id, props.gateway.name);
+                  }}
+                />
+
+                <UU5.Bricks.Button
+                  content="Info"
+                  onClick={() => {
+                    props.onDetail(props.gateway.id);
+                  }}
+                />
+
+          </UU5.Bricks.Box>
+          <UU5.Bricks.Box display="flex">
+            <UU5.Bricks.Row>
+              <UU5.Bricks.Column colWidth="s-3 s-5" content={"Název:"} />
+              <UU5.Bricks.Column colWidth="s-3 s-5" content={props.gateway.name} />
+            </UU5.Bricks.Row>
+            <br />
+            <UU5.Bricks.Row>
+              <UU5.Bricks.Column colWidth="s-3 s-5" content={"Umístění:"} />
+              <UU5.Bricks.Column colWidth="s-3 s-5" content={props.gateway.location} />
+            </UU5.Bricks.Row>
+            <br />
+            <UU5.Bricks.Row>
+              <UU5.Bricks.Column colWidth="s-3 s-5" content={"Teplota:"} />
+              <UU5.Bricks.Column colWidth="s-3 s-5" content={props.gateway.current.temperature} />
+            </UU5.Bricks.Row>
+          </UU5.Bricks.Box>
         </UU5.Bricks.Card>
       </>
     );

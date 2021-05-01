@@ -6,7 +6,10 @@
   "namespace": "UunBiot21sft02",
   "spec": "uu5-lib; uu_appg01_devkit@4.0.1",
   "dependencies": {
-    "uu5g04": "^1.19.0"
+    "uu5g04": "^1.19.0",
+    "uu5tilesg01": "^3.6.1",
+    "uu5tilesg02": "^1.10.1",
+    "uu_pg01": "^3.8.2"
   },
   "uuBuildSettings": {
     "externals": {}

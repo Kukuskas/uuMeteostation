@@ -38,10 +38,8 @@ export const GatewaysLoader = createComponent({
     async function handleLoad(dtoIn) {
       return await Calls.gatewaysList(baseUri, dtoIn);
     }
-    //@@viewOff:handlers
 
-    //@@viewOn:interface
-    //@@viewOff:interface
+    //@@viewOff:handlers
 
     //@@viewOn:private
     //@@viewOff:private

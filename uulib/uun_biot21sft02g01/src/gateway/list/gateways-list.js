@@ -3,6 +3,7 @@ import UU5 from "uu5g04";
 import { createComponent } from "uu5g04-hooks";
 import Config from "./config/config";
 import GatewayDetail from "./gateway-detail";
+import Uu5Tiles from "uu5tilesg02";
 //@@viewOff:imports
 
 const STATICS = {
@@ -40,19 +41,21 @@ export const GatewaysList = createComponent({
     //@@viewOff:interface
 
     //@@viewOn:render
-    function renderItem(item) {
-      return (
-        <GatewayDetail
-          gateway={item.data.data}
-          onDetail={onDetail}
-          onUpdate={onUpdate}
-          onDelete={onDelete}
-        />
+      function renderItem(item) {
+        return (
+        // <div>Helloworld</div>
+          <GatewayDetail
+            gateway={item.data}
+            onDetail={props.onDetail}
+            onUpdate={props.onUpdate}
+            onDelete={props.onDelete}
+          />
       );
     }
 
 
     return (
+      // <>hello GatewayList</>
       <>
       {/* <GatewayCreateForm
       // shown={showCreateModal}
