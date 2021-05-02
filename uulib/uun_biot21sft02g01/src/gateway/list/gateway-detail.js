@@ -39,7 +39,7 @@ export const GatewayDetail = createComponent({
     //@@viewOff:interface
 
     //@@viewOn:render
-
+console.log(props);
     if (!props.gateway) {
       return null;
     }

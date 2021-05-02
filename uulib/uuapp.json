@@ -224,6 +224,22 @@
         "imageUri": "",
         "uuEccReady": false,
         "template": "<UunBiot21sft02.Gateway.List.Context.UseGateways />"
+      },
+      {
+        "code": "UunBiot21sft02.Gateway.List.Gateways",
+        "name": "Gateways",
+        "tagList": [
+          "UunBiot21sft02",
+          "Gateway",
+          "List",
+          "Gateways"
+        ],
+        "docCode": "UunBiot21sft02GatewayListGateways",
+        "desc": "",
+        "icon": "",
+        "imageUri": "",
+        "uuEccReady": false,
+        "template": "<UunBiot21sft02.Gateway.List.Gateways />"
       }
     ]
   }

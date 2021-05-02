@@ -1,30 +1,32 @@
 //@@viewOn:imports
 import UU5 from "uu5g04";
 import { createComponent } from "uu5g04-hooks";
+import "uu_plus4u5g01-bricks";
+
 import Config from "./config/config";
 import DataPending from "./data-pending";
 import DataError from "./data-error";
 import Lsi from "./error-lsi";
 //@@viewOff:imports
 
-const STATICS = {
-  //@@viewOn:statics
+export const DataListStateResolver = createComponent({
   displayName: Config.TAG + "DataListStateResolver",
   //@@viewOff:statics
-};
-
-export const DataListStateResolver = createComponent({
-  ...STATICS,
 
   //@@viewOn:propTypes
-  propTypes: {},
+  propTypes: {
+    dataList: UU5.PropTypes.object,
+  },
   //@@viewOff:propTypes
 
   //@@viewOn:defaultProps
-  defaultProps: {},
-  //@@viewOff:defaultProps
+  defaultProps: {
+    dataList: {},
+  },
 
-  render(props) { let child = null;
+  render(props) {
+    console.log(props);
+    let child = null;
     switch (props.dataList.state) {
       case "ready":
       case "error":

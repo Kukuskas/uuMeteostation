@@ -29,6 +29,7 @@ export const GatewaysLoader = createComponent({
     const gatewaysList = useDataList({
       handlerMap: {
         load: handleLoad,
+        create: handleCreate,
       },
       initialDtoIn: {},
     });

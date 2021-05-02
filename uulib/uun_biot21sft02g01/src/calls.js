@@ -36,7 +36,7 @@ let Calls = {
   gatewaysList(baseUri, dtoIn) {
     // let commandUri = Calls.getCommandUri("gateways/list", baseUri);
     // return Calls.call("get", commandUri, dtoIn);
-    return {
+    return ({
       "itemList": [
         {
           "code": "gw01",
@@ -126,7 +126,7 @@ let Calls = {
         "total": 3
       },
       "uuAppErrorMap": {}
-    }
+    })
   },
 
   loadDemoContent(dtoIn) {
