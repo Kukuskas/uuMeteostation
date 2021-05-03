@@ -68,6 +68,10 @@
       "gateway/logMessage": {
         "sysStateList": ["active"],
         "profileList": ["Gateways"]
+      },
+      "uuAppInstance/load": {
+        "sysStateList": ["active"],
+        "profileList": ["Authorities","AwidOwner","Gateways","Auditors","Public"]
       }
     }
   }

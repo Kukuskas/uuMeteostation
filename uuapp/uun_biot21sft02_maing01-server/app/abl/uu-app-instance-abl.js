@@ -19,6 +19,11 @@ const WARNINGS = {
       code: `${Errors.Init.UC_CODE}applicationIsAlreadyConnected`,
       message: "Awsc already exists."
     }
+  },
+  load: {
+    unsupportedKeys: {
+      code: `${Errors.Load.UC_CODE}unsupportedKeys`,
+    }
   }
 };
 
@@ -180,7 +185,44 @@ class UuAppInstanceAbl {
     };
   }
 
+  async load(awid, dtoIn, authorizationResult) {
+    // 1
+    let uuAppInstance = await this.checkAndGet(
+      awid,
+      Errors.Load.UuAppInstanceDoesNotExist,
+      ["active", "restricted"],
+      Errors.Load.UuAppInstanceIsNotInCorrectState
+    );
 
+    // 2
+    let validationResult = this.validator.validate("uuAppInstanceLoadDtoInType", dtoIn);
+    let uuAppErrorMap = ValidationHelper.processValidationResult(
+      dtoIn,
+      validationResult,
+      WARNINGS.load.unsupportedKeys.code,
+      Errors.Load.InvalidDtoIn
+    );
+
+    // 3
+    const workspace = await UuAppWorkspace.get(awid);
+
+    // 4
+    if (!this.isAuthority(authorizationResult)) {
+      delete uuAppInstance.externalResources;
+    }
+
+    // 5
+    const authorizedProfilesList = authorizationResult.getAuthorizedProfiles();
+
+    // 6
+    let dtoOut = {
+      uuAppInstance,
+      authorizedProfilesList,
+      workspace,
+      uuAppErrorMap
+    };
+    return dtoOut;
+  }
 
   async checkAndGet(awid, notExistError, allowedStates = null, incorrectStateError = null, dtoOut = {}, ) {
     let uuAppInstance = await this.dao.getByAwid(awid);

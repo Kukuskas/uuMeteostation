@@ -80,6 +80,11 @@
         "realization": "api/controllers/GatewayController.logMessage",
         "httpMethod": "POST",
         "type": "CMD"
+      },
+      "uuAppInstance/load": {
+        "realization": "api/controllers/UuAppInstanceController.load",
+        "httpMethod": "GET",
+        "type": "CMD"
       }
     }
   }
