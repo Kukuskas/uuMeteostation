@@ -1,4 +1,9 @@
 import UU5 from "uu5g04";
+import * as Gateway from "./gateway/gateway.js";
+export { Gateway };
+import * as Core from "./core/core.js";
+export { Core };
+export default { Gateway, Core };
 
 if (process.env.NODE_ENV !== "test") {
   console.log(
