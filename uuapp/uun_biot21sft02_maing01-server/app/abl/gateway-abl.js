@@ -91,7 +91,6 @@ class GatewayAbl {
       name: "",
       location: null
     }
-    console.log({ defaults })
     dtoIn = defaultsDeep(dtoIn, defaults);
 
 

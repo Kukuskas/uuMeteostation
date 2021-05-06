@@ -1,6 +1,6 @@
 const { TestHelper } = require("uu_appg01_server-test");
 const calls = require("./calls.js");
-const { uuAppInstance } = require("../calls.js");
+const { uuAppInstance, dataset } = require("../calls.js");
 
 beforeAll(async () => {
   await TestHelper.setup();
@@ -115,3 +115,33 @@ describe("Testing gateway/create AS CodeIsNotUnique", () => {
 });
 
 describe("Testing gateway/create AS UuEeIsNotUnique", () => { })
+test("AS - UuEeIsNotUnique", async () => {
+  expect.hasAssertions();
+
+  const dtoIn1 = {
+    uuEe: "9-1",
+    code: "gw1"
+  };
+
+  const dtoIn2 = {
+    uuEe: "9-1",
+    code: "gw2"
+  };
+
+  const errorParams2 = {
+    awid: TestHelper.getAwid(),
+    uuEe: dtoIn2.uuEe
+  };
+
+  await calls.create(dtoIn1);
+
+  try {
+    await calls.create(dtoIn2);
+  } catch (e) {
+    expect(e.status).toBe(400);
+    expect(e.dtoOut).toHaveProperty(["uuAppErrorMap"]);
+    expect(e.uuEe).toBe("uun-biot21sft02-main/gateway/create/uuEeIsNotUnique");
+    expect(e.message).toBe("Gateway with this uuEe already exists.");
+    expect(e.paramMap).toEqual(errorParams2);
+  }
+});
