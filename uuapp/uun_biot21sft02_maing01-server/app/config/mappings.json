@@ -85,6 +85,11 @@
         "realization": "api/controllers/UuAppInstanceController.load",
         "httpMethod": "GET",
         "type": "CMD"
+      },
+      "uuAppInstance/scheduleScripts": {
+        "realization": "api/controllers/UuAppInstanceController.scheduleScripts",
+        "httpMethod": "POST",
+        "type": "CMD"
       }
     }
   }

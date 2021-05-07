@@ -6,6 +6,7 @@
   "spec": "nodejs-app; uu_appg01_devkit@4.0.1",
   "dependencies": {
     "crypto-random-string": "^1.0.0",
+    "lodash.clonedeep": "^4.5.0",
     "lodash.defaultsdeep": "^4.6.1",
     "moment-timezone": "^0.5.33",
     "uu_appg01_server": "^5.0.0",

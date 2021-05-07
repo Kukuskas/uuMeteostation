@@ -72,6 +72,10 @@
       "uuAppInstance/load": {
         "sysStateList": ["active"],
         "profileList": ["Authorities","AwidOwner","Gateways","Auditors","Public"]
+      },
+      "uuAppInstance/scheduleScripts": {
+        "sysStateList": ["active"],
+        "profileList": ["AwidOwner","Authorities"]
       }
     }
   }

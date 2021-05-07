@@ -22,3 +22,24 @@ const initDtoInType = shape({
 });
 
 const uuAppInstanceLoadDtoInType = shape({});
+
+const uuAppInstanceScheduleScriptsDtoInType = shape({
+  uuConsoleUri: uri(),
+  uuScriptEngineUri: uri(),
+  uuConsoleCode: code(),
+  authorizationUriMap: shape({
+    Authorities: uri(),
+    Writers: uri(),
+    Readers: uri()
+  }),
+  scripts: map(
+    oneOf(["aggregate","trim","checkGateway"]),
+    shape({
+      scriptUri: uri().isRequired(),
+      cron: cronExpression(),
+      progressCode: code()
+    })
+  ),
+  removeExisting: boolean(),
+  rescheduleScripts: boolean()
+});
