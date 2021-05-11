@@ -56,6 +56,11 @@ const WARNINGS = {
       message: "Script cancel failed.",
     },
   },
+  scriptCallback: {
+    unsupportedKeys: {
+      code: `${Errors.ScriptCallback.UC_CODE}unsupportedKeys`,
+    },
+  },
 };
 
 const SCRIPTS = ["aggregate", "trim", "checkGateway"];
@@ -673,6 +678,49 @@ class UuAppInstanceAbl {
     }
 
     // 10
+    let dtoOut = {
+      ...uuAppInstance,
+      uuAppErrorMap,
+    };
+    return dtoOut;
+  }
+
+  async scriptCallback(awid, dtoIn) {
+    // 1
+    let uuAppInstance = await this.checkAndGet(
+      awid,
+      Errors.ScriptCallback.UuAppInstanceDoesNotExist,
+      ["active", "restricted"],
+      Errors.ScriptCallback.UuAppInstanceIsNotInCorrectState
+    );
+
+    // 2
+    let validationResult = this.validator.validate("uuAppInstanceScriptCallbackDtoInType", dtoIn);
+    let uuAppErrorMap = ValidationHelper.processValidationResult(
+      dtoIn,
+      validationResult,
+      WARNINGS.scriptCallback.unsupportedKeys.code,
+      Errors.ScriptCallback.InvalidDtoIn
+    );
+
+    // 3
+    const script = dtoIn.sysScript.callbackData.script;
+
+    // 4
+    uuAppInstance.externalResources.scripts[script].lastDtoOut = dtoIn;
+    uuAppInstance.externalResources.scripts[script].lastCallback = new Date().toISOString();
+
+    // 5
+    try {
+      uuAppInstance = await this.dao.update(uuAppInstance);
+    } catch (e) {
+      if (e instanceof ObjectStoreError) {
+        throw new Errors.ScriptCallback.UuAppInstanceDaoUpdateFailed({ uuAppErrorMap }, e);
+      }
+      throw e;
+    }
+
+    // 6
     let dtoOut = {
       ...uuAppInstance,
       uuAppErrorMap,

@@ -18,6 +18,10 @@ class UuAppInstanceController {
       ucEnv.getSession()
     );
   }
+
+  scriptCallback(ucEnv) {
+    return UuAppInstanceAbl.scriptCallback(ucEnv.getUri().getAwid(), ucEnv.getDtoIn());
+  }
 }
 
 module.exports = new UuAppInstanceController();

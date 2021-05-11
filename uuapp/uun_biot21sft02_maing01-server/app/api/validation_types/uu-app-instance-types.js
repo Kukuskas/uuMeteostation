@@ -43,3 +43,17 @@ const uuAppInstanceScheduleScriptsDtoInType = shape({
   removeExisting: boolean(),
   rescheduleScripts: boolean()
 });
+
+const uuAppInstanceScriptCallbackDtoInType = shape({
+  sysScript: shape({
+    scriptEngineBaseUri: uri().isRequired(),
+    scriptRunId: id().isRequired(),
+    scriptRepeatedRunId: id(),
+    scriptUri: uri(),
+    scriptRunState: oneOf(["COMPLETED", "FAILED", "CANCELED"]),
+    callbackData: shape({
+      script: oneOf(["aggregate", "checkGateway", "trim"])
+    }, true, 2000).isRequired()
+  }),
+  uuAppErrorMap: shape({}, true)
+}, true);

@@ -186,8 +186,46 @@ const ScheduleScripts = {
   },
 };
 
+const ScriptCallback = {
+  UC_CODE: `${UU_APP_INSTANCE_ERROR_PREFIX}scriptCallback/`,
+  
+  UuAppInstanceDoesNotExist: class extends Biot21sft02UseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${ScriptCallback.UC_CODE}uuAppInstanceDoesNotExist`;
+      this.message = "UuAppInstance does not exist.";
+    }
+  },
+
+  UuAppInstanceIsNotInCorrectState: class extends Biot21sft02UseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${ScriptCallback.UC_CODE}uuAppInstanceIsNotInCorrectState`;
+      this.message = "UuAppInstance is not in correct state.";
+    }
+  },
+
+  InvalidDtoIn: class extends Biot21sft02UseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${ScriptCallback.UC_CODE}invalidDtoIn`;
+      this.message = "DtoIn is not valid.";
+    }
+  },
+
+  UuAppInstanceDaoUpdateFailed: class extends Biot21sft02UseCaseError {
+    constructor() {
+      super(...arguments);
+      this.status = 500;
+      this.code = `${ScriptCallback.UC_CODE}uuAppInstanceDaoUpdateFailed`;
+      this.message = "Failed to update uuAppInstance uuObject.";
+    }
+  },
+};
+
 module.exports = {
   Init,
   Load,
   ScheduleScripts,
+  ScriptCallback,
 };

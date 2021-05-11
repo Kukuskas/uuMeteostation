@@ -76,6 +76,10 @@
       "uuAppInstance/scheduleScripts": {
         "sysStateList": ["active"],
         "profileList": ["AwidOwner","Authorities"]
+      },
+      "uuAppInstance/scriptCallback": {
+        "sysStateList": ["active"],
+        "profileList": ["Authorities","AwidOwner"]
       }
     }
   }

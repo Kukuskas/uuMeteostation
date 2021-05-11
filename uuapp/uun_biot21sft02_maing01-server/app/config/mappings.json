@@ -90,6 +90,11 @@
         "realization": "api/controllers/UuAppInstanceController.scheduleScripts",
         "httpMethod": "POST",
         "type": "CMD"
+      },
+      "uuAppInstance/scriptCallback": {
+        "realization": "api/controllers/UuAppInstanceController.scriptCallback",
+        "httpMethod": "POST",
+        "type": "CMD"
       }
     }
   }
