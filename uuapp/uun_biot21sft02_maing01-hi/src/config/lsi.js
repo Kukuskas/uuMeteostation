@@ -146,6 +146,31 @@ const Lsi = {
       en: "The application is not connected to a Business Territory",
     },
   },
+
+  header: {
+    en: "New gateway",
+    cs: "Přidat gateway"
+  },
+  name: {
+    en: "Name",
+    cs: "Název"
+  },
+  location: {
+    en: "location",
+    cs: "lokace"
+  },
+  code: {
+    en: "gateway code",
+    cs: "kód gateway"
+  },
+  uuEEuuId: {
+    en: "uuId of the uuEE worker",
+    cs: "uuId pracovníka uuEE"
+  },
+  submit: {
+    en: "Save",
+    cs: "Uložit"
+  }
 };
 
 export default Lsi;

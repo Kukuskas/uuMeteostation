@@ -62,6 +62,7 @@ export const Gateways = createComponent({
       onSave={handleCreateGateway}
       onCancel={handleCloseGatewayCreateForm}!!!!!!!!!!!!!!!!!!
     /> */}
+    <UU5.Bricks.Button content="add new gateway" onClick={}></UU5.Bricks.Button>
       <Uu5Tiles.ControllerProvider data={props.gatewaysList}>
       {/* <Uu5Tiles.ActionBar actions={actionList} /> */}
       <Uu5Tiles.Grid tileHeight="auto" tileMinWidth={200} tileMaxWidth={300} tileSpacing={8} rowSpacing={8}>
