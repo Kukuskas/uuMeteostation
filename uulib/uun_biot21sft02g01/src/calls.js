@@ -129,6 +129,11 @@ let Calls = {
     // })
   },
 
+  gatewayGet(baseUri, dtoIn) {
+    let commandUri = Calls.getCommandUri("gateway/get", baseUri);
+    return Calls.call("get", commandUri, dtoIn);
+  },
+
   loadDemoContent(dtoIn) {
     let commandUri = Calls.getCommandUri("loadDemoContent");
     return Calls.call("get", commandUri, dtoIn);
