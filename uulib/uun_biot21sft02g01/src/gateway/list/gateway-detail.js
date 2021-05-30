@@ -52,20 +52,7 @@ console.log(props);
 
           <GatewayEditForm></GatewayEditForm>
 
-
-                <UU5.Bricks.Button
-                  content="Delete"
-                  onClick={() => {
-                    props.onDelete(props.gateway.id, props.gateway.name);
-                  }}
-                />
-
-                <UU5.Bricks.Button
-                  content="Info"
-                  onClick={() => {
-                    props.onDetail(props.gateway.id);
-                  }}
-                />
+                
 
           </UU5.Bricks.Box>
           <UU5.Bricks.Box display="flex">

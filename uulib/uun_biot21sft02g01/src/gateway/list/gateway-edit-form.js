@@ -43,12 +43,13 @@ export const GatewayEditForm = createComponent({
     >
       <UU5.Forms.Form
         onSave={(opt) => alert(`opt.values:\n${JSON.stringify(opt.values, null, 2)}`)}
-        header={<UU5.Bricks.Box content='' colorSchema='green' className='font-size-m' />}
-        footer={<UU5.Bricks.Box content='' colorSchema='green' className='font-size-xs' />}>
+        header={<UU5.Bricks.Box content='' className='font-size-m' />}
+        footer={<UU5.Bricks.Box content='' className='font-size-xs' />}>
         <UU5.Forms.Text name="name" label="Name" placeholder=""  />
         <UU5.Forms.Text name="location" label="Location" placeholder=""  />
         <UU5.Forms.Text name="code" label="Code" placeholder=""  />
         <UU5.Forms.Text name="uuEEuuID" label="uuID of uuEE worker" placeholder=""  />
+        <UU5.Forms.Text name="state" label="State" placeholder=""  />
       </UU5.Forms.Form>
     </UU5.Forms.ContextForm>
     )
@@ -86,13 +87,24 @@ export const GatewayEditForm = createComponent({
         <UU5.Forms.ContextModal ref_={modal => GatewayEditForm.modal = modal} />
         <UU5.Bricks.Button
                   content="Edit"
-                  colorSchema='green'
-                  style="align:center;"
                   onClick={() => GatewayEditForm.modal.open({
                     header: GatewayEditForm.getHeader(),
                     content: GatewayEditForm.getForm(),
                     footer: GatewayEditForm.getControls()
                    })}
+                />
+                <UU5.Bricks.Button
+                  content="Delete"
+                  onClick={() => {
+                    props.onDelete(props.gateway.id, props.gateway.name);
+                  }}
+                />
+
+                <UU5.Bricks.Button
+                  content="Info"
+                  onClick={() => {
+                    props.onDetail(props.gateway.id);
+                  }}
                 />
      </UU5.Bricks.Container>
     ) : null;
