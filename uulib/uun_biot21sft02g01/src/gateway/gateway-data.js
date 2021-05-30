@@ -8,6 +8,7 @@ import "uu5g04-bricks";
 import { useGateway } from "./context/context";
 import DataListStateResolver from "../core/data-list-state-resolver";
 import DataObjectStateResolver from "../core/data-object-state-resolver";
+// import Graph from "./data-set/graph"
 import Config from "./config/config";
 
 //@@viewOff:imports
@@ -47,7 +48,9 @@ export const GatewayData = createVisualComponent({
     //@@viewOff:handlers
 
       return (
-<>"hello world"</>
+<>
+{/* <Graph></Graph> */}
+</>
   )
     //@@viewOff:render
 },

@@ -317,6 +317,22 @@
         "imageUri": "",
         "uuEccReady": false,
         "template": "<UunBiot21sft02.Gateway.DataSet.DataSet />"
+      },
+      {
+        "code": "UunBiot21sft02.Gateway.DataSet.Graph",
+        "name": "Graph",
+        "tagList": [
+          "UunBiot21sft02",
+          "Gateway",
+          "DataSet",
+          "Graph"
+        ],
+        "docCode": "UunBiot21sft02GatewayDataSetGraph",
+        "desc": "",
+        "icon": "",
+        "imageUri": "",
+        "uuEccReady": false,
+        "template": "<UunBiot21sft02.Gateway.DataSet.Graph />"
       }
     ]
   }
