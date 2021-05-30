@@ -2,6 +2,7 @@
 import UU5 from "uu5g04";
 import { createComponent } from "uu5g04-hooks";
 import Config from "./config/config";
+import GatewayEditForm from "./gateway-edit-form";
 //@@viewOff:imports
 
 const STATICS = {
@@ -49,12 +50,7 @@ console.log(props);
         <UU5.Bricks.Card colorSchema={props.colorSchema}>
           <UU5.Bricks.Box display="flex">
 
-                <UU5.Bricks.Button
-                  content="Edit"
-                  onClick={() => {
-                    props.onUpdate(props.gateway);
-                  }}
-                />
+          <GatewayEditForm></GatewayEditForm>
 
 
                 <UU5.Bricks.Button
