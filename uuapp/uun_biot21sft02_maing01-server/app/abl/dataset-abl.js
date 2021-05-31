@@ -317,6 +317,9 @@ class DatasetAbl {
     let expectedStart = moment.tz(this._getStartDate(dtoIn.startDate, dtoIn.type), gateway.timezone);
     let expectedEnd = moment.tz(this._getEndDate(dtoIn.startDate, dtoIn.type), gateway.timezone);
 
+    let startMoment = moment.tz(dtoIn.startDate, gateway.timezone);
+    let endMoment = moment.tz(dtoIn.endDate, gateway.timezone);
+
     if (!expectedStart.isSame(startMoment) || !expectedEnd.isSame(endMoment)) {
       throw new Errors.PostAggregatedData.InvalidDateBoundaries(
         { uuAppErrorMap },
