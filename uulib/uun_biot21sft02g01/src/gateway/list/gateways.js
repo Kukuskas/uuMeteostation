@@ -3,7 +3,8 @@ import UU5 from "uu5g04";
 import { createComponent } from "uu5g04-hooks";
 import Config from "./config/config";
 import GatewayDetail from "./gateway-detail";
-import Uu5Tiles from "uu5tilesg02";
+import Uu5Tiles, { List } from "uu5tilesg02";
+import GatewayCreateForm from "./gateway-create-form";
 //@@viewOff:imports
 
 const STATICS = {
@@ -62,6 +63,7 @@ export const Gateways = createComponent({
       onSave={handleCreateGateway}
       onCancel={handleCloseGatewayCreateForm}!!!!!!!!!!!!!!!!!!
     /> */}
+            <GatewayCreateForm></GatewayCreateForm>
       <Uu5Tiles.ControllerProvider data={props.gatewaysList}>
       {/* <Uu5Tiles.ActionBar actions={actionList} /> */}
       <Uu5Tiles.Grid tileHeight="auto" tileMinWidth={200} tileMaxWidth={300} tileSpacing={8} rowSpacing={8}>
