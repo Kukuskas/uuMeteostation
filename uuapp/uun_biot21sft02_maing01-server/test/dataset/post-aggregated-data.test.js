@@ -12,7 +12,7 @@ let gateway
 beforeEach(async () => {
   await TestHelper.dropDatabase();
   await TestHelper.prepareApp(uuAppInstance.defaults.init);
-  const gatewayCreateDtoIn = { uuEe: "25-8074-1" }
+  const gatewayCreateDtoIn = { uuEe: "25-8074-1", timezone: "UTC" };
   gateway = removeProps(await gatewayCalls.create(gatewayCreateDtoIn), ["uuAppErrorMap"]);
 });
 
