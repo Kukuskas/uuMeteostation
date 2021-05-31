@@ -51,8 +51,6 @@ const GatewaysList = createVisualComponent({
     //@@viewOn:hooks
     // let gatewaysDataList = useGateways();
     let gatewaysDataList = useGateways();
-    console.log("000000000000000000000000000000000");
-    console.log(gatewaysDataList);
     let gatewaysList = gatewaysDataList.data;
 
     //@@viewOff:hooks

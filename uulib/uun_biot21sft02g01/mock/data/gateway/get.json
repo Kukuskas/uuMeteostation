@@ -11,12 +11,12 @@
         "timestamp": "2021-05-01T19:50:00+02:00"
     },
     "min": {
-        "temperature": null,
-        "humidity": null
+        "temperature": 10,
+        "humidity": 50
     },
     "max": {
-        "temperature": null,
-        "humidity": null
+        "temperature": 26,
+        "humidity": 86
     },
     "sys": {
         "cts": "2021-04-17T13:22:10.797Z",

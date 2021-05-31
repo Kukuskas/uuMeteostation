@@ -43,8 +43,8 @@ export const Data = createVisualComponent({
   //@@viewOff:defaultProps
 
   render(props) {
-
-
+let gatewayId = "607ae102ce50a00027c742fc"
+let gatewayCode = "gwmnpbout1"
       return (
      <UuP.Bricks.ComponentWrapper
     colorSchema={props.colorSchema}
@@ -54,7 +54,7 @@ export const Data = createVisualComponent({
     // header={<UU5.Bricks.Lsi lsi={Lsi.listHeader} />}
     // help={<UU5.Bricks.Lsi lsi={Lsi.listHelp} params={[Config.SQUARE_DOC]} />}
    >  
-      <GatewayLoader>
+      <GatewayLoader id={gatewayId} code={gatewayCode}>
         <GatewayData/>
       </GatewayLoader>
       
