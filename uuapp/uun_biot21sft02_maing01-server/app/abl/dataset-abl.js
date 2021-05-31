@@ -243,22 +243,8 @@ class DatasetAbl {
     }
 
     // 5
-    switch (dtoIn.type) {
-      case "weekly": {
-        dtoIn.startDate = moment(dtoIn.startDate).startOf("year").subtract(7, "day").format("YYYY-MM-DD");
-        dtoIn.endDate = moment(dtoIn.endDate).endOf("year").add(7, "day").format("YYYY-MM-DD");
-        break;
-      }
-      case ("daily", "monthly"): {
-        dtoIn.startDate = moment(dtoIn.startDate).startOf("year").format("YYYY-MM-DD");
-        dtoIn.endDate = moment(dtoIn.endDate).endOf("year").format("YYYY-MM-DD");
-        break;
-      }
-      case ("detailed", "hourly"):
-      default: {
-        break;
-      }
-    }
+    dtoIn.startDate = this._getStartDate(dtoIn.startDate, dtoIn.type);
+    dtoIn.endDate = this._getEndDate(dtoIn.endDate, dtoIn.type);
 
     // 6
     let dtoOut = this.dao.listByTypeAndDateRange(
@@ -335,25 +321,8 @@ class DatasetAbl {
 
     // 4
     // 4.1
-    const startMoment = moment(dtoIn.startDate);
-    const endMoment = moment(dtoIn.endDate);
-    let expectedStart;
-    let expectedEnd;
-    switch (dtoIn.type) {
-      case "weekly":
-        expectedStart = startMoment.clone().isoWeek(1).startOf("isoWeek");
-        expectedEnd = startMoment.clone().isoWeek(expectedStart.isoWeeksInISOWeekYear()).endOf("isoWeek");
-        break;
-      case ("monthly", "daily"):
-        expectedStart = startMoment.clone().startOf("year");
-        expectedEnd = startMoment.clone().endOf("year");
-        break;
-      case "hourly":
-      default:
-        expectedStart = startMoment.clone();
-        expectedEnd = startMoment.clone();
-        break;
-    }
+    let expectedStart = moment.tz(this._getStartDate(dtoIn.startDate, dtoIn.type), gateway.timezone);
+    let expectedEnd = moment.tz(this._getEndDate(dtoIn.startDate, dtoIn.type), gateway.timezone);
 
     if (!expectedStart.isSame(startMoment) || !expectedEnd.isSame(endMoment)) {
       throw new Errors.PostAggregatedData.InvalidDateBoundaries(
@@ -370,7 +339,7 @@ class DatasetAbl {
 
     // 4.2
     dtoIn.data.forEach((entry) => {
-      const tsMoment = moment(entry.timestamp);
+      const tsMoment = moment.tz(entry.timestamp, gateway.timezone);
       if (!moment(tsMoment).isBetween(startMoment, endMoment, "day", "[]")) {
         throw new Errors.PostAggregatedData.InvalidDataEntryTime(
           { uuAppErrorMap },
