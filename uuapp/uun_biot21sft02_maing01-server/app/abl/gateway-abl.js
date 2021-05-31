@@ -397,12 +397,26 @@ class GatewayAbl {
     }
 
     // 5
-    const receivedDateString = dtoIn.data[0].timestamp;
-    const datasetDate = strToDate(receivedDateString);
+    dtoIn.data = dtoIn.data.map((entry) => {
+      entry.moment = moment.tz(entry.timestamp, gateway.timezone);
+      return entry;
+    });
+    const receivedDateMoment = dtoIn.data[0].moment.clone().startOf("day");
+    const datasetDate = receivedDateMoment.format("YYYY-MM-DD");
     dtoIn.data.forEach((entry) => {
-      if (!isSameDate(receivedDateString, entry.timestamp)) {
-        throw new Errors.PostData.InvalidEntryDate({ uuAppErrorMap }, { expectedDate: datasetDate, dataEntry: entry });
+      const m = entry.moment;
+      if (!m.isSame(receivedDateMoment, "day")) {
+        delete entry.moment;
+        throw new Errors.PostData.InvalidEntryDate(
+          { uuAppErrorMap },
+          { expectedDate: datasetDate, parsedDate: this._momentToDateTimeString(m), dataEntry: entry }
+        );
       }
+    });
+    dtoIn.data = dtoIn.data.map((entry) => {
+      entry.timestamp = this._momentToDateTimeString(entry.moment);
+      delete entry.moment;
+      return entry;
     });
 
     // 6
@@ -621,6 +635,10 @@ class GatewayAbl {
     });
 
     return dataArray;
+  }
+
+  _momentToDateTimeString(d) {
+    return moment(d).format("YYYY-MM-DDTHH:mm:ss.SSSZ");
   }
 }
 
