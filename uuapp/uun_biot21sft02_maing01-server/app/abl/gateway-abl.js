@@ -95,6 +95,7 @@ class GatewayAbl {
       code: await this._generateUniqueCode(awid),
       name: "",
       location: null,
+      locationDesc: "",
     };
 
     dtoIn = defaultsDeep(dtoIn, defaults);
