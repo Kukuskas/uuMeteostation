@@ -33,19 +33,19 @@ describe("Testing gateway/postAggregatedData HDS", () => {
       endDate: "2021-01-01", // end of contained data
       data: [
         {
-          label: "2021-01-01T01", // label generated according to aggregation concept
-          timestamp: "2021-01-01T01:00:00.000Z", // start of the measured period
+          label: "2021-01-01T00", // label generated according to aggregation concept
+          timestamp: "2021-01-01T00:00:00.000Z", // start of the measured period
           min: {
-            temp: 22,
-            hum: 55
+            temperature: 22,
+            humidity: 55
           },
           avg: {
-            temp: 22.568,
-            hum: 58.256
+            temperature: 22.568,
+            humidity: 58.256
           },
           max: {
-            temp: 23,
-            hum: 64.52
+            temperature: 23,
+            humidity: 64.52
           }
         },
       ]
