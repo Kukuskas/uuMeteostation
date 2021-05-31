@@ -38,7 +38,7 @@ function generateCall(method, useCase, defaults = {}, defaultProfile = null) {
 
 function removeProps(o, keysToBeRemoved) {
   const newObj = {...o};
-  keysToBeRemoved.forEach(key => delete newObj[o]);
+  keysToBeRemoved.forEach(key => delete newObj[key]);
   return newObj;
 }
 
