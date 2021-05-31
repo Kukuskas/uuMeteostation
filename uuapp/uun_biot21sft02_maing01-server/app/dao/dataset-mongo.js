@@ -12,7 +12,8 @@ class DatasetMongo extends UuObjectDao {
   }
 
   async create(uuObject) {
-    return await super.insertOne(this._prepareObject(uuObject));
+    uuObject = await super.insertOne(this._prepareObject(uuObject));
+    return this._prepareReturnObject(uuObject);
   }
 
   async update(uuObject, lock = null) {
