@@ -100,6 +100,14 @@ const Update = {
     }
   },
 
+  InvalidTimezone: class extends Biot21sft02UseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${Update.UC_CODE}invalidTimezone`;
+      this.message = "The chosen timezone is invalid or unknown.";
+    }
+  },
+
   GatewayDoesNotExist: class extends Biot21sft02UseCaseError {
     constructor() {
       super(...arguments);

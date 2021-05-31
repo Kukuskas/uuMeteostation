@@ -13,8 +13,10 @@ const gatewayUpdateDtoInType = shape({
   id: id().isRequired(),
   name: string(200),
   location: gps(),
+  locationDesc: string(200),
+  timezone: string(100),
   code: code(),
-  uuEe: uuIdentity(), // uuId of the uuEE worker
+  uuEe: uuIdentity(),
   state: oneOf(["active", "closed"])
 });
 

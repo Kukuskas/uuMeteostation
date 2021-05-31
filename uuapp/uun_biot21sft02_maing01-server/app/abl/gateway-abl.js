@@ -183,6 +183,13 @@ class GatewayAbl {
       Errors.Update.InvalidDtoIn
     );
 
+    if (dtoIn.timezone) {
+      const validTimezones = moment.tz.names();
+      if (!validTimezones.includes(dtoIn.timezone)) {
+        throw new Errors.Update.InvalidTimezone({ uuAppErrorMap }, { timezone: dtoIn.timezone, validTimezones });
+      }
+    }
+
     // 3
     let gateway = await this.dao.get(awid, dtoIn.id);
     if (!gateway) {
