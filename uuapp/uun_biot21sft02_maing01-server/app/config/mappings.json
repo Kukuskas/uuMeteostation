@@ -85,6 +85,11 @@
         "realization": "api/controllers/UuAppInstanceController.load",
         "httpMethod": "GET",
         "type": "CMD"
+      },
+      "dataset/getOrCreate": {
+        "realization": "api/controllers/DatasetController.getOrCreate",
+        "httpMethod": "GET",
+        "type": "CMD"
       }
     }
   }
