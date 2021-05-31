@@ -591,33 +591,40 @@ class DatasetAbl {
     return moment(d).add(offset);
   }
 
-  _getStartDate(timestamp, datasetType) {
+  _getStartDate(timestamp, datasetType, timezone = "UTC") {
+    const m = moment.tz(timestamp, timezone);
     switch (datasetType) {
       case "weekly": {
-        return moment(timestamp).isoWeek(1).startOf("isoWeek").format("YYYY-MM-DD");
+        return m.isoWeek(1).startOf("isoWeek").format("YYYY-MM-DD");
       }
       case "hourly": {
-        return moment(timestamp).startOf("day").format("YYYY-MM-DD");
+        return m.startOf("day").format("YYYY-MM-DD");
       }
       case "daily":
       case "monthly": {
-        return moment(timestamp).startOf("year").format("YYYY-MM-DD");
+        return m.startOf("year").format("YYYY-MM-DD");
+      }
+      case "detailed": {
+        return m.endOf("day").format("YYYY-MM-DD");
       }
     }
   }
 
-  _getEndDate(timestamp, datasetType) {
+  _getEndDate(timestamp, datasetType, timezone = "UTC") {
+    const m = moment.tz(timestamp, timezone);
     switch (datasetType) {
       case "weekly": {
-        const m = moment(timestamp);
         return m.isoWeek(m.isoWeeksInYear()).endOf("isoWeek").format("YYYY-MM-DD");
       }
       case "hourly": {
-        return moment(timestamp).endOf("day").format("YYYY-MM-DD");
+        return m.endOf("day").format("YYYY-MM-DD");
       }
       case "daily":
       case "monthly": {
-        return moment(timestamp).endOf("year").format("YYYY-MM-DD");
+        return m.endOf("year").format("YYYY-MM-DD");
+      }
+      case "detailed": {
+        return m.startOf("day").format("YYYY-MM-DD");
       }
     }
   }
