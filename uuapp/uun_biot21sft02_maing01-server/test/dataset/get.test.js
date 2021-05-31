@@ -1,7 +1,7 @@
 const { TestHelper } = require("uu_appg01_server-test");
 const calls = require("./calls.js");
 const { uuAppInstance, gateway:gatewayCalls } = require("../calls.js");
-const { removeProps } = require("../call-helper");
+const { removeProps } = require("../call-helper"); //props
 
 beforeAll(async () => {
   await TestHelper.setup();
