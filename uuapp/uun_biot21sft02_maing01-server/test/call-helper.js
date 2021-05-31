@@ -10,7 +10,7 @@ async function _login(profile) {
   if (!profile) {
     return null;
   }
-  const profilesWithoutPermissions = ["AsidLicenseOwner", "AsidAuthorities", "AwidLicenseOwner"];
+  const profilesWithoutPermissions = ["AsidLicenseOwner", "AsidAuthorities", "AwidLicenseOwner", "Public"];
   const createPermissions = !profilesWithoutPermissions.includes(profile);
   return await TestHelper.login(profile, createPermissions);
 }
