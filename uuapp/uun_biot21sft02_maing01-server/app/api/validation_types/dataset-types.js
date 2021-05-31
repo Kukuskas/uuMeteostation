@@ -7,6 +7,13 @@ const datasetGetDtoInType = shape({
   date: date().isRequired()
 });
 
+const datasetGetOrCreateDtoInType = shape({
+  gatewayId: mongoId().isRequired(["gatewayCode"]),
+  gatewayCode: code().isRequired(["gatewayId"]),
+  type: oneOf(["detailed", "hourly", "daily", "weekly", "monthly"]).isRequired(),
+  date: date().isRequired()
+});
+
 const datasetListByDatesDtoInType = shape({
   gatewayId: mongoId().isRequired(["gatewayCode"]),
   gatewayCode: code().isRequired(["gatewayId"]),
