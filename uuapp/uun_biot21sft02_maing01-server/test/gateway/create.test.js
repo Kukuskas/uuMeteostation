@@ -114,7 +114,7 @@ describe("Testing gateway/create AS CodeIsNotUnique", () => {
   });
 });
 
-describe("Testing gateway/create AS UuEeIsNotUnique", () => { })
+describe("Testing gateway/create AS UuEeIsNotUnique", () => {
 test("AS - UuEeIsNotUnique", async () => {
   expect.hasAssertions();
 
@@ -144,4 +144,5 @@ test("AS - UuEeIsNotUnique", async () => {
     expect(e.message).toBe("Gateway with this uuEe already exists.");
     expect(e.paramMap).toEqual(errorParams2);
   }
+ });
 });

@@ -20,7 +20,7 @@ afterAll(async () => {
   await TestHelper.teardown();
 });
 
-describe("Testing gateway/get HDS", () => { })
+describe("Testing gateway/get HDS", () => {
 test("HDS by id", async () => {
   expect.hasAssertions();
 
@@ -65,5 +65,6 @@ test("HDS by uuEe", async () => {
   expect(result.uuAppErrorMap).toEqual({});
   expect(result.awid).toBe(TestHelper.getAwid());
   expect(result).toEqual(expect.objectContaining(gateway));
+ });
 });
 
