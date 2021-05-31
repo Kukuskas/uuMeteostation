@@ -261,14 +261,7 @@ class DatasetAbl {
     }
 
     // 6
-    let dtoOut = this.dao.listByTypeAndDateRange(
-      awid,
-      gateway.id,
-      dtoIn.type,
-      dtoIn.startDate,
-      dtoIn.endDate,
-      dtoIn.pageInfo
-    );
+    let dtoOut = await this.dao.listByTypeAndDateRange(awid, gateway.id, dtoIn.type, dtoIn.startDate, dtoIn.endDate, dtoIn.pageInfo);
 
     // 7
     dtoOut.uuAppErrorMap = uuAppErrorMap;
