@@ -243,22 +243,8 @@ class DatasetAbl {
     }
 
     // 5
-    switch (dtoIn.type) {
-      case "weekly": {
-        dtoIn.startDate = moment(dtoIn.startDate).startOf("year").subtract(7, "day").format("YYYY-MM-DD");
-        dtoIn.endDate = moment(dtoIn.endDate).endOf("year").add(7, "day").format("YYYY-MM-DD");
-        break;
-      }
-      case ("daily", "monthly"): {
-        dtoIn.startDate = moment(dtoIn.startDate).startOf("year").format("YYYY-MM-DD");
-        dtoIn.endDate = moment(dtoIn.endDate).endOf("year").format("YYYY-MM-DD");
-        break;
-      }
-      case ("detailed", "hourly"):
-      default: {
-        break;
-      }
-    }
+    dtoIn.startDate = this._getStartDate(dtoIn.startDate, dtoIn.type);
+    dtoIn.endDate = this._getEndDate(dtoIn.endDate, dtoIn.type);
 
     // 6
     let dtoOut = await this.dao.listByTypeAndDateRange(awid, gateway.id, dtoIn.type, dtoIn.startDate, dtoIn.endDate, dtoIn.pageInfo);
@@ -328,25 +314,8 @@ class DatasetAbl {
 
     // 4
     // 4.1
-    const startMoment = moment(dtoIn.startDate);
-    const endMoment = moment(dtoIn.endDate);
-    let expectedStart;
-    let expectedEnd;
-    switch (dtoIn.type) {
-      case "weekly":
-        expectedStart = startMoment.clone().isoWeek(1).startOf("isoWeek");
-        expectedEnd = startMoment.clone().isoWeek(expectedStart.isoWeeksInISOWeekYear()).endOf("isoWeek");
-        break;
-      case ("monthly", "daily"):
-        expectedStart = startMoment.clone().startOf("year");
-        expectedEnd = startMoment.clone().endOf("year");
-        break;
-      case "hourly":
-      default:
-        expectedStart = startMoment.clone();
-        expectedEnd = startMoment.clone();
-        break;
-    }
+    let expectedStart = moment.tz(this._getStartDate(dtoIn.startDate, dtoIn.type), gateway.timezone);
+    let expectedEnd = moment.tz(this._getEndDate(dtoIn.startDate, dtoIn.type), gateway.timezone);
 
     if (!expectedStart.isSame(startMoment) || !expectedEnd.isSame(endMoment)) {
       throw new Errors.PostAggregatedData.InvalidDateBoundaries(
@@ -363,7 +332,7 @@ class DatasetAbl {
 
     // 4.2
     dtoIn.data.forEach((entry) => {
-      const tsMoment = moment(entry.timestamp);
+      const tsMoment = moment.tz(entry.timestamp, gateway.timezone);
       if (!moment(tsMoment).isBetween(startMoment, endMoment, "day", "[]")) {
         throw new Errors.PostAggregatedData.InvalidDataEntryTime(
           { uuAppErrorMap },
@@ -615,33 +584,40 @@ class DatasetAbl {
     return moment(d).add(offset);
   }
 
-  _getStartDate(timestamp, datasetType) {
+  _getStartDate(timestamp, datasetType, timezone = "UTC") {
+    const m = moment.tz(timestamp, timezone);
     switch (datasetType) {
       case "weekly": {
-        return moment(timestamp).isoWeek(1).startOf("isoWeek").format("YYYY-MM-DD");
+        return m.isoWeek(1).startOf("isoWeek").format("YYYY-MM-DD");
       }
       case "hourly": {
-        return moment(timestamp).startOf("day").format("YYYY-MM-DD");
+        return m.startOf("day").format("YYYY-MM-DD");
       }
       case "daily":
       case "monthly": {
-        return moment(timestamp).startOf("year").format("YYYY-MM-DD");
+        return m.startOf("year").format("YYYY-MM-DD");
+      }
+      case "detailed": {
+        return m.endOf("day").format("YYYY-MM-DD");
       }
     }
   }
 
-  _getEndDate(timestamp, datasetType) {
+  _getEndDate(timestamp, datasetType, timezone = "UTC") {
+    const m = moment.tz(timestamp, timezone);
     switch (datasetType) {
       case "weekly": {
-        const m = moment(timestamp);
         return m.isoWeek(m.isoWeeksInYear()).endOf("isoWeek").format("YYYY-MM-DD");
       }
       case "hourly": {
-        return moment(timestamp).endOf("day").format("YYYY-MM-DD");
+        return m.endOf("day").format("YYYY-MM-DD");
       }
       case "daily":
       case "monthly": {
-        return moment(timestamp).endOf("year").format("YYYY-MM-DD");
+        return m.endOf("year").format("YYYY-MM-DD");
+      }
+      case "detailed": {
+        return m.startOf("day").format("YYYY-MM-DD");
       }
     }
   }
