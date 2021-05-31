@@ -30,6 +30,14 @@ const Create = {
     }
   },
 
+  InvalidTimezone: class extends Biot21sft02UseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${Create.UC_CODE}invalidTimezone`;
+      this.message = "The chosen timezone is invalid or unknown.";
+    }
+  },
+
   CodeIsNotUnique: class extends Biot21sft02UseCaseError {
     constructor() {
       super(...arguments);

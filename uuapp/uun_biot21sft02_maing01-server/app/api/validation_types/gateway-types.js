@@ -4,7 +4,9 @@ const gatewayCreateDtoInType = shape({
   code: code(),
   name: string(200),
   location: gps(),
-  uuEe: uuIdentity().isRequired(), //uuId of the uuEE worker
+  locationDesc: string(200),
+  timezone: string(100).isRequired(),
+  uuEe: uuIdentity().isRequired()
 });
 
 const gatewayUpdateDtoInType = shape({

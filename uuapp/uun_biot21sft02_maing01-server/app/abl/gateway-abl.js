@@ -13,45 +13,46 @@ const { strToDate, isSameDate, sortIsoDates } = require("./helpers/date-helper.j
 
 const random = require("crypto-random-string");
 const defaultsDeep = require("lodash.defaultsdeep");
+const moment = require("moment-timezone");
 
 const WARNINGS = {
   create: {
     unsupportedKeys: {
-      code: `${Errors.Create.UC_CODE}unsupportedKeys`
-    }
+      code: `${Errors.Create.UC_CODE}unsupportedKeys`,
+    },
   },
   update: {
     unsupportedKeys: {
-      code: `${Errors.Update.UC_CODE}unsupportedKeys`
+      code: `${Errors.Update.UC_CODE}unsupportedKeys`,
     },
     gatewayCodeIsChanged: {
       code: `${Errors.Update.UC_CODE}gatewayCodeIsChanged`,
-      message: `Gateway code has been changed. If this gateway has any external references, please change them.`
-    }
+      message: `Gateway code has been changed. If this gateway has any external references, please change them.`,
+    },
   },
   get: {
     unsupportedKeys: {
-      code: `${Errors.Get.UC_CODE}unsupportedKeys`
+      code: `${Errors.Get.UC_CODE}unsupportedKeys`,
     },
   },
   list: {
     unsupportedKeys: {
-      code: `${Errors.List.UC_CODE}unsupportedKeys`
+      code: `${Errors.List.UC_CODE}unsupportedKeys`,
     },
   },
   postData: {
     unsupportedKeys: {
-      code: `${Errors.PostData.UC_CODE}unsupportedKeys`
+      code: `${Errors.PostData.UC_CODE}unsupportedKeys`,
     },
   },
   logMessage: {
     unsupportedKeys: {
-      code: `${Errors.LogMessage.UC_CODE}unsupportedKeys`
+      code: `${Errors.LogMessage.UC_CODE}unsupportedKeys`,
     },
   },
   delete: {
     unsupportedKeys: {
-      code: `${Errors.Delete.UC_CODE}unsupportedKeys`
+      code: `${Errors.Delete.UC_CODE}unsupportedKeys`,
     },
   },
 };
@@ -59,7 +60,6 @@ const WARNINGS = {
 const gatewayLogLogger = LoggerFactory.get("Gateway:GatewayLog");
 
 class GatewayAbl {
-
   constructor() {
     this.validator = Validator.load();
     this.dao = DaoFactory.getDao("gateway");
@@ -84,16 +84,20 @@ class GatewayAbl {
       Errors.Create.InvalidDtoIn
     );
 
+    const validTimezones = moment.tz.names();
+    if (!validTimezones.includes(dtoIn.timezone)) {
+      throw new Errors.Create.InvalidTimezone({ uuAppErrorMap }, { timezone: dtoIn.timezone, validTimezones });
+    }
+
     const enteredCode = dtoIn.hasOwnProperty("code");
 
     const defaults = {
       code: await this._generateUniqueCode(awid),
       name: "",
-      location: null
-    }
-    console.log({ defaults })
-    dtoIn = defaultsDeep(dtoIn, defaults);
+      location: null,
+    };
 
+    dtoIn = defaultsDeep(dtoIn, defaults);
 
     // 3
     if (enteredCode) {
@@ -109,8 +113,9 @@ class GatewayAbl {
       throw new Errors.Create.UuEeIsNotUnique(
         { uuAppErrorMap },
         {
-          awid, uuEe: dtoIn.uuEe,
-          existingCode: existingGatewayByUuEe.code
+          awid,
+          uuEe: dtoIn.uuEe,
+          existingCode: existingGatewayByUuEe.code,
         }
       );
     }
@@ -122,7 +127,7 @@ class GatewayAbl {
       if (e instanceof UuAppWorkspaceError) {
         throw new Errors.Create.PermissionCreateFailed({ uuAppErrorMap }, e);
       }
-      throw (e);
+      throw e;
     }
 
     // 6
@@ -134,16 +139,16 @@ class GatewayAbl {
       current: {
         temperature: null,
         humidity: null,
-        timestamp: null
+        timestamp: null,
       },
       min: {
         temperature: null,
-        humidity: null
+        humidity: null,
       },
       max: {
         temperature: null,
-        humidity: null
-      }
+        humidity: null,
+      },
     };
     gateway = defaultsDeep(gateway, gatewayDefaults);
     try {
@@ -283,7 +288,7 @@ class GatewayAbl {
     if (!gateway) {
       const errorParams = {
         awid,
-        [identifier]: dtoIn[identifier]
+        [identifier]: dtoIn[identifier],
       };
       throw new Errors.Get.GatewayDoesNotExist({ uuAppErrorMap }, errorParams);
     }
@@ -314,9 +319,9 @@ class GatewayAbl {
     const defaults = {
       pageInfo: {
         pageIndex: 0,
-        pageSize: 100
-      }
-    }
+        pageSize: 100,
+      },
+    };
     dtoIn = defaultsDeep(dtoIn, defaults);
 
     // 3
@@ -327,7 +332,7 @@ class GatewayAbl {
     // 4
     let dtoOut;
     if (dtoIn.state) {
-      dtoOut = await this.dao.listByState(awid, dtoIn.state, dtoIn.pageInfo)
+      dtoOut = await this.dao.listByState(awid, dtoIn.state, dtoIn.pageInfo);
     } else {
       dtoOut = await this.dao.list(awid, dtoIn.pageInfo);
     }
@@ -365,7 +370,7 @@ class GatewayAbl {
     let identifier;
     if (dtoIn.id) {
       gateway = await this.dao.get(awid, dtoIn.id);
-      identifier = { awid, id: dtoIn.id }
+      identifier = { awid, id: dtoIn.id };
     } else {
       const uuEe = session.getIdentity().getUuIdentity();
       identifier = { awid, uuEe };
@@ -388,10 +393,7 @@ class GatewayAbl {
     const datasetDate = strToDate(receivedDateString);
     dtoIn.data.forEach((entry) => {
       if (!isSameDate(receivedDateString, entry.timestamp)) {
-        throw new Errors.PostData.InvalidEntryDate(
-          { uuAppErrorMap },
-          { expectedDate: datasetDate, dataEntry: entry }
-        );
+        throw new Errors.PostData.InvalidEntryDate({ uuAppErrorMap }, { expectedDate: datasetDate, dataEntry: entry });
       }
     });
 
@@ -405,7 +407,7 @@ class GatewayAbl {
         endDate: datasetDate,
         type: "detailed",
         data: [],
-        aggregated: false
+        aggregated: false,
       };
     }
 
@@ -490,14 +492,14 @@ class GatewayAbl {
     let gatewayLog = {
       awid,
       gatewayId: gateway.id,
-      ...dtoIn
+      ...dtoIn,
     };
     gatewayLogLogger.log(gatewayLog);
 
     // 5
     let gatewayLogEntry = {
       timestamp: new Date().toISOString(),
-      ...dtoIn
+      ...dtoIn,
     };
     if (!gateway.log) {
       gateway.log = [];
@@ -590,7 +592,7 @@ class GatewayAbl {
     do {
       code = random(10);
       instance = await this.dao.getByCode(awid, code);
-    } while (instance !== null)
+    } while (instance !== null);
     return code;
   }
 
