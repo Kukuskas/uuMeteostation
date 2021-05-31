@@ -604,8 +604,6 @@ class UuAppInstanceAbl {
           ...runScriptDtoInBase,
           scriptUri: dtoIn.scripts[script].scriptUri,
           scriptDtoIn: {
-            uuConsoleUri: dtoIn.uuConsoleUri,
-            progressCode: dtoIn.scripts[script].progressCode,
             baseUri,
           },
           repeatTrigger: {
