@@ -39,7 +39,7 @@ const gatewayPostDataDtoInType = shape({
     timestamp: datetime().isRequired(),
     temperature: float(-273.15, null, 3),
     humidity: float(0, 100, 3)
-  }), 1, null).isRequired()
+  }).isRequired(), 1, null).isRequired()
 });
 
 const gatewayLogMessageDtoInType = shape({
