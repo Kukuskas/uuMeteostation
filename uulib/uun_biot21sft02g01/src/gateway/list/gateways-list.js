@@ -54,11 +54,16 @@ const GatewaysList = createVisualComponent({
     async function handleAdd(opt) {
       console.log(opt);
       const input = {
-        a: opt.a,
-        b: opt.b
-      }
+          code: opt.code,
+          name: opt.name, 
+          location: opt.location, 
+          locationDesc: opt.locationDesc, 
+          timezone: opt.timezone, 
+          uuEe: opt.uuEe, 
+        };
+      
       try {
-        await gatewaysDataList?.handlerMap.create({ gatewayId: value.id });
+        await gatewaysDataList?.handlerMap.create(input);
       } catch (e) {
         opt.component.saveFail(e)
         "Will work later on error of  delete";
@@ -83,6 +88,7 @@ const GatewaysList = createVisualComponent({
             onDelete={props.onDelete}
             onCreate={handleAdd}
             onDetail={props.onDetail}
+            onSaveFail={handleAddFail}
           />
         </DataListStateResolver>
       );

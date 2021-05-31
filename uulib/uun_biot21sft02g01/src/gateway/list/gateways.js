@@ -47,7 +47,6 @@ export const Gateways = createVisualComponent({
           <GatewayDetail
             gateway={item.data.data}
             onDetail={props.onDetail}
-            onUpdate={props.onUpdate}
             onDelete={props.onDelete}
           />
           
@@ -57,7 +56,9 @@ export const Gateways = createVisualComponent({
 
     return (
       <>
-            <GatewayCreateForm onCreate={props.onCreate}></GatewayCreateForm>
+            <GatewayCreateForm  
+            onCreate={props.onCreate}
+            onSaveFail={props.onSaveFail}></GatewayCreateForm>
       <Uu5Tiles.ControllerProvider data={props.gatewaysList}>
       <Uu5Tiles.Grid tileMinWidth={200} tileMaxWidth={300} tileSpacing={8} rowSpacing={8}>
         {renderItem}

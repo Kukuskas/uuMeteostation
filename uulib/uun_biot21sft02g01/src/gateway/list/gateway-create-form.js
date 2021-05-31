@@ -45,7 +45,7 @@ export const GatewayCreateForm = createVisualComponent({
             onClick={() =>
               modalRef.current.open({
                 header: <Header />,
-                content: <Form onSave={props.onCreate} onCancel={props.onCancel} />,
+                content: <Form onSave={props.onCreate} onCancel={handleClose} onSaveFail={props.onSaveFail} onSaveDone={handleClose}/>,
                 footer: <Controls />,
               })
             }
@@ -70,10 +70,12 @@ function Header() {
 function Form({ onSave, onSaveDone, onSaveFail, onCancel }) {
   return (
     <UU5.Forms.ContextForm onSave={onSave} onSaveDone={onSaveDone} onSaveFail={onSaveFail} onCancel={onCancel}>
-      <UU5.Forms.Text name="name" label="Name" placeholder="" required />
-      <UU5.Forms.Text name="location" label="Location" placeholder="" required />
       <UU5.Forms.Text name="code" label="Code" placeholder="" />
-      <UU5.Forms.Text name="uuEEuuID" label="uuID of uuEE worker" placeholder="" />
+      <UU5.Forms.Text name="name" label="Name" placeholder="" />
+      <UU5.Forms.Text name="location" label="Location" placeholder="gps location" />
+      <UU5.Forms.Text name="locationDesc" label="Location/city" placeholder=""  />
+      <UU5.Forms.Text name="timezone" label="Timezone" placeholder="" />
+      <UU5.Forms.Text name="uuEe" label="uuID of uuEE worker" placeholder="" required/>
     </UU5.Forms.ContextForm>
   );
 }
