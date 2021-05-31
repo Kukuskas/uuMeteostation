@@ -29,6 +29,7 @@ export const GatewaysLoader = createComponent({
     const gatewaysList = useDataList({
       handlerMap: {
         load: handleLoad,
+        create: handleCreate,
       },
       initialDtoIn: {},
     });
@@ -38,6 +39,12 @@ export const GatewaysLoader = createComponent({
     async function handleLoad(dtoIn) {
       return await Calls.gatewaysList(baseUri, dtoIn);
     }
+
+    async function handleCreate(dtoIn) {
+      console.log("zovjotsjaaaaaaaaaa?");
+      return await Calls.gatewayCreate(baseUri, dtoIn);
+    }
+
 
     //@@viewOff:handlers
 

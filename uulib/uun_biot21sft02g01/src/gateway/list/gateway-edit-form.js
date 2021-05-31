@@ -69,9 +69,6 @@ export const GatewayEditForm = createComponent({
 
     //@@viewOn:interface
     //@@viewOff:interface
-    function handleChange(params) {
-      console.log("edited");
-     }
 
     //@@viewOn:render
     const className = Config.Css.css``;
@@ -79,34 +76,25 @@ export const GatewayEditForm = createComponent({
     const currentNestingLevel = UU5.Utils.NestingLevel.getNestingLevel(props, STATICS);
 
     return currentNestingLevel ? (
-      <UU5.Bricks.Container>
+      <UU5.Bricks.Section>
         {/*<div {...attrs}>
           <div>Component {STATICS.displayName}</div>
           {UU5.Utils.Content.getChildren(props.children, props, STATICS)}
         </div>*/}
         <UU5.Forms.ContextModal ref_={modal => GatewayEditForm.modal = modal} />
+        
+     
         <UU5.Bricks.Button
-                  content="Edit"
+                  bgStyle="transparent"
                   onClick={() => GatewayEditForm.modal.open({
                     header: GatewayEditForm.getHeader(),
                     content: GatewayEditForm.getForm(),
                     footer: GatewayEditForm.getControls()
                    })}
-                />
-                <UU5.Bricks.Button
-                  content="Delete"
-                  onClick={() => {
-                    props.onDelete(props.gateway.id, props.gateway.name);
-                  }}
-                />
+                ><UU5.Bricks.Icon  icon="glyphicon-pencil" /></UU5.Bricks.Button>
 
-                <UU5.Bricks.Button
-                  content="Info"
-                  onClick={() => {
-                    props.onDetail(props.gateway.id);
-                  }}
-                />
-     </UU5.Bricks.Container>
+</UU5.Bricks.Section>
+                
     ) : null;
     //@@viewOff:render
   },

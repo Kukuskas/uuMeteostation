@@ -40,22 +40,35 @@ export const GatewayDetail = createComponent({
     //@@viewOff:interface
 
     //@@viewOn:render
-console.log(props);
-    if (!props.gateway) {
-      return null;
-    }
-
+    // if (!props.gateway) {
+    //   return null;
+    // }
+function propsToDetail() {
+  props.onDetail({id: props.gateway.id, code: props.gateway.code})
+}
     return (
       <>
-        <UU5.Bricks.Card colorSchema={props.colorSchema}>
+        <UU5.Bricks.Card colorSchema={props.colorSchema} >
           <UU5.Bricks.Box display="flex">
-
-          <GatewayEditForm></GatewayEditForm>
+          <UU5.Bricks.Button style="float:left"
+                  bgStyle="transparent"
+                  onClick={propsToDetail}
+                ><UU5.Bricks.Icon  icon="glyphicon-info-sign" /></UU5.Bricks.Button>
+                                <UU5.Bricks.Button
+                  bgStyle="transparent"
+                  onClick={() => {
+                    props.onDelete(props.gateway.id, props.gateway.name);
+                  }}
+                ><UU5.Bricks.Icon style="float:right" icon="glyphicon-trash" /></UU5.Bricks.Button>
+          <GatewayEditForm 
+            onDetail={props.onDetail}
+            onUpdate={props.onUpdate}
+            onDelete={props.onDelete}></GatewayEditForm>
 
                 
 
           </UU5.Bricks.Box>
-          <UU5.Bricks.Box display="flex">
+          <UU5.Bricks.Box display="flex" >
             <UU5.Bricks.Row>
               <UU5.Bricks.Column colWidth="s-3 s-5" content={"Název:"} />
               <UU5.Bricks.Column colWidth="s-3 s-5" content={props.gateway.name} />
