@@ -8,8 +8,8 @@ import "uu5g04-bricks";
 import { useGateway } from "./context/context";
 import DataListStateResolver from "../core/data-list-state-resolver";
 import DataObjectStateResolver from "../core/data-object-state-resolver";
-// import Current from "./current"
-// import Graph from "./data-set/graph"
+import Current from "./current"
+import Graph from "./data-set/graph"
 import Config from "./config/config";
 
 //@@viewOff:imports
@@ -50,9 +50,8 @@ export const GatewayData = createVisualComponent({
       return (
 <>
 <DataListStateResolver dataList={gatewayDataInfo}>
-"hello"
-{/* <Current></Current> */}
-{/* <Graph></Graph> */}
+<Current></Current>
+<Graph></Graph>
 </DataListStateResolver>
 </>
   )
