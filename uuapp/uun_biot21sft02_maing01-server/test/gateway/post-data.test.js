@@ -31,7 +31,7 @@ describe("Testing gateway/post-data HDS", () => {
         humidity: 45.22,
       }]
     };
-
+    
     const result = await calls.postData(dtoIn)
 
     expect(result.status).toBe(200);
