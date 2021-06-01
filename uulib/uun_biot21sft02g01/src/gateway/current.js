@@ -42,20 +42,20 @@ export const Current = createVisualComponent({
     });
 
     const [gatewayData, setGatewayData] = useState(testData);
-
     useEffect(() => {
       const id = setInterval(() => {
         const fetchData = async () => {
           try {
             const code = gatewayData.code;
             const id = gatewayData.id;
-            setGatewayData(await Calls.gatewayGet({ code, id }));
+            const uuEe = gatewayData.uuEe;
+            setGatewayData(await Calls.gatewayGet("https://uuapp.plus4u.net/uun-biot21sft02-maing01/44701e7183e94852859303f2bfca9a7f/",{gatewayId:id, gatewayCode:code, uuEe:uuEe}));
           } catch (error) {
             console.log(error);
           }
         };
         fetchData();
-      }, 5000);
+      }, 600000);
       return () => clearInterval(id);
     }, []);
 

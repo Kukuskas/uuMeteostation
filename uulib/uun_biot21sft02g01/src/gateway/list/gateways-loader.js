@@ -36,12 +36,11 @@ export const GatewaysLoader = createComponent({
     //@@viewOff:hooks
 
     //@@viewOn:handlers
-    async function handleLoad(dtoIn) {
-      return await Calls.gatewaysList(baseUri, dtoIn);
+    async function handleLoad() {
+      return await Calls.gatewayList(baseUri);
     }
 
     async function handleCreate(dtoIn) {
-      console.log("zovjotsjaaaaaaaaaa?");
       return await Calls.gatewayCreate(baseUri, dtoIn);
     }
 

@@ -43,16 +43,15 @@ const GatewaysList = createVisualComponent({
 
   render(props) {
     //@@viewOn:hooks
+    
     // let gatewaysDataList = useGateways();
     let gatewaysDataList = useGateways();
-
     //@@viewOff:hooks
 
     //@@viewOn:private
     let gatewaysList = gatewaysDataList.data;
     // let app = appDataObject.data;
     async function handleAdd(opt) {
-      console.log(opt);
       const input = {
           code: opt.code,
           name: opt.name, 

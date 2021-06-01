@@ -45,9 +45,9 @@ const List = createVisualComponent({
   //@@viewOff:defaultProps
 
   render(props) {
-
+console.log("propsss", props);
     const [whichComponent, setWhichComponent] = useState(false);
-    let dToInGateway 
+    const [dtoInGateway, setDtoInGateway] = useState();
     //@@viewOff:handlers
     function handleDelete(id) {
 
@@ -58,7 +58,7 @@ const List = createVisualComponent({
     }
     function openDetail(params) {
 
-      dToInGateway=params;
+      setDtoInGateway(params);
       setWhichComponent(true);
     }
 
@@ -73,7 +73,7 @@ const List = createVisualComponent({
     // header={<UU5.Bricks.Lsi lsi={Lsi.listHeader} />}
     // help={<UU5.Bricks.Lsi lsi={Lsi.listHelp} params={[Config.SQUARE_DOC]} />}
    >  
-      <GatewaysLoader>
+      <GatewaysLoader baseUri={props.baseUri}>
         <GatewaysList onUpdate={handleChange} onDelete={handleDelete} onDetail={openDetail}/>
       </GatewaysLoader>
       
@@ -81,7 +81,7 @@ const List = createVisualComponent({
   )    } else {
     return (<>
     <UU5.Bricks.Button onClick={()=>setWhichComponent(false)} >Back</UU5.Bricks.Button>
-    <Data gateway={dToInGateway}></Data>;
+    <Data baseUri={props.baseUri} dtoInGateway={dtoInGateway}></Data>
   </>)}
     //@@viewOff:render
 },

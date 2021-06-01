@@ -27,7 +27,8 @@ export const Data = createVisualComponent({
     elevation: UU5.PropTypes.string,
     borderRadius: UU5.PropTypes.string,
     bgStyle: UU5.PropTypes.string,
-
+    
+    baseUri: UU5.PropTypes.string
   },
   //@@viewOff:propTypes
 
@@ -38,13 +39,13 @@ export const Data = createVisualComponent({
     elevation: "2",
     borderRadius: "4px",
     bgStyle: undefined,
-
+    dtoInGateway: {},
+    baseUri: "https://uuapp.plus4u.net/uun-biot21sft02-maing01/44701e7183e94852859303f2bfca9a7f/"
   },
   //@@viewOff:defaultProps
 
   render(props) {
-let gatewayId = "607ae102ce50a00027c742fc"
-let gatewayCode = "gwmnpbout1"
+console.log("whaaaaaaaaaaaaaaaaaaaaaaaaat?",props.dtoInGateway);
       return (
      <UuP.Bricks.ComponentWrapper
     colorSchema={props.colorSchema}
@@ -54,7 +55,7 @@ let gatewayCode = "gwmnpbout1"
     // header={<UU5.Bricks.Lsi lsi={Lsi.listHeader} />}
     // help={<UU5.Bricks.Lsi lsi={Lsi.listHelp} params={[Config.SQUARE_DOC]} />}
    >  
-      <GatewayLoader id={gatewayId} code={gatewayCode}>
+      <GatewayLoader baseUri={props.baseUri} dtoIn={props.dtoInGateway}>
         <GatewayData/>
       </GatewayLoader>
       

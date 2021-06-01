@@ -6,7 +6,7 @@ import Plus4U5 from "uu_plus4u5g01";
 
 let Calls = {
   /** URL containing app base, e.g. "https://uuos9.plus4u.net/vnd-app/awid/". */
-  APP_BASE_URI: location.protocol + "//" + location.host + UU5.Environment.getAppBasePath(),
+  APP_BASE_URI: "https://uuapp.plus4u.net/uun-biot21sft02-maing01/44701e7183e94852859303f2bfca9a7f/",
 
   async call(method, url, dtoIn, clientOptions) {
     let response = await Plus4U5.Common.Calls.call(method, url, dtoIn, clientOptions);
@@ -33,9 +33,9 @@ let Calls = {
     return Calls.call("post", commandUri, dtoIn);
   },
 
-  gatewaysList(baseUri, dtoIn) {
-    let commandUri = Calls.getCommandUri("gateways/list", baseUri);
-    return Calls.call("get", commandUri, dtoIn);
+  gatewayList(baseUri) {
+    let commandUri = Calls.getCommandUri("gateway/list", baseUri);
+    return Calls.call("get", commandUri);
   },
 
   gatewayGet(baseUri, dtoIn) {

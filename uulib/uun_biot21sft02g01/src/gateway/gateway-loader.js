@@ -24,7 +24,7 @@ export const GatewayLoader = createComponent({
   },
   //@@viewOff:defaultProps
 
-  render({ baseUri, children }) {
+  render({ baseUri, children, dtoIn }) {
     //@@viewOn:hooks
     const gatewayDataObject = useDataObject({
       handlerMap: {
@@ -35,8 +35,9 @@ export const GatewayLoader = createComponent({
     //@@viewOff:hooks
 
     //@@viewOn:handlers
-    async function handleLoad(dtoIn) {
-      return await Calls.gatewayGet(baseUri, dtoIn);
+    async function handleLoad() {
+      console.log(dtoIn);
+      return await Calls.gatewayGet(baseUri,dtoIn);
     }
 
     //@@viewOff:handlers
@@ -51,6 +52,6 @@ export const GatewayLoader = createComponent({
 });
 
 //@@viewOn:helpers
-//@@viewOff:helpers
+  //@@viewOff:helpers
 
-export default GatewayLoader;
+  export default GatewayLoader;

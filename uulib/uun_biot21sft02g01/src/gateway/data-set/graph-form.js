@@ -36,7 +36,6 @@ export const GraphForm = createVisualComponent({
 
     function handleType(params) {
       setSelected(params)
-      console.log(params);
     }
     let oneDate = <UU5.Forms.DatePicker label="Date" name="date"  value={datePick} required onChange={(value)=>setDatePick(value.value)}/>
     let moreDate = <UU5.Forms.DateRangePicker label="Date" name="dateInterval" value={datePicked} placeholder="From - To" required onChange={(value)=>setDatePicked(value.value)}/>

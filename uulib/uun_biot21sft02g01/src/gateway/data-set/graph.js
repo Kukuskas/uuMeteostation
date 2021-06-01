@@ -36,7 +36,6 @@ export const Graph = createVisualComponent({
 
     function _handleChange(params){
       setCurrentDatasetDate(params.values)
-      console.log(params.values);
     }
     let graphData2=  {
       "awid": "44701e7183e94852859303f2bfca9a7f",

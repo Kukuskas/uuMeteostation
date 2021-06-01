@@ -44,7 +44,7 @@ export const GatewayDetail = createComponent({
     //   return null;
     // }
 function propsToDetail() {
-  props.onDetail({id: props.gateway.id, code: props.gateway.code})
+  props.onDetail({gatewayId:props.gateway.id, gatewayCode:props.gateway.code, uuEe:props.gateway.uuEe})
 }
     return (
       <>

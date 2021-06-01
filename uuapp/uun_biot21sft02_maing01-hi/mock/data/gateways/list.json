@@ -1,0 +1,91 @@
+{
+    "itemList": [
+      {
+        "code": "gw01",
+        "name": "Gateway nr. 1",
+        "location": "Praha 2",
+        "uuEe": "26-1986-1",
+        "awid": "44701e7183e94852859303f2bfca9a7f",
+        "state": "active",
+        "current": {
+          "temperature": null,
+          "humidity": null,
+          "timestamp": "2021-04-17T14:00:00+02:00"
+        },
+        "min": {
+          "temperature": null,
+          "humidity": null
+        },
+        "max": {
+          "temperature": null,
+          "humidity": null
+        },
+        "sys": {
+          "cts": "2021-04-13T16:58:29.451Z",
+          "mts": "2021-04-17T12:10:00.551Z",
+          "rev": 54
+        },
+        "id": "6075cdb589914000278109ac"
+      },
+      {
+        "code": "gwmnpbout1",
+        "name": "MnpB - outside",
+        "location": "Praha 10",
+        "uuEe": "4101-908-1",
+        "awid": "44701e7183e94852859303f2bfca9a7f",
+        "state": "active",
+        "current": {
+          "temperature": 12.9,
+          "humidity": 64.2,
+          "timestamp": "2021-05-01T19:50:00+02:00"
+        },
+        "min": {
+          "temperature": null,
+          "humidity": null
+        },
+        "max": {
+          "temperature": null,
+          "humidity": null
+        },
+        "sys": {
+          "cts": "2021-04-17T13:22:10.797Z",
+          "mts": "2021-05-01T18:00:02.056Z",
+          "rev": 1340
+        },
+        "id": "607ae102ce50a00027c742fc"
+      },
+      {
+        "name": "uuThing2 Meteostation",
+        "location": "Praha 8",
+        "uuEe": "26-1987-1",
+        "code": "uut2l",
+        "awid": "44701e7183e94852859303f2bfca9a7f",
+        "state": "active",
+        "current": {
+          "temperature": 24.3,
+          "humidity": 39.7,
+          "timestamp": "2021-04-20T17:03:12+02:00"
+        },
+        "min": {
+          "temperature": null,
+          "humidity": null
+        },
+        "max": {
+          "temperature": null,
+          "humidity": null
+        },
+        "sys": {
+          "cts": "2021-04-20T15:14:37.827Z",
+          "mts": "2021-04-20T15:17:16.559Z",
+          "rev": 2
+        },
+        "id": "607eefdd0d7c640027601db2"
+      }
+    ],
+    "pageInfo": {
+      "pageIndex": 0,
+      "pageSize": 100,
+      "total": 3
+    },
+    "uuAppErrorMap": {}
+  }
