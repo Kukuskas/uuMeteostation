@@ -10,7 +10,7 @@ async function _login(profile) {
   if (!profile) {
     return null;
   }
-  const profilesWithoutPermissions = ["AsidLicenseOwner", "AsidAuthorities", "AwidLicenseOwner"];
+  const profilesWithoutPermissions = ["AsidLicenseOwner", "AsidAuthorities", "AwidLicenseOwner", "Public"];
   const createPermissions = !profilesWithoutPermissions.includes(profile);
   return await TestHelper.login(profile, createPermissions);
 }
@@ -38,7 +38,7 @@ function generateCall(method, useCase, defaults = {}, defaultProfile = null) {
 
 function removeProps(o, keysToBeRemoved) {
   const newObj = {...o};
-  keysToBeRemoved.forEach(key => delete newObj[o]);
+  keysToBeRemoved.forEach(key => delete newObj[key]);
   return newObj;
 }
 

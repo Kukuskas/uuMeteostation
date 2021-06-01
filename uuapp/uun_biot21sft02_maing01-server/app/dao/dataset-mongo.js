@@ -1,9 +1,8 @@
 "use strict";
 const { UuObjectDao } = require("uu_appg01_server").ObjectStore;
-const { convertToObjectId, convertToDate } = require("./helpers/dao-common.js");
+const { convertToObjectId, convertToDate, convertToDateString } = require("./helpers/dao-common.js");
 
 const DEFAULT_SORT = { gatewayId: 1, type: 1, startDate: 1 };
-
 class DatasetMongo extends UuObjectDao {
   async createSchema() {
     await super.createIndex({ awid: 1, _id: 1 }, { unique: true });
@@ -13,7 +12,8 @@ class DatasetMongo extends UuObjectDao {
   }
 
   async create(uuObject) {
-    return await super.insertOne(this._prepareObject(uuObject));
+    uuObject = await super.insertOne(this._prepareObject(uuObject));
+    return this._prepareReturnObject(uuObject);
   }
 
   async update(uuObject, lock = null) {
@@ -21,28 +21,35 @@ class DatasetMongo extends UuObjectDao {
       awid: uuObject.awid,
       id: uuObject.id,
     };
-    return await super.findOneAndUpdate(filter, this._prepareObject(uuObject), "NONE", lock);
+    uuObject = await super.findOneAndUpdate(filter, this._prepareObject(uuObject), "NONE", lock);
+    return this._prepareReturnObject(uuObject);
   }
 
   async get(awid, id) {
     const filter = { awid, id };
-    return await super.findOne(filter);
+    let uuObject = await super.findOne(filter);
+    return this._prepareReturnObject(uuObject);
   }
 
   async getByTypeAndDate(awid, gatewayId, type, date) {
     gatewayId = convertToObjectId(gatewayId);
     date = convertToDate(date);
     const filter = {
-      awid, gatewayId, type,
+      awid,
+      gatewayId,
+      type,
       startDate: { $lte: date },
-      endDate: { $gte: date }
+      endDate: { $gte: date },
     };
-    return await super.findOne(filter);
+    let uuObject = await super.findOne(filter);
+    return this._prepareReturnObject(uuObject);
   }
 
   async listByAggregation(awid, type, aggregated, pageInfo = {}, sort = DEFAULT_SORT) {
     const filter = { awid, type, aggregated };
-    return await super.find(filter, pageInfo, sort);
+    let uuObjectList = await super.find(filter, pageInfo, sort);
+    uuObjectList.itemList = uuObjectList.itemList.map((item) => this._prepareReturnObject(item));
+    return uuObjectList;
   }
 
   async listByTypeAndDateRange(awid, gatewayId, type, startDate, endDate, pageInfo = {}, sort = DEFAULT_SORT) {
@@ -50,11 +57,15 @@ class DatasetMongo extends UuObjectDao {
     startDate = convertToDate(startDate);
     endDate = convertToDate(endDate);
     const filter = {
-      awid, gatewayId, type,
+      awid,
+      gatewayId,
+      type,
       startDate: { $gte: startDate },
-      endDate: { $lte: endDate }
+      endDate: { $lte: endDate },
     };
-    return await super.find(filter, pageInfo, sort);
+    let uuObjectList = await super.find(filter, pageInfo, sort);
+    uuObjectList.itemList = uuObjectList.itemList.map((item) => this._prepareReturnObject(item));
+    return uuObjectList;
   }
 
   async lock(awid, id, lock) {
@@ -70,9 +81,10 @@ class DatasetMongo extends UuObjectDao {
   async deleteByTypeAndAggregationAndDate(awid, type, aggregated, endBefore) {
     endBefore = convertToDate(endBefore);
     const filter = {
-      awid, type,
+      awid,
+      type,
       aggregated,
-      endDate: { $lte: endBefore }
+      endDate: { $lte: endBefore },
     };
     return await super.deleteMany(filter);
   }
@@ -88,6 +100,18 @@ class DatasetMongo extends UuObjectDao {
 
     for (const dateProp of ["startDate", "endDate"]) {
       uuObject[dateProp] = convertToDate(uuObject[dateProp]);
+    }
+
+    return uuObject;
+  }
+
+  _prepareReturnObject(uuObject) {
+    if (!uuObject) {
+      return uuObject;
+    }
+
+    for (const dateProp of ["startDate", "endDate"]) {
+      uuObject[dateProp] = convertToDateString(uuObject[dateProp]);
     }
 
     return uuObject;
