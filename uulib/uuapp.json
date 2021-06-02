@@ -1,6 +1,6 @@
 {
   "product": "uun_biot21sft02g01",
-  "version": "0.1.0-beta",
+  "version": "0.1.5-beta",
   "license": "License Commercial",
   "description": {
     "en": "uuWeatherStation for school project BIOT21SFT02",
@@ -240,6 +240,99 @@
         "imageUri": "",
         "uuEccReady": false,
         "template": "<UunBiot21sft02.Gateway.List.Gateways />"
+      },
+      {
+        "code": "UunBiot21sft02.Gateway.GatewayData",
+        "name": "GatewayData",
+        "tagList": [
+          "UunBiot21sft02",
+          "Gateway",
+          "GatewayData"
+        ],
+        "docCode": "UunBiot21sft02GatewayGatewayData",
+        "desc": "",
+        "icon": "",
+        "imageUri": "",
+        "uuEccReady": false,
+        "template": "<UunBiot21sft02.Gateway.GatewayData />"
+      },
+      {
+        "code": "UunBiot21sft02.Gateway.Data",
+        "name": "Data",
+        "tagList": [
+          "UunBiot21sft02",
+          "Gateway",
+          "Data"
+        ],
+        "docCode": "UunBiot21sft02GatewayData",
+        "desc": "",
+        "icon": "",
+        "imageUri": "",
+        "uuEccReady": false,
+        "template": "<UunBiot21sft02.Gateway.Data />"
+      },
+      {
+        "code": "UunBiot21sft02.Gateway.DataSet",
+        "name": "DataSet",
+        "tagList": [
+          "UunBiot21sft02",
+          "Gateway",
+          "DataSet"
+        ],
+        "docCode": "UunBiot21sft02GatewayDataSet",
+        "desc": "",
+        "icon": "",
+        "imageUri": "",
+        "uuEccReady": false,
+        "template": "<UunBiot21sft02.Gateway.DataSet />"
+      },
+      {
+        "code": "UunBiot21sft02.Gateway.Data.DataSet",
+        "name": "DataSet",
+        "tagList": [
+          "UunBiot21sft02",
+          "Gateway",
+          "Data",
+          "DataSet"
+        ],
+        "docCode": "UunBiot21sft02GatewayDataDataSet",
+        "desc": "",
+        "icon": "",
+        "imageUri": "",
+        "uuEccReady": false,
+        "template": "<UunBiot21sft02.Gateway.Data.DataSet />"
+      },
+      {
+        "code": "UunBiot21sft02.Gateway.DataSet.DataSet",
+        "name": "DataSet",
+        "tagList": [
+          "UunBiot21sft02",
+          "Gateway",
+          "DataSet",
+          "DataSet"
+        ],
+        "docCode": "UunBiot21sft02GatewayDataSetDataSet",
+        "desc": "",
+        "icon": "",
+        "imageUri": "",
+        "uuEccReady": false,
+        "template": "<UunBiot21sft02.Gateway.DataSet.DataSet />"
+      },
+      {
+        "code": "UunBiot21sft02.Gateway.DataSet.Graph",
+        "name": "Graph",
+        "tagList": [
+          "UunBiot21sft02",
+          "Gateway",
+          "DataSet",
+          "Graph"
+        ],
+        "docCode": "UunBiot21sft02GatewayDataSetGraph",
+        "desc": "",
+        "icon": "",
+        "imageUri": "",
+        "uuEccReady": false,
+        "template": "<UunBiot21sft02.Gateway.DataSet.Graph />"
       }
     ]
   }

@@ -1,0 +1,27 @@
+{
+    "code": "gwmnpbout1",
+    "name": "MnpB - outside",
+    "location": "Praha 10",
+    "uuEe": "4101-908-1",
+    "awid": "44701e7183e94852859303f2bfca9a7f",
+    "state": "active",
+    "current": {
+        "temperature": 12.9,
+        "humidity": 64.2,
+        "timestamp": "2021-05-01T19:50:00+02:00"
+    },
+    "min": {
+        "temperature": 10,
+        "humidity": 50
+    },
+    "max": {
+        "temperature": 26,
+        "humidity": 86
+    },
+    "sys": {
+        "cts": "2021-04-17T13:22:10.797Z",
+        "mts": "2021-05-01T18:00:02.056Z",
+        "rev": 1340
+    },
+    "id": "607ae102ce50a00027c742fc"
+}

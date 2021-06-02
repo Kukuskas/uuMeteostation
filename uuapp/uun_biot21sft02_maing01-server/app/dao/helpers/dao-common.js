@@ -1,4 +1,5 @@
 const { ObjectId } = require("bson");
+const moment = require("moment-timezone");
 
 function convertToObjectId(id) {
   if (ObjectId.isValid(id)) {
@@ -14,16 +15,25 @@ function convertArrayToIn(arr) {
   return arr;
 }
 
-function convertToDate(d) {
-  const canBeConverted = !(d instanceof Date) && !isNaN(Date.parse(d));
-  if (canBeConverted) {
-    return new Date(d);
+function convertToDate(d, timezone = "UTC") {
+  const canBeConverted = moment(d).isValid();
+  if (!canBeConverted) {
+    return d;
   }
-  return d;
+  return moment.tz(d, timezone).toDate();
+}
+
+function convertToDateString(d, timezone = "UTC") {
+  const canBeConverted = moment(d).isValid();
+  if (!canBeConverted) {
+    return d;
+  }
+  return moment.tz(d, timezone).format("YYYY-MM-DD");
 }
 
 module.exports = {
   convertToObjectId,
   convertArrayToIn,
-  convertToDate
-}
+  convertToDate,
+  convertToDateString,
+};

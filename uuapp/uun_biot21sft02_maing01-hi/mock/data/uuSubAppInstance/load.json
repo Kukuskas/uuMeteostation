@@ -1,0 +1,279 @@
+{
+  "uuBtBaseUri": "https://uuappg01-eu-w-1.plus4u.net/uu-businessterritory-maing01/4d7585efc20841f899dc26a3e19a650f",
+  "artifactId": "5e87461ace35b0001b57d4f3",
+  "state": "active",
+  "desc": "I am mocked and proud",
+  "id": "5d3f57c06506e4000d5609af",
+  "asidBaseUri": "https://uuapp.plus4u.net/uu-shapes-quadrilateralsg01/9a63df13ed754f659697b797eda414e9/",
+  "artifact": {
+    "code": "uuShapes/SHAPES_TEST22222222222222222222222222222222",
+    "stateType": "INITIAL",
+    "icon": "uubmlicon-uuelementarymanagement-uu-elementary-management",
+    "typeName": "uuShapes uuAppMetaModel",
+    "asciiName": "test",
+    "sys": {
+      "cts": "2020-07-09T13:15:20.777Z",
+      "mts": "2020-07-09T13:15:22.367Z",
+      "rev": 2,
+      "lockHash": null,
+      "lockExpTs": null
+    },
+    "stateIcon": "uubml-state-s00-init",
+    "ancestorStateMap": {
+      "uu-businessterritory-maing01/uuAwsc": "initial",
+      "uu-businessterritory-maing01/uuArtifactIfc": "initial"
+    },
+    "stateName": "<uu5string/><UU5.Bricks.Lsi><UU5.Bricks.Lsi.Item language='en'>Initial</UU5.Bricks.Lsi.Item><UU5.Bricks.Lsi.Item language='cs'>Počáteční</UU5.Bricks.Lsi.Item></UU5.Bricks.Lsi>",
+    "explicitPermissionList": [
+      null,
+      null,
+      null,
+      null
+    ],
+    "appKey": "uu-shapes-maing01/11111111111111111111111111111111-22222222222222222222222222222222",
+    "id": "5f0718682d9c17002760275c",
+    "state": "initial",
+    "flagMap": null,
+    "trashedTs": null,
+    "asid": null,
+    "unitName": "<uu5string/><UU5.Bricks.Lsi><UU5.Bricks.Lsi.Item language='en'>SWF.B</UU5.Bricks.Lsi.Item></UU5.Bricks.Lsi>",
+    "uuAppWorkspaceUri": "https://2054e1f4a99b.ngrok.io/uu-shapes-maing01/22222222222222222222222222222222",
+    "permissionMatrix": [
+      -2147483640,
+      1610612736,
+      2,
+      0
+    ],
+    "version": null,
+    "typeCode": "uu-shapes-maing01",
+    "revision": null,
+    "unit": "5d3f57c56506e4000d560a20",
+    "folder": "5f07172e2d9c170027602356",
+    "responsibleRole": "5d3f57c06506e4000d5609af",
+    "blackAndWhiteList": null,
+    "name": "I am mocked",
+    "typeIcon": "uubmlicon-uuelementarymanagement-uu-elementary-management",
+    "awid": "4d7585efc20841f899dc26a3e19a650f",
+    "category": "business",
+    "desc": null,
+    "stateData": {
+      "progress": {
+        "current": 0,
+        "weight": 0
+      }
+    }
+  },
+  "context": {
+    "territory": {
+      "name": "<uu5string/><UU5.Bricks.Lsi><UU5.Bricks.Lsi.Item language='en'>SWF.B</UU5.Bricks.Lsi.Item></UU5.Bricks.Lsi>"
+    },
+    "unit": {
+      "mainFolder": "5d3f57c66506e4000d560a26",
+      "unitGroupMap": {
+        "0": "5d3f57c86506e4000d560a6c",
+        "1": "5d3f57ca6506e4000d560a86",
+        "2": "5d3f57c96506e4000d560a74",
+        "28": "5d3f57ca6506e4000d560a8e",
+        "30": "5d3f57c86506e4000d560a64",
+        "31": "5d3f57c96506e4000d560a7d"
+      },
+      "code": "uuOrganization",
+      "typeCode": "uu-businessterritory-maing01/uuUnit",
+      "unit": "5d3f57aa6506e4000d56081e",
+      "folder": "5d3f57aa6506e4000d560820",
+      "responsibleRole": "5d3f57c56506e4000d560a16",
+      "name": "<uu5string/><UU5.Bricks.Lsi><UU5.Bricks.Lsi.Item language='en'>SWF.B</UU5.Bricks.Lsi.Item></UU5.Bricks.Lsi>",
+      "asciiName": "<uu5string/><uu5.bricks.lsi><uu5.bricks.lsi.item language='en'>swf.b</uu5.bricks.lsi.item></uu5.bricks.lsi>",
+      "desc": "<uu5string/>",
+      "state": "active",
+      "category": "system",
+      "permissionMatrix": [
+        -1073741816,
+        536870912,
+        0,
+        3
+      ],
+      "icon": "uubml-organizational-unit",
+      "appKey": "uu-businessterritory-maing01/43c1c4943e6944b986b0eb3b98e5d271-4d7585efc20841f899dc26a3e19a650f",
+      "unitName": "<uu5string/><UU5.Bricks.Lsi><UU5.Bricks.Lsi.Item language='en'>SWF.B</UU5.Bricks.Lsi.Item></UU5.Bricks.Lsi>",
+      "sys": {
+        "cts": "2019-07-29T20:32:05.969+0000",
+        "mts": "2020-04-02T20:09:34.964+0000",
+        "rev": 5
+      },
+      "awid": "4d7585efc20841f899dc26a3e19a650f",
+      "id": "5d3f57c56506e4000d560a20",
+      "stateType": "ACTIVE",
+      "stateName": "<uu5string/><UU5.Bricks.Lsi><UU5.Bricks.Lsi.Item language='en'>Active</UU5.Bricks.Lsi.Item><UU5.Bricks.Lsi.Item language='cs'>Aktivní</UU5.Bricks.Lsi.Item></UU5.Bricks.Lsi>",
+      "stateIcon": "uubml-state-s00-active",
+      "ancestorStateMap": {
+        "uu-businessterritory-maing01/uuOrganizationIfc": "active",
+        "uu-businessterritory-maing01/uuObc": "active",
+        "uu-businessterritory-maing01/uuArtifactIfc": "active"
+      },
+      "typeName": "<uu5string/><UU5.Bricks.Lsi><UU5.Bricks.Lsi.Item language='en'>Unit</UU5.Bricks.Lsi.Item><UU5.Bricks.Lsi.Item language='cs'>Jednotka</UU5.Bricks.Lsi.Item></UU5.Bricks.Lsi>",
+      "typeIcon": "uubml-organizational-unit"
+    },
+    "folder": {
+      "awsc": "5d3f57ae6506e4000d560864",
+      "code": "uuShapes",
+      "typeCode": "uu-businessterritory-maing01/uuFolder",
+      "unit": "5d3f57c56506e4000d560a20",
+      "folder": "5d3f57c66506e4000d560a35",
+      "responsibleRole": "5d3f57c06506e4000d5609af",
+      "name": "uuShapes",
+      "asciiName": "uushapes",
+      "state": "active",
+      "category": "organizational",
+      "permissionMatrix": [
+        -1073741816,
+        536870920,
+        0,
+        3
+      ],
+      "icon": "uubml-folder",
+      "explicitPermissionList": [
+        null,
+        null,
+        null,
+        null
+      ],
+      "appKey": "uu-businessterritory-maing01/43c1c4943e6944b986b0eb3b98e5d271-4d7585efc20841f899dc26a3e19a650f",
+      "unitName": "<uu5string/><UU5.Bricks.Lsi><UU5.Bricks.Lsi.Item language='en'>SWF.B</UU5.Bricks.Lsi.Item></UU5.Bricks.Lsi>",
+      "stateData": {
+        "progress": {
+          "current": 0,
+          "weight": 0
+        }
+      },
+      "sys": {
+        "cts": "2020-07-09T13:10:06.804+0000",
+        "mts": "2020-07-09T13:10:06.804+0000",
+        "rev": 1
+      },
+      "awid": "4d7585efc20841f899dc26a3e19a650f",
+      "id": "5f07172e2d9c170027602356",
+      "stateType": "ACTIVE",
+      "stateName": "<uu5string/><UU5.Bricks.Lsi><UU5.Bricks.Lsi.Item language='en'>Active</UU5.Bricks.Lsi.Item><UU5.Bricks.Lsi.Item language='cs'>Aktivní</UU5.Bricks.Lsi.Item></UU5.Bricks.Lsi>",
+      "stateIcon": "uubml-state-s00-active",
+      "ancestorStateMap": {
+        "uu-businessterritory-maing01/uuObc": "active",
+        "uu-businessterritory-maing01/uuArtifactIfc": "active"
+      },
+      "typeName": "<uu5string/><UU5.Bricks.Lsi><UU5.Bricks.Lsi.Item language='en'>Folder</UU5.Bricks.Lsi.Item><UU5.Bricks.Lsi.Item language='cs'>Složka</UU5.Bricks.Lsi.Item></UU5.Bricks.Lsi>",
+      "typeIcon": "uubml-folder"
+    },
+    "responsibleRole": {
+      "uuIdentity": "5-8385-1",
+      "tgMask": [
+        -2147483648,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        7
+      ],
+      "mainUuIdentity": "5-8385-1",
+      "mainUuIdentityName": "Jan Rudolf",
+      "unitName": "<uu5string/><UU5.Bricks.Lsi><UU5.Bricks.Lsi.Item language='en'>Access Roles</UU5.Bricks.Lsi.Item></UU5.Bricks.Lsi>",
+      "code": "5-8385-1",
+      "typeCode": "uu-businessterritory-maing01/uuPerson",
+      "unit": "5d3f57ba6506e4000d560926",
+      "folder": "5d3f57bd6506e4000d56096e",
+      "responsibleRole": "5d3f57a76506e4000d560815",
+      "name": "Jan Rudolf",
+      "asciiName": "jan rudolf",
+      "desc": "<uu5string/>",
+      "state": "active",
+      "category": "organizational",
+      "permissionMatrix": [
+        -1073741816,
+        536870912,
+        3
+      ],
+      "icon": "uubml-uuperson",
+      "sys": {
+        "cts": "2019-07-29T20:32:00.654+0000",
+        "mts": "2020-07-13T16:04:52.011+0000",
+        "rev": 3
+      },
+      "awid": "4d7585efc20841f899dc26a3e19a650f",
+      "searchableInTerritory": true,
+      "appKey": "uu-businessterritory-maing01/43c1c4943e6944b986b0eb3b98e5d271-4d7585efc20841f899dc26a3e19a650f",
+      "mtDwBaseUri": "https://uuapp.plus4u.net/uu-myterritory-dwg01/2069ed067cd7420294a88d9f6d90d0be",
+      "mtMainBaseUri": "https://uuapp.plus4u.net/uu-myterritory-maing01/6ff853b73de64a63989e2564954588fa",
+      "id": "5d3f57c06506e4000d5609af",
+      "stateType": "ACTIVE",
+      "stateName": "<uu5string/><UU5.Bricks.Lsi><UU5.Bricks.Lsi.Item language='en'>Active</UU5.Bricks.Lsi.Item><UU5.Bricks.Lsi.Item language='cs'>Aktivní</UU5.Bricks.Lsi.Item></UU5.Bricks.Lsi>",
+      "stateIcon": "uubml-state-s00-active",
+      "ancestorStateMap": {
+        "uu-businessterritory-maing01/uuAccessRoleIfc": "active",
+        "uu-businessterritory-maing01/uuRoleIfc": "active"
+      },
+      "typeName": "<uu5string/><UU5.Bricks.Lsi><UU5.Bricks.Lsi.Item language='en'>Person</UU5.Bricks.Lsi.Item><UU5.Bricks.Lsi.Item language='cs'>Osoba</UU5.Bricks.Lsi.Item></UU5.Bricks.Lsi>",
+      "typeIcon": "uubml-uuperson"
+    },
+    "blackAndWhiteList": null
+  },
+  "authorizedProfileList": [
+    "Authorities",
+    "Executives",
+    "Auditors",
+    "StandardUsers"
+  ],
+  "stateList": [
+    {
+      "name": "<uu5string/><UU5.Bricks.Lsi><UU5.Bricks.Lsi.Item language='en'>System</UU5.Bricks.Lsi.Item><UU5.Bricks.Lsi.Item language='cs'>Systémový</UU5.Bricks.Lsi.Item></UU5.Bricks.Lsi>",
+      "code": "system",
+      "type": "SYSTEM",
+      "icon": "uubml-state-s00-system",
+      "ancestorStateMap": {
+        "uu-businessterritory-maing01/uuArtifactIfc": "system",
+        "uu-businessterritory-maing01/uuAwsc": "system"
+      }
+    },
+    {
+      "name": "<uu5string/><UU5.Bricks.Lsi><UU5.Bricks.Lsi.Item language='en'>Created</UU5.Bricks.Lsi.Item><UU5.Bricks.Lsi.Item language='cs'>Vytvořený</UU5.Bricks.Lsi.Item></UU5.Bricks.Lsi>",
+      "code": "created",
+      "type": "INITIAL",
+      "icon": "uubml-state-s00-initial",
+      "ancestorStateMap": {
+        "uu-businessterritory-maing01/uuArtifactIfc": "initial",
+        "uu-businessterritory-maing01/uuAwsc": "initial"
+      }
+    },
+    {
+      "name": "<uu5string/><UU5.Bricks.Lsi><UU5.Bricks.Lsi.Item language='en'>Active</UU5.Bricks.Lsi.Item><UU5.Bricks.Lsi.Item language='cs'>Aktivní</UU5.Bricks.Lsi.Item></UU5.Bricks.Lsi>",
+      "code": "active",
+      "type": "ACTIVE",
+      "icon": "uubml-state-s00-active",
+      "ancestorStateMap": {
+        "uu-businessterritory-maing01/uuArtifactIfc": "active",
+        "uu-businessterritory-maing01/uuAwsc": "active"
+      }
+    },
+    {
+      "name": "<uu5string/><UU5.Bricks.Lsi><UU5.Bricks.Lsi.Item language='en'>Closed</UU5.Bricks.Lsi.Item><UU5.Bricks.Lsi.Item language='cs'>Uzavřený</UU5.Bricks.Lsi.Item></UU5.Bricks.Lsi>",
+      "code": "closed",
+      "type": "FINAL",
+      "icon": "uubml-state-s00-final",
+      "ancestorStateMap": {
+        "uu-businessterritory-maing01/uuArtifactIfc": "final",
+        "uu-businessterritory-maing01/uuAwsc": "final"
+      }
+    },
+    {
+      "name": "<uu5string/><UU5.Bricks.Lsi><UU5.Bricks.Lsi.Item language='en'>Passive</UU5.Bricks.Lsi.Item><UU5.Bricks.Lsi.Item language='cs'>Pozastavený</UU5.Bricks.Lsi.Item></UU5.Bricks.Lsi>",
+      "code": "passive",
+      "type": "PASSIVE",
+      "icon": "uubml-state-s00-passive",
+      "ancestorStateMap": {
+        "uu-businessterritory-maing01/uuArtifactIfc": "passive",
+        "uu-businessterritory-maing01/uuAwsc": "passive"
+      }
+    }
+  ],
+  "uuAppErrorMap": {}
+}

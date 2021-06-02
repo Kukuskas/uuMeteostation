@@ -31,9 +31,9 @@ export const Spa = createVisualComponent({
 
     //@@viewOn:render
     return (
-      <Plus4U5.App.Spa {...props} appName="uunBiot21sft02">
+      // <Plus4U5.App.Spa {...props} appName="uunBiot21sft02">
         <SpaAuthenticated />
-      </Plus4U5.App.Spa>
+      // </Plus4U5.App.Spa>
     );
     //@@viewOff:render
   },

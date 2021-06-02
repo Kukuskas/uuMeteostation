@@ -25,7 +25,6 @@ export const DataListStateResolver = createComponent({
   },
 
   render(props) {
-    console.log(props);
     let child = null;
     switch (props.dataList.state) {
       case "ready":

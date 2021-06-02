@@ -4,7 +4,8 @@ const { generateCall } = require("../call-helper.js");
 const DEFAULTS = {
   create: {
     name: "Test gateway",
-    uuEe: "14-2710-5"
+    uuEe: "25-8074-1",
+    timezone: "Europe/Prague"
   },
   update: {},
   get: {},

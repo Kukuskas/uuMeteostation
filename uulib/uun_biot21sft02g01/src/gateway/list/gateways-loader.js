@@ -29,15 +29,21 @@ export const GatewaysLoader = createComponent({
     const gatewaysList = useDataList({
       handlerMap: {
         load: handleLoad,
+        create: handleCreate,
       },
       initialDtoIn: {},
     });
     //@@viewOff:hooks
 
     //@@viewOn:handlers
-    async function handleLoad(dtoIn) {
-      return await Calls.gatewaysList(baseUri, dtoIn);
+    async function handleLoad() {
+      return await Calls.gatewayList(baseUri);
     }
+
+    async function handleCreate(dtoIn) {
+      return await Calls.gatewayCreate(baseUri, dtoIn);
+    }
+
 
     //@@viewOff:handlers
 

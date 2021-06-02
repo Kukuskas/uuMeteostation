@@ -80,6 +80,10 @@
       "uuAppInstance/scriptCallback": {
         "sysStateList": ["active"],
         "profileList": ["Authorities","AwidOwner"]
+      },
+      "dataset/getOrCreate": {
+        "sysStateList": ["active"],
+        "profileList": ["AwidOwner","Authorities","Auditors","Public"]
       }
     }
   }

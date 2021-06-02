@@ -25,3 +25,7 @@ import * as List from "./list/list.js";
 export { List };
 import * as GatewaysList from "./list/gateways-list.js";
 export { GatewaysList };
+export * from "./gateway-data.js";
+export * from "./data.js";
+// import * as DataSet from "./data-set/data-set.js";
+// export { DataSet };

@@ -1,6 +1,6 @@
 const { TestHelper } = require("uu_appg01_server-test");
 const calls = require("./calls.js");
-const { uuAppInstance } = require("../calls.js");
+const { uuAppInstance, dataset } = require("../calls.js");
 
 beforeAll(async () => {
   await TestHelper.setup();
@@ -23,7 +23,8 @@ describe("Testing gateway/create uuCmd HDS", () => {
       name: "test gateway name",
       code: "testgwcode",
       uuEe: "14-2710-5",
-      location: "37.434793618737,-140.466346175446"
+      location: "37.434793618737,-140.466346175446",
+      timezone: "Europe/Prague",
     };
 
     let result = await calls.create(dtoIn);
@@ -44,16 +45,16 @@ describe("Testing gateway/create uuCmd HDS", () => {
       current: {
         temperature: null,
         humidity: null,
-        timestamp: null
+        timestamp: null,
       },
       min: {
         temperature: null,
-        humidity: null
+        humidity: null,
       },
       max: {
         temperature: null,
-        humidity: null
-      }
+        humidity: null,
+      },
     };
 
     let result = await calls.create();
@@ -70,7 +71,8 @@ describe("Testing gateway/create uuCmd HDS", () => {
       name: "test gateway name",
       code: undefined,
       uuEe: "14-2710-5",
-      location: "37.434793618737,-140.466346175446"
+      location: "37.434793618737,-140.466346175446",
+      timezone: "Europe/Prague",
     };
 
     let result = await calls.create(dtoIn);
@@ -87,17 +89,17 @@ describe("Testing gateway/create AS CodeIsNotUnique", () => {
 
     const dtoIn1 = {
       uuEe: "9-1",
-      code: "gw1"
+      code: "gw1",
     };
 
     const dtoIn2 = {
       uuEe: "9-2",
-      code: "gw1"
+      code: "gw1",
     };
 
     const errorParams = {
       awid: TestHelper.getAwid(),
-      code: dtoIn2.code
+      code: dtoIn2.code,
     };
 
     await calls.create(dtoIn1);
@@ -114,4 +116,36 @@ describe("Testing gateway/create AS CodeIsNotUnique", () => {
   });
 });
 
-describe("Testing gateway/create AS UuEeIsNotUnique", () => { })
+describe("Testing gateway/create AS UuEeIsNotUnique", () => {
+  test("AS - UuEeIsNotUnique", async () => {
+    expect.hasAssertions();
+
+    const dtoIn1 = {
+      uuEe: "9-1",
+      code: "gw1",
+    };
+
+    const dtoIn2 = {
+      uuEe: "9-1",
+      code: "gw2",
+    };
+
+    const errorParams2 = {
+      awid: TestHelper.getAwid(),
+      uuEe: dtoIn2.uuEe,
+      existingCode: dtoIn1.code,
+    };
+
+    await calls.create(dtoIn1);
+
+    try {
+      await calls.create(dtoIn2);
+    } catch (e) {
+      expect(e.status).toBe(400);
+      expect(e.dtoOut).toHaveProperty(["uuAppErrorMap"]);
+      expect(e.code).toBe("uun-biot21sft02-main/gateway/create/uuEeIsNotUnique");
+      expect(e.message).toBe("Gateway with this uuEe already exists.");
+      expect(e.paramMap).toEqual(errorParams2);
+    }
+  });
+});

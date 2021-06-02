@@ -4,13 +4,12 @@
 // export * from "./gateway-edit-form.js";
 
 import UU5 from "uu5g04";
-import { createVisualComponent } from "uu5g04-hooks";
+import { createVisualComponent, useState } from "uu5g04-hooks";
 import UuP from "uu_pg01";
 import "uu_pg01-bricks";
 import "uu5g04-bricks";
-
+import Data from "../data"
 import GatewaysList from "./gateways-list.js";
-export {GatewaysList}
 import GatewaysLoader from "./gateways-loader"
 import Config from "./config/config";
 // import Lsi from "./list-lsi";
@@ -31,7 +30,6 @@ const List = createVisualComponent({
     colorSchema: UU5.PropTypes.string,
     elevation: UU5.PropTypes.string,
     borderRadius: UU5.PropTypes.string,
-    bgStyle: UU5.PropTypes.string,
 
   },
   //@@viewOff:propTypes
@@ -42,31 +40,30 @@ const List = createVisualComponent({
     colorSchema: undefined,
     elevation: "2",
     borderRadius: "4px",
-    bgStyle: undefined,
 
   },
   //@@viewOff:defaultProps
 
   render(props) {
-
-
+console.log("propsss", props);
+    const [whichComponent, setWhichComponent] = useState(false);
+    const [dtoInGateway, setDtoInGateway] = useState();
     //@@viewOff:handlers
     function handleDelete(id) {
 
     }
 
     function handleChange(gateway) {
-console.log(gateway);
+
+    }
+    function openDetail(params) {
+
+      setDtoInGateway(params);
+      setWhichComponent(true);
     }
 
-    function handleDetail(id) {
-console.log("Id of a gateway is: ", id);
-    }
 
-    function handleAdd(gateway) {
-      console.log("null");
-    }
-
+    if (!whichComponent) {
       return (
      <UuP.Bricks.ComponentWrapper
     colorSchema={props.colorSchema}
@@ -76,12 +73,16 @@ console.log("Id of a gateway is: ", id);
     // header={<UU5.Bricks.Lsi lsi={Lsi.listHeader} />}
     // help={<UU5.Bricks.Lsi lsi={Lsi.listHelp} params={[Config.SQUARE_DOC]} />}
    >  
-      <GatewaysLoader>
-        <GatewaysList onUpdate={handleChange} onDelete={handleDelete} onCreate={handleAdd} onDetail={handleDetail}/>
+      <GatewaysLoader baseUri={props.baseUri}>
+        <GatewaysList onUpdate={handleChange} onDelete={handleDelete} onDetail={openDetail}/>
       </GatewaysLoader>
       
   </UuP.Bricks.ComponentWrapper>
-  )
+  )    } else {
+    return (<>
+    <UU5.Bricks.Button onClick={()=>setWhichComponent(false)} >Back</UU5.Bricks.Button>
+    <Data baseUri={props.baseUri} dtoInGateway={dtoInGateway}></Data>
+  </>)}
     //@@viewOff:render
 },
 });

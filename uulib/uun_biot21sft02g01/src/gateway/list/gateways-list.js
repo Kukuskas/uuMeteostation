@@ -1,11 +1,9 @@
-
 // import * as Context from "./context/context.js";
 // export { Context };
 // export * from "./gateway-edit-form.js";
 
 import UU5 from "uu5g04";
 import { createVisualComponent } from "uu5g04-hooks";
-import UuP from "uu_pg01";
 import "uu_pg01-bricks";
 import "uu5g04-bricks";
 
@@ -27,67 +25,77 @@ const GatewaysList = createVisualComponent({
 
   //@@viewOn:propTypes
   propTypes: {
-
     colorSchema: UU5.PropTypes.string,
     elevation: UU5.PropTypes.string,
     borderRadius: UU5.PropTypes.string,
     bgStyle: UU5.PropTypes.string,
-
   },
   //@@viewOff:propTypes
 
   //@@viewOn:defaultProps
   defaultProps: {
-
     colorSchema: undefined,
     elevation: "2",
     borderRadius: "4px",
     bgStyle: undefined,
-
   },
   //@@viewOff:defaultProps
 
   render(props) {
     //@@viewOn:hooks
+    
     // let gatewaysDataList = useGateways();
     let gatewaysDataList = useGateways();
-    console.log("000000000000000000000000000000000");
-    console.log(gatewaysDataList);
-    let gatewaysList = gatewaysDataList.data;
-
     //@@viewOff:hooks
 
     //@@viewOn:private
-    // let gatewaysList = gatewaysDataList.data;
+    let gatewaysList = gatewaysDataList.data;
     // let app = appDataObject.data;
+    async function handleAdd(opt) {
+      const input = {
+          code: opt.code,
+          name: opt.name, 
+          location: opt.location, 
+          locationDesc: opt.locationDesc, 
+          timezone: opt.timezone, 
+          uuEe: opt.uuEe, 
+        };
+      
+      try {
+        await gatewaysDataList?.handlerMap.create(input);
+      } catch (e) {
+        opt.component.saveFail(e)
+        "Will work later on error of  delete";
+        return;
+      }
+      opt.component.saveDone()
+    }
+
+    function handleAddFail({component, dtoOut, e}){
+    
+    component.getAlertBus().addAlert({
+      content: <UU5.Bricks.Error errorData="error"/>,
+      colorSchema: "danger"}
+    )}
+
 
     //@@viewOff:handlers
-    function handleDelete(id) {
-
-    }
-
-    function handleChange(gateway) {
-console.log(gateway);
-    }
-
-    function handleDetail(id) {
-console.log("Id of a gateway is: ", id);
-    }
-
-    function handleAdd(gateway) {
-      console.log("null");
-    }
-
       return (
-      <DataListStateResolver dataList={gatewaysDataList}>
-        <Gateways gatewaysList={gatewaysList} onUpdate={handleChange} onDelete={handleDelete} onCreate={handleAdd} onDetail={handleDetail}/>
-      </DataListStateResolver>
-  )
+        <DataListStateResolver dataList={gatewaysDataList}>
+          <Gateways
+            gatewaysList={gatewaysList}
+            onDelete={props.onDelete}
+            onCreate={handleAdd}
+            onDetail={props.onDetail}
+            onSaveFail={handleAddFail}
+          />
+        </DataListStateResolver>
+      );
+
     //@@viewOff:render
-},
+  },
 });
 
 //viewOn:exports
 export { GatewaysList };
 export default GatewaysList;
-

@@ -1,46 +1,57 @@
-//@@viewOn:imports
 import UU5 from "uu5g04";
-import { createComponent } from "uu5g04-hooks";
-import Config from "./config/config";
+import { createComponent, useDataObject } from "uu5g04-hooks";
+import "uu_plus4u5g01-bricks";
+
+import Config from "../config/config";
+import Calls from "calls";
+import { GatewayContext } from "./context/context";
 //@@viewOff:imports
 
-const STATICS = {
+export const GatewayLoader = createComponent({
   //@@viewOn:statics
   displayName: Config.TAG + "GatewayLoader",
   //@@viewOff:statics
-};
-
-export const GatewayLoader = createComponent({
-  ...STATICS,
 
   //@@viewOn:propTypes
-  propTypes: {},
+  propTypes: {
+    baseUri: UU5.PropTypes.string,
+  },
   //@@viewOff:propTypes
 
   //@@viewOn:defaultProps
-  defaultProps: {},
+  defaultProps: {
+    baseUri: undefined,
+  },
   //@@viewOff:defaultProps
 
-  render(props) {
+  render({ baseUri, children, dtoIn }) {
+    //@@viewOn:hooks
+    const gatewayDataObject = useDataObject({
+      handlerMap: {
+        load: handleLoad,
+      },
+      initialDtoIn: {},
+    });
+    //@@viewOff:hooks
+
+    //@@viewOn:handlers
+    async function handleLoad() {
+      console.log(dtoIn);
+      return await Calls.gatewayGet(baseUri,dtoIn);
+    }
+
+    //@@viewOff:handlers
+
     //@@viewOn:private
     //@@viewOff:private
 
-    //@@viewOn:interface
-    //@@viewOff:interface
-
     //@@viewOn:render
-    const className = Config.Css.css``;
-    const attrs = UU5.Common.VisualComponent.getAttrs(props, className);
-    const currentNestingLevel = UU5.Utils.NestingLevel.getNestingLevel(props, STATICS);
-
-    return currentNestingLevel ? (
-      <div {...attrs}>
-        <div>Component {STATICS.displayName}</div>
-        {UU5.Utils.Content.getChildren(props.children, props, STATICS)}
-      </div>
-    ) : null;
+    return <GatewayContext.Provider value={gatewayDataObject}>{children}</GatewayContext.Provider>;
     //@@viewOff:render
   },
 });
 
-export default GatewayLoader;
+//@@viewOn:helpers
+  //@@viewOff:helpers
+
+  export default GatewayLoader;

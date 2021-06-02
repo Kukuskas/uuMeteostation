@@ -8,21 +8,21 @@
   "spec": "uu5-app; uu_appg01_devkit@4.0.1",
   "dependencies": {
     "systemjs": "0.19.47",
-    "uu_contentkitg01": "^2.0.0",
-    "uu_plus4u5g01": "^4.0.0",
+    "uu5g04": "^1.45.3",
+    "uu_contentkitg01": "^2.13.3",
+    "uu_plus4u5g01": "^4.19.2",
     "uu_territoryg01": "^1.0.0",
-    "uu5g04": "^1.19.0",
-    "uun_biot21sft02g01": "https://cdn.plus4u.net/beta/uun-biot21sft02g01/0.1.0-beta/uun_biot21sft02g01.tgz"
+    "uun_biot21sft02g01": "https://cdn.plus4u.net/beta/uun-biot21sft02g01/0.1.5-beta/uun_biot21sft02g01.tgz"
   },
   "uuBuildSettings": {
     "externals": {
       "uun_biot21sft02g01": {
-        "cdnBaseUri": "https://cdn.plus4u.net/beta/uun-biot21sft02g01/0.1.0-beta"
+        "cdnBaseUri": "https://cdn.plus4u.net/beta/uun-biot21sft02g01/0.1.5-beta"
       }
     }
   },
   "devDependencies": {
-    "uu_appg01_devkit": "^4.0.1"
+    "uu_appg01_devkit": "^4.2.0"
   },
   "engines": {
     "node": ">=12.0.0"

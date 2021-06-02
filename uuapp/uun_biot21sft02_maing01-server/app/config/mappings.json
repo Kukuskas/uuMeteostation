@@ -95,6 +95,11 @@
         "realization": "api/controllers/UuAppInstanceController.scriptCallback",
         "httpMethod": "POST",
         "type": "CMD"
+      },
+      "dataset/getOrCreate": {
+        "realization": "api/controllers/DatasetController.getOrCreate",
+        "httpMethod": "GET",
+        "type": "CMD"
       }
     }
   }

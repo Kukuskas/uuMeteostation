@@ -4,15 +4,19 @@ const gatewayCreateDtoInType = shape({
   code: code(),
   name: string(200),
   location: gps(),
-  uuEe: uuIdentity().isRequired(), //uuId of the uuEE worker
+  locationDesc: string(200),
+  timezone: string(100).isRequired(),
+  uuEe: uuIdentity().isRequired()
 });
 
 const gatewayUpdateDtoInType = shape({
   id: id().isRequired(),
   name: string(200),
   location: gps(),
+  locationDesc: string(200),
+  timezone: string(100),
   code: code(),
-  uuEe: uuIdentity(), // uuId of the uuEE worker
+  uuEe: uuIdentity(),
   state: oneOf(["active", "closed"])
 });
 
@@ -39,7 +43,7 @@ const gatewayPostDataDtoInType = shape({
     timestamp: datetime().isRequired(),
     temperature: float(-273.15, null, 3),
     humidity: float(0, 100, 3)
-  }), 1, null).isRequired()
+  }).isRequired(), 1, null).isRequired()
 });
 
 const gatewayLogMessageDtoInType = shape({
