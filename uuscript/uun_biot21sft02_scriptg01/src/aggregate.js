@@ -23,11 +23,6 @@ const AGGREGATION_SOURCE = {
   weekly: "daily",
   monthly: "daily"
 };
-const AGGREGATED_REQUIREMENTS = {
-  detailed: ["hourly"],
-  hourly: ["daily"],
-  daily: ["weekly", "monthly"]
-};
 const DATASET_TYPES = {
   hourly: {
     labelFormat: "YYYY-MM-DDTHH",
@@ -53,6 +48,13 @@ const DATASET_TYPES = {
       months: 1
     }
   }
+};
+const TYPE_IS_NESTED = {
+  detailed: false,
+  hourly: true,
+  daily: true,
+  weekly: true,
+  monthly: true
 };
 
 // errors
@@ -105,26 +107,122 @@ const WARNINGS = {
   }
 };
 
+// custom classes
+class AggregationStatusTracker {
+  // datasets that are waiting to be fully aggregated
+  _waitingDatasets = {};
+  // datasets that have been aggregated enough
+  _readyDatasets = [];
+  // template objects for waitingDatasets
+  _blankStatuses = {};
+
+  _AGGREGATED_REQUIREMENTS = {
+    detailed: ["hourly"],
+    hourly: ["daily"],
+    daily: ["weekly", "monthly"]
+  };
+
+  constructor() {
+    this._waitingDatasets = {};
+    this._readyDatasets = [];
+    this._blankStatuses = {};
+
+    for (const type in this._AGGREGATED_REQUIREMENTS) {
+      const requirements = this._AGGREGATED_REQUIREMENTS[type];
+      this._blankStatuses[type] = requirements.reduce((o, requirement) => {
+        o[requirement] = null;
+        return o;
+      }, {});
+    }
+  }
+
+  // track a dataset that is yet to be aggregated
+  markForAggregation(datasetIds, datasetType, type) {
+    datasetIds.forEach(id => {
+      if (!this._waitingDatasets[id]) {
+        this._waitingDatasets[id] = { ...this._blankStatuses[datasetType] };
+      }
+      this._waitingDatasets[id][type] = (this._waitingDatasets[id][type] ?? 0) + 1;
+    });
+  }
+
+  markAsAggregated(datasetIds, type) {
+    datasetIds.forEach(id => {
+      const status = this._waitingDatasets[id];
+      if (!status) {
+        return;
+      }
+      status[type] = (status[type] ?? 0) - 1;
+      const isFullyAggregated = !Object.values(status).some(v => v > 0 || v === null);
+      if (isFullyAggregated) {
+        this._readyDatasets.push(id);
+        delete this._waitingDatasets[id];
+      }
+    });
+  }
+
+  getFullyAggregated(deleteIds = true) {
+    const datasetIds = this._readyDatasets;
+    if (deleteIds) {
+      this._readyDatasets = [];
+    }
+    return datasetIds;
+  }
+}
+
+class RequestCache {
+  _savedRequests;
+
+  constructor() {
+    this._savedRequests = {};
+  }
+
+  withCache(fn) {
+    return (...args) => {
+      const key = this._stringify(args);
+      if (!this.has(key)) {
+        const value = fn(...args);
+        this.store(key, value);
+        return value;
+      }
+      return this.get(key);
+    };
+  }
+
+  withAsyncCache(fn) {
+    return async (...args) => {
+      const key = this._stringify(args);
+      if (!this.has(key)) {
+        const value = await fn(...args);
+        this.store(key, value);
+        return value;
+      }
+      return this.get(key);
+    };
+  }
+
+  has(key) {
+    return this._savedRequests.hasOwnProperty(key);
+  }
+
+  store(key, value) {
+    this._savedRequests[key] = value;
+  }
+
+  get(key) {
+    return this._savedRequests[key];
+  }
+
+  _stringify(key) {
+    return JSON.stringify(key);
+  }
+}
+
 // global vars
 let weatherstationClient = null;
 let progressClient = null;
 let progressCode = null;
-let startedAt = moment.parseZone();
-
-// helpers
-async function proceed({ message = "Script is running.", state = "running", totalWork = null, doneWork = null }, uuAppErrorMap = {}) {
-  try {
-    await progressClient.post("progress/proceed", {
-      code: progressCode,
-      message,
-      state,
-      totalWork,
-      doneWork
-    });
-  } catch (e) {
-    await addWarning(WARNINGS.progressProceedFailed, uuAppErrorMap, { cause: e }, false);
-  }
-}
+let uuAppErrorMap = {};
 
 // error and warning processing
 async function throwError(error) {
@@ -139,7 +237,7 @@ async function throwError(error) {
   throw error;
 }
 
-async function addWarning(warning, uuAppErrorMap, paramMap = {}, updateProgress = true) {
+async function addWarning(warning, paramMap = {}, updateProgress = true) {
   ValidationHelper.addWarning(uuAppErrorMap, warning.code, warning.message ?? null, paramMap);
 }
 
@@ -151,7 +249,7 @@ function validateDtoIn() {
   return ValidationHelper.processValidationResult(dtoIn, validationResult, WARNINGS.unsupportedKeys.code, ERRORS.InvalidDtoIn);
 }
 
-async function loadAppInstance(uuAppErrorMap) {
+async function loadAppInstance() {
   let dtoOut;
   try {
     dtoOut = await weatherstationClient.get("uuAppInstance/load", {});
@@ -174,7 +272,8 @@ function setReferences(uuAppInstance) {
   progressCode = uuAppInstance.externalResources.scripts.checkGateway.progressCode;
 }
 
-async function listUnaggregatedDatasets(type, uuAppErrorMap) {
+// calls
+async function listUnaggregatedDatasets(type) {
   let dtoOut = {};
   let datasets = [];
   do {
@@ -186,9 +285,7 @@ async function listUnaggregatedDatasets(type, uuAppErrorMap) {
       }
     };
     try {
-      await console.log(`Getting unaggregated data page ${dtoIn.pageInfo.pageIndex}`);
       dtoOut = await weatherstationClient.post("dataset/listUnaggregatedData", dtoIn);
-      await console.log(`Received unaggregated data ${JSON.stringify(dtoOut.pageInfo)}`);
       datasets.push(...dtoOut.itemList);
     } catch (e) {
       throw e;
@@ -198,55 +295,7 @@ async function listUnaggregatedDatasets(type, uuAppErrorMap) {
   return datasets;
 }
 
-// helpers
-
-/**
- * Returns the period, which is affected by unaggregated datasets
- * @param {*} dataset
- */
-function _getDatasetAggregatePeriod(dataset, aggregationLevel) {
-  switch (aggregationLevel) {
-    // data for the whole period is already contained in the lower level aggregation
-    case ("hourly", "daily", "monthly"): {
-      return {
-        startDate: dataset.startDate,
-        endDate: dataset.endDate
-      };
-    }
-    case "weekly": {
-      return {
-        startDate: moment
-          .parseZone(dataset.startDate)
-          .startOf("isoWeek")
-          .format("YYYY-MM-DD"),
-        endDate: moment
-          .parseZone(dataset.startDate)
-          .endOf("isoWeek")
-          .format("YYYY-MM-DD")
-      };
-    }
-    default: {
-      return {
-        startDate: dataset.startDate,
-        endDate: dataset.endDate
-      };
-    }
-  }
-}
-
-function _getAllDatasetStartDatesBetween(startDate, endDate, type) {
-  const startDates = [];
-  let nextDate = moment.parseZone(_getStartDate(startDate, type)).startOf("day");
-  const maxDate = moment.parseZone(endDate).endOf("day");
-  // console.log({ startDate, endDate, nextDate, maxDate, type, calculatedStartDate: _getStartDate(startDate, type) });
-  while (nextDate.isSameOrBefore(maxDate)) {
-    startDates.push(nextDate.format("YYYY-MM-DD"));
-    nextDate = moment.parseZone(_getEndDate(nextDate, type)).add(1, "day");
-  }
-  return startDates;
-}
-
-async function listDatasets(type, startDate, endDate, gatewayId, uuAppErrorMap) {
+async function listDatasets(type, startDate, endDate, gatewayId) {
   let dtoOut = {};
   let datasets = [];
   do {
@@ -271,6 +320,102 @@ async function listDatasets(type, startDate, endDate, gatewayId, uuAppErrorMap) 
   } while ((dtoOut.pageInfo.pageIndex + 1) * dtoOut.pageInfo.pageSize < dtoOut.pageInfo.total);
   return datasets;
 }
+const listCache = new RequestCache();
+const cachedListDataset = listCache.withAsyncCache(listDatasets);
+
+async function getDataset(type, date, gatewayId) {
+  try {
+    return weatherstationClient.get("dataset/getOrCreate", { gatewayId, type, date });
+  } catch (e) {
+    throwError(new Error(e));
+  }
+}
+const getCache = new RequestCache();
+const cachedGetDataset = getCache.withAsyncCache(getDataset);
+
+async function postAggregatedDataset(dataset) {
+  try {
+    // await console.info(dataset);
+    return weatherstationClient.post("dataset/postAggregatedData", dataset);
+  } catch (e) {
+    await console.warning(e);
+  }
+}
+
+async function markAggregated(datasetIds, modifiedBefore) {
+  const dtoIn = {
+    datasetIdList: datasetIds,
+    modifiedBefore: modifiedBefore.format("YYYY-MM-DDTHH:mm:ss.SSSZ")
+  };
+  try {
+    return weatherstationClient.post("dataset/markAggregated", dtoIn);
+  } catch (e) {
+    await console.warning(e);
+  }
+}
+
+// helpers
+
+/**
+ * Returns the period, which is affected by unaggregated datasets
+ * @param {*} dataset
+ */
+function _getDatasetAffectedPeriod(dataset, aggregationLevel) {
+  switch (aggregationLevel) {
+    // data for the whole period is already contained in the lower level aggregation
+    case "hourly":
+    case "daily": {
+      return {
+        startDate: dataset.startDate,
+        endDate: dataset.endDate
+      };
+    }
+    case "monthly": {
+      return {
+        startDate: moment
+          .parseZone(dataset.startDate)
+          .startOf("month")
+          .format("YYYY-MM-DD"),
+        endDate: moment
+          .parseZone(dataset.endDate)
+          .endOf("month")
+          .format("YYYY-MM-DD")
+      };
+    }
+    case "weekly": {
+      return {
+        startDate: moment
+          .parseZone(dataset.startDate)
+          .startOf("isoWeek")
+          .format("YYYY-MM-DD"),
+        endDate: moment
+          .parseZone(dataset.endDate)
+          .endOf("isoWeek")
+          .format("YYYY-MM-DD")
+      };
+    }
+    default: {
+      return {
+        startDate: dataset.startDate,
+        endDate: dataset.endDate
+      };
+    }
+  }
+}
+
+function _getAllDatasetStartDatesBetween(startDate, endDate, type) {
+  const startDates = [];
+  const minDate = moment.parseZone(startDate).startOf("day");
+  let nextDate = moment.parseZone(_getStartDate(startDate, type)).startOf("day");
+  const maxDate = moment.parseZone(endDate).endOf("day");
+  while (nextDate.isSameOrBefore(maxDate)) {
+    if (nextDate.isSameOrAfter(minDate)) {
+      startDates.push(nextDate.format("YYYY-MM-DD"));
+    }
+    nextDate = moment.parseZone(_getEndDate(nextDate, type)).add(1, "day");
+  }
+  return startDates;
+}
 
 function _extractDataEntries(datasets, startDate, endDate) {
   const start = moment.parseZone(startDate);
@@ -282,31 +427,12 @@ function _extractDataEntries(datasets, startDate, endDate) {
   return dataPoints.filter(d => start.isSameOrBefore(d.timestamp) && end.isAfter(d.timestamp));
 }
 
-async function getDataset(type, date, gatewayId, uuAppErrorMap) {
-  try {
-    return weatherstationClient.get("dataset/getOrCreate", { gatewayId, type, date });
-  } catch (e) {
-    throwError(new Error(e));
-  }
-}
-
-async function postAggregatedDataset(dataset) {
-  try {
-    await console.info(dataset);
-    return weatherstationClient.post("dataset/postAggregatedData", dataset);
-  } catch (e) {
-    await console.warning(e);
-  }
-}
-
 function _trimDecimals(val, dec) {
   const coef = 10 ** dec;
   return Math.floor(val * coef) / coef;
 }
 
-async function _calculatePeriod(entries, timestamp, label) {
-  const nested = entries.hasOwnProperty("avg");
-
+function _calculatePeriod(entries, timestamp, label, nested) {
   const periodEntry = {
     timestamp,
     label,
@@ -344,10 +470,9 @@ async function _calculatePeriod(entries, timestamp, label) {
 }
 
 async function _generateEntry(sourceType, start, end, gatewayId, label) {
-  const relevantDatasets = await listDatasets(sourceType, start, end, gatewayId);
+  const relevantDatasets = await cachedListDataset(sourceType, _getStartDate(start, sourceType), _getEndDate(end, sourceType), gatewayId);
   const relevantDataEntries = _extractDataEntries(relevantDatasets, start, end);
-  const generatedEntry = _calculatePeriod(relevantDataEntries, start, label);
-  // await console.warning({ sourceType, start, end, gatewayId, label, relevantDatasets, relevantDataEntries, generatedEntry });
+  const generatedEntry = _calculatePeriod(relevantDataEntries, start, label, TYPE_IS_NESTED[sourceType]);
   return generatedEntry;
 }
 
@@ -357,36 +482,32 @@ function _nextTimestamp(timestamp, datasetType) {
 }
 
 function _getStartDate(timestamp, datasetType) {
+  const m = moment.parseZone(timestamp);
   switch (datasetType) {
     case "weekly": {
-      return moment
-        .parseZone(timestamp)
+      return m
         .isoWeek(1)
         .startOf("isoWeek")
         .format("YYYY-MM-DD");
     }
     case "daily":
     case "monthly": {
-      return moment
-        .parseZone(timestamp)
-        .startOf("year")
-        .format("YYYY-MM-DD");
+      return m.startOf("year").format("YYYY-MM-DD");
     }
     case "hourly":
     case "detailed":
     default: {
-      return moment
-        .parseZone(timestamp)
-        .startOf("day")
-        .format("YYYY-MM-DD");
+      return m.startOf("day").format("YYYY-MM-DD");
     }
   }
 }
 
 function _getEndDate(timestamp, datasetType) {
+  const m = moment.parseZone(timestamp);
   switch (datasetType) {
     case "weekly": {
-      const m = moment.parseZone(timestamp);
+      // workaround to prevent getting week count of a different year
+      m.isoWeek(2);
       return m
         .isoWeek(m.isoWeeksInYear())
         .endOf("isoWeek")
@@ -394,25 +515,19 @@ function _getEndDate(timestamp, datasetType) {
     }
     case "daily":
     case "monthly": {
-      return moment
-        .parseZone(timestamp)
-        .endOf("year")
-        .format("YYYY-MM-DD");
+      return m.endOf("year").format("YYYY-MM-DD");
     }
     case "hourly":
     case "detailed":
     default: {
-      return moment
-        .parseZone(timestamp)
-        .endOf("day")
-        .format("YYYY-MM-DD");
+      return m.endOf("day").format("YYYY-MM-DD");
     }
   }
 }
 
 async function main() {
   // 1
-  const uuAppErrorMap = validateDtoIn();
+  uuAppErrorMap = validateDtoIn();
 
   // 2
   weatherstationClient = new AppClient({ baseUri: dtoIn.baseUri, session });
@@ -426,39 +541,41 @@ async function main() {
   await console.info("Initial setup done.");
 
   // 5
+  const aggregationTracker = new AggregationStatusTracker();
+
   for (const aggregationLevel of AGGREGATION_LEVELS) {
+    const aggregationLevelStart = moment();
     await console.info(`Aggregating to ${aggregationLevel}`);
     const sourceLevel = AGGREGATION_SOURCE[aggregationLevel];
     const unaggregatedDatasets = await listUnaggregatedDatasets(sourceLevel, uuAppErrorMap);
     await console.log(`Unaggregated dataset count: ${unaggregatedDatasets.length}`);
 
-    // list all periods that are may be affected by unaggregated datasets
+    // list all datasets at aggregationLevel that are may be affected by unaggregated datasets
     const affectedDatasets = unaggregatedDatasets.reduce((periods, dataset) => {
-      const periodBounds = _getDatasetAggregatePeriod(dataset, aggregationLevel);
-      const affectedDatasets = _getAllDatasetStartDatesBetween(periodBounds.startDate, periodBounds.endDate, dataset.type);
-      // console.log({ dataset, periodBounds, affectedDatasets });
-      affectedDatasets.forEach(startDate => {
-        const marker = `${dataset.gatewayId}|${startDate}`;
-        periods[marker] = {
+      const periodBounds = _getDatasetAffectedPeriod(dataset, aggregationLevel);
+      const datasetStarts = _getAllDatasetStartDatesBetween(_getStartDate(periodBounds.startDate, aggregationLevel), _getEndDate(periodBounds.endDate, aggregationLevel), aggregationLevel);
+      datasetStarts.forEach(startDate => {
+        const marker = `${dataset.gatewayId}|${startDate}|${aggregationLevel}`;
+        const blankDatasetDesc = {
           gatewayId: dataset.gatewayId,
-          startDate
+          startDate,
+          endDate: _getEndDate(startDate, aggregationLevel),
+          unaggregatedIds: []
         };
+        periods[marker] = periods[marker] ?? blankDatasetDesc;
+        periods[marker].unaggregatedIds.push(dataset.id);
+        aggregationTracker.markForAggregation([dataset.id], sourceLevel, aggregationLevel);
       });
       return periods;
     }, {});
 
-    await console.log(affectedDatasets);
-
     for (const datasetMarker in affectedDatasets) {
       const datasetDesc = affectedDatasets[datasetMarker];
 
-      const dataset = (await getDataset(aggregationLevel, datasetDesc.startDate, datasetDesc.gatewayId, uuAppErrorMap)).data;
-
-      console.log({ datasetMarker, datasetDesc, dataset });
+      const dataset = (await cachedGetDataset(aggregationLevel, datasetDesc.startDate, datasetDesc.gatewayId)).data;
 
       for (const index in dataset.data) {
         const entry = dataset.data[index];
-        // await console.log({ datasetMarker, index, entry });
         const nextTimestamp = _nextTimestamp(entry.timestamp, aggregationLevel);
 
         dataset.data[index] = await _generateEntry(sourceLevel, entry.timestamp, nextTimestamp, dataset.gatewayId, entry.label);
@@ -467,9 +584,11 @@ async function main() {
       dataset.gatewayId = datasetDesc.gatewayId;
 
       await postAggregatedDataset(dataset);
+      aggregationTracker.markAsAggregated(datasetDesc.unaggregatedIds, aggregationLevel);
     }
 
-    // await markAggregated(unaggregatedDatasets, aggregationLevel);
+    const aggregatedDatasets = aggregationTracker.getFullyAggregated();
+    await console.log(await markAggregated(aggregatedDatasets, aggregationLevelStart));
   }
 
   return { uuAppErrorMap };
