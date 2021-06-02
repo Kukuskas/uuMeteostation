@@ -394,7 +394,7 @@ class DatasetAbl {
         );
       }
       const identifiers = ["id", "gatewayId", "type", "startDate", "endDate"];
-      const identifiersDoNotMatch = identifiers.some((key) => dataset[key] !== dtoIn[key]);
+      const identifiersDoNotMatch = identifiers.some((key) => dataset[key].toString() !== dtoIn[key].toString());
       if (identifiersDoNotMatch) {
         const filterKeys = (o, keys) =>
           keys.reduce((state, key) => {
