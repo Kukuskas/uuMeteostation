@@ -58,7 +58,7 @@
       },
       "dataset/listUnaggregatedData": {
         "realization": "api/controllers/DatasetController.listUnaggregatedData",
-        "httpMethod": "POST",
+        "httpMethod": "GET",
         "type": "CMD"
       },
       "dataset/postAggregatedData": {
