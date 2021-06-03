@@ -86,6 +86,16 @@
         "httpMethod": "GET",
         "type": "CMD"
       },
+      "uuAppInstance/scheduleScripts": {
+        "realization": "api/controllers/UuAppInstanceController.scheduleScripts",
+        "httpMethod": "POST",
+        "type": "CMD"
+      },
+      "uuAppInstance/scriptCallback": {
+        "realization": "api/controllers/UuAppInstanceController.scriptCallback",
+        "httpMethod": "POST",
+        "type": "CMD"
+      },
       "dataset/getOrCreate": {
         "realization": "api/controllers/DatasetController.getOrCreate",
         "httpMethod": "GET",

@@ -72,7 +72,7 @@ const DATASET_TYPES = {
     },
   },
   weekly: {
-    labelFormat: "YYYY-[W]WW",
+    labelFormat: "GGGG-[W]WW",
     entryOffset: {
       weeks: 1,
     },
@@ -366,7 +366,7 @@ class DatasetAbl {
       if (index === 0) {
         expectedTimestamp = startMoment.clone();
       } else {
-        expectedTimestamp = this._nextTimestamp(data[index - 1].timestamp, dtoIn.type);
+        expectedTimestamp = this._nextTimestamp(moment.tz(data[index - 1].timestamp, gateway.timezone), dtoIn.type);
       }
 
       if (!expectedTimestamp.isSame(entry.timestamp)) {
@@ -394,7 +394,7 @@ class DatasetAbl {
         );
       }
       const identifiers = ["id", "gatewayId", "type", "startDate", "endDate"];
-      const identifiersDoNotMatch = identifiers.some((key) => dataset[key] !== dtoIn[key]);
+      const identifiersDoNotMatch = identifiers.some((key) => dataset[key].toString() !== dtoIn[key].toString());
       if (identifiersDoNotMatch) {
         const filterKeys = (o, keys) =>
           keys.reduce((state, key) => {
@@ -610,7 +610,7 @@ class DatasetAbl {
     const m = moment.tz(timestamp, timezone);
     switch (datasetType) {
       case "weekly": {
-        return m.isoWeek(m.isoWeeksInYear()).endOf("isoWeek").format("YYYY-MM-DD");
+        return m.isoWeek(m.isoWeeksInISOWeekYear()).endOf("isoWeek").format("YYYY-MM-DD");
       }
       case "hourly": {
         return m.endOf("day").format("YYYY-MM-DD");

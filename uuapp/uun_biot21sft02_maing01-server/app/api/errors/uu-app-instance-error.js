@@ -55,14 +55,9 @@ const Init = {
   }
 };
 
-const PlugInExternalServices = {
-  UC_CODE: `${UU_APP_INSTANCE_ERROR_PREFIX}plugInExternalServices/`,
-  
-};
-
 const Load = {
   UC_CODE: `${UU_APP_INSTANCE_ERROR_PREFIX}load/`,
-  
+
   UuAppInstanceDoesNotExist: class extends Biot21sft02UseCaseError {
     constructor() {
       super(...arguments);
@@ -88,8 +83,149 @@ const Load = {
   }
 };
 
+const ScheduleScripts = {
+  UC_CODE: `${UU_APP_INSTANCE_ERROR_PREFIX}scheduleScripts/`,
+
+  UuAppInstanceDoesNotExist: class extends Biot21sft02UseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${ScheduleScripts.UC_CODE}uuAppInstanceDoesNotExist`;
+      this.message = "UuAppInstance does not exist.";
+    }
+  },
+
+  UuAppInstanceIsNotInCorrectState: class extends Biot21sft02UseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${ScheduleScripts.UC_CODE}uuAppInstanceIsNotInCorrectState`;
+      this.message = "UuAppInstance is not in correct state.";
+    }
+  },
+
+  InvalidDtoIn: class extends Biot21sft02UseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${ScheduleScripts.UC_CODE}invalidDtoIn`;
+      this.message = "DtoIn is not valid.";
+    }
+  },
+
+  InsufficientConfig: class extends Biot21sft02UseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${ScheduleScripts.UC_CODE}insufficientConfig`;
+      this.message = "Insufficient configuration info for external services set up.";
+    }
+  },
+
+  ConsoleCreateFailed: class extends Biot21sft02UseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${ScheduleScripts.UC_CODE}consoleCreateFailed`;
+      this.message = "Console create failed.";
+    }
+  },
+
+  ConsoleUpdateFailed: class extends Biot21sft02UseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${ScheduleScripts.UC_CODE}consoleUpdateFailed`;
+      this.message = "Console authorization update failed.";
+    }
+  },
+
+  ProgressCreateFailed: class extends Biot21sft02UseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${ScheduleScripts.UC_CODE}progressCreateFailed`;
+      this.message = "Progress could not be created.";
+    }
+  },
+
+  ConsoleRefUuAppInstanceDaoUpdateFailed: class extends Biot21sft02UseCaseError {
+    constructor() {
+      super(...arguments);
+      this.status = 500;
+      this.code = `${ScheduleScripts.UC_CODE}consoleRefUuAppInstanceDaoUpdateFailed`;
+      this.message = "Failed to update console references in uuAppInstance.";
+    }
+  },
+
+  ProgressUpdateFailed: class extends Biot21sft02UseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${ScheduleScripts.UC_CODE}progressUpdateFailed`;
+      this.message = "Progress authorization could not be updated.";
+    }
+  },
+
+  ProgressRefUuAppInstanceDaoUpdateFailed: class extends Biot21sft02UseCaseError {
+    constructor() {
+      super(...arguments);
+      this.status = 500;
+      this.code = `${ScheduleScripts.UC_CODE}progressRefUuAppInstanceDaoUpdateFailed`;
+      this.message = "Failed to update progress references in uuAppInstance.";
+    }
+  },
+
+  ScriptScheduleFailed: class extends Biot21sft02UseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${ScheduleScripts.UC_CODE}scriptScheduleFailed`;
+      this.message = "Script schedule failed.";
+    }
+  },
+
+  UuAppInstanceDaoUpdateFailed: class extends Biot21sft02UseCaseError {
+    constructor() {
+      super(...arguments);
+      this.status = 500;
+      this.code = `${ScheduleScripts.UC_CODE}uuAppInstanceDaoUpdateFailed`;
+      this.message = "UuAppInstance DAO update failed.";
+    }
+  },
+};
+
+const ScriptCallback = {
+  UC_CODE: `${UU_APP_INSTANCE_ERROR_PREFIX}scriptCallback/`,
+  
+  UuAppInstanceDoesNotExist: class extends Biot21sft02UseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${ScriptCallback.UC_CODE}uuAppInstanceDoesNotExist`;
+      this.message = "UuAppInstance does not exist.";
+    }
+  },
+
+  UuAppInstanceIsNotInCorrectState: class extends Biot21sft02UseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${ScriptCallback.UC_CODE}uuAppInstanceIsNotInCorrectState`;
+      this.message = "UuAppInstance is not in correct state.";
+    }
+  },
+
+  InvalidDtoIn: class extends Biot21sft02UseCaseError {
+    constructor() {
+      super(...arguments);
+      this.code = `${ScriptCallback.UC_CODE}invalidDtoIn`;
+      this.message = "DtoIn is not valid.";
+    }
+  },
+
+  UuAppInstanceDaoUpdateFailed: class extends Biot21sft02UseCaseError {
+    constructor() {
+      super(...arguments);
+      this.status = 500;
+      this.code = `${ScriptCallback.UC_CODE}uuAppInstanceDaoUpdateFailed`;
+      this.message = "Failed to update uuAppInstance uuObject.";
+    }
+  },
+};
+
 module.exports = {
-  PlugInExternalServices,
   Init,
   Load,
+  ScheduleScripts,
+  ScriptCallback,
 };

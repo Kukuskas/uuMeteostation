@@ -22,3 +22,38 @@ const initDtoInType = shape({
 });
 
 const uuAppInstanceLoadDtoInType = shape({});
+
+const uuAppInstanceScheduleScriptsDtoInType = shape({
+  uuConsoleUri: uri(),
+  uuScriptEngineUri: uri(),
+  uuConsoleCode: code(),
+  authorizationUriMap: shape({
+    Authorities: uri(),
+    Writers: uri(),
+    Readers: uri()
+  }),
+  scripts: map(
+    oneOf(["aggregate","trim","checkGateway"]),
+    shape({
+      scriptUri: uri().isRequired(),
+      cron: string(/^(@(annually|yearly|monthly|weekly|daily|hourly|reboot))|(@every (\d+(ns|us|µs|ms|s|m|h))+)|(^((?!\*-)((\d+,)+\d+|([\d\*]+(\/|-)\d+)|\d+|(?<!\d)\*(?!\d)) ?){5,7})$/),
+      progressCode: code()
+    })
+  ),
+  removeExisting: boolean(),
+  rescheduleScripts: boolean()
+});
+
+const uuAppInstanceScriptCallbackDtoInType = shape({
+  sysScript: shape({
+    scriptEngineBaseUri: uri().isRequired(),
+    scriptRunId: id().isRequired(),
+    scriptRepeatedRunId: id(),
+    scriptUri: uri(),
+    scriptRunState: oneOf(["COMPLETED", "FAILED", "CANCELED"]),
+    callbackData: shape({
+      script: oneOf(["aggregate", "checkGateway", "trim"])
+    }, true, 2000).isRequired()
+  }),
+  uuAppErrorMap: shape({}, true)
+}, true);
