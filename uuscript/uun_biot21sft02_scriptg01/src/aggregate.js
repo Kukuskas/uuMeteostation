@@ -285,7 +285,7 @@ async function listUnaggregatedDatasets(type) {
       }
     };
     try {
-      dtoOut = await weatherstationClient.post("dataset/listUnaggregatedData", dtoIn);
+      dtoOut = await weatherstationClient.get("dataset/listUnaggregatedData", dtoIn);
       datasets.push(...dtoOut.itemList);
     } catch (e) {
       throw e;
