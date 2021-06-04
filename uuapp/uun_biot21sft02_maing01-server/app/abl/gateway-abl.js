@@ -432,6 +432,7 @@ class GatewayAbl {
         aggregated: false,
       };
     }
+    dataset.aggregated = false;
 
     // 7
     dataset.data = this._mergeDatasetData(dataset.data, dtoIn.data);

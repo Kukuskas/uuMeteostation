@@ -73,6 +73,14 @@
         "sysStateList": ["active"],
         "profileList": ["Authorities","AwidOwner","Gateways","Auditors","Public"]
       },
+      "uuAppInstance/scheduleScripts": {
+        "sysStateList": ["active"],
+        "profileList": ["AwidOwner","Authorities"]
+      },
+      "uuAppInstance/scriptCallback": {
+        "sysStateList": ["active"],
+        "profileList": ["Authorities","AwidOwner"]
+      },
       "dataset/getOrCreate": {
         "sysStateList": ["active"],
         "profileList": ["AwidOwner","Authorities","Auditors","Public"]
