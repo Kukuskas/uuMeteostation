@@ -1,6 +1,6 @@
 {
   "name": "uun_biot21sft02_maing01-server",
-  "version": "0.2.0-alpha",
+  "version": "0.3.1-alpha",
   "description": "",
   "license": "License Commercial",
   "spec": "nodejs-app; uu_appg01_devkit@4.0.1",
@@ -24,7 +24,7 @@
     "test": "uu_appg01_devkit test",
     "build": "uu_appg01_devkit build",
     "package": "uu_appg01_devkit package",
-    "deploy": "uu_appg01_devkit deploy",
+    "dveploy": "uu_appg01_devkit deploy",
     "undeploy": "uu_appg01_devkit undeploy",
     "start": "uu_appg01_devkit start",
     "prettify": "uu_appg01_devkit prettify",

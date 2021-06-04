@@ -1,6 +1,6 @@
 {
   "name": "uun_biot21sft02_maing01-hi",
-  "version": "0.2.0-alpha",
+  "version": "0.3.1-alpha",
   "private": true,
   "description": "",
   "license": "License Commercial",
@@ -12,12 +12,12 @@
     "uu_contentkitg01": "^2.13.3",
     "uu_plus4u5g01": "^4.19.2",
     "uu_territoryg01": "^1.0.0",
-    "uun_biot21sft02g01": "https://cdn.plus4u.net/beta/uun-biot21sft02g01/0.1.6-beta/uun_biot21sft02g01.tgz"
+    "uun_biot21sft02g01": "https://cdn.plus4u.net/beta/uun-biot21sft02g01/0.2.0-alpha/uun_biot21sft02g01.tgz"
   },
   "uuBuildSettings": {
     "externals": {
       "uun_biot21sft02g01": {
-        "cdnBaseUri": "https://cdn.plus4u.net/beta/uun-biot21sft02g01/0.1.6-beta"
+        "cdnBaseUri": "https://cdn.plus4u.net/beta/uun-biot21sft02g01/0.2.0-alpha"
       }
     }
   },
