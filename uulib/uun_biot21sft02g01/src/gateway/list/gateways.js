@@ -60,7 +60,7 @@ export const Gateways = createVisualComponent({
             onCreate={props.onCreate}
             onSaveFail={props.onSaveFail}></GatewayCreateForm>
       <Uu5Tiles.ControllerProvider data={props.gatewaysList}>
-      <Uu5Tiles.Grid tileMinWidth={200} tileMaxWidth={300} tileSpacing={8} rowSpacing={8}>
+      <Uu5Tiles.Grid tileMinWidth={250} tileMaxWidth={250} tileSpacing={8} rowSpacing={8}>
         {renderItem}
       </Uu5Tiles.Grid>
     </Uu5Tiles.ControllerProvider>

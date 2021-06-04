@@ -45,7 +45,7 @@ export const Data = createVisualComponent({
   //@@viewOff:defaultProps
 
   render(props) {
-console.log("whaaaaaaaaaaaaaaaaaaaaaaaaat?",props.dtoInGateway);
+// console.log("whaaaaaaaaaaaaaaaaaaaaaaaaat?",props.dtoInGateway);
       return (
      <UuP.Bricks.ComponentWrapper
     colorSchema={props.colorSchema}

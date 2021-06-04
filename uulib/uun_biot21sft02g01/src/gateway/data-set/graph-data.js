@@ -29,7 +29,7 @@ export const GraphData = createVisualComponent({
   render(props) {
     const datasetDataList = useDataset();
 
-    console.log("graph-data props", datasetDataList);
+    // console.log("graph-data props", datasetDataList);
 
     async function _handleChange(opt) {
       let startDate;
@@ -42,7 +42,7 @@ export const GraphData = createVisualComponent({
         endDate = opt.values.dateInterval[1].toISOString().slice(0, 10);
       }
 
-      console.log("Loooooooooooooooooooooooog", opt.values);
+      // console.log("Loooooooooooooooooooooooog", opt.values);
       try {
         await datasetDataList?.handlerMap.reload(props.gatewayCode, "hourly", startDate, endDate);
       } catch (e) {

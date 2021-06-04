@@ -37,7 +37,7 @@ export const GatewayData = createVisualComponent({
     let gatewayDataInfo = useGateway();
     // let dataDataSet = useDataSet();
     let gatewayInfo = gatewayDataInfo.data;
-    console.log("gatewayDataInfo",gatewayDataInfo );
+    // console.log("gatewayDataInfo",gatewayDataInfo );
     // let dataSet = dataSet.data;
 
     //@@viewOff:hooks

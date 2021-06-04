@@ -34,7 +34,7 @@ export const GatewayEditForm = createComponent({
     <UU5.Forms.ContextForm
       onSave={opt => {
         // TODO saving
-        console.log(opt.values);
+        // console.log(opt.values);
         modal && modal.close();
       }}
       onCancel={() => {
@@ -85,6 +85,7 @@ export const GatewayEditForm = createComponent({
         
      
         <UU5.Bricks.Button
+        style="position: absolute;right:52px;top:16px"
                   bgStyle="transparent"
                   onClick={() => GatewayEditForm.modal.open({
                     header: GatewayEditForm.getHeader(),

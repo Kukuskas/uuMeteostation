@@ -45,7 +45,7 @@ const List = createVisualComponent({
   //@@viewOff:defaultProps
 
   render(props) {
-console.log("propsss", props);
+// console.log("propsss", props);
     const [whichComponent, setWhichComponent] = useState(false);
     const [dtoInGateway, setDtoInGateway] = useState();
     //@@viewOff:handlers

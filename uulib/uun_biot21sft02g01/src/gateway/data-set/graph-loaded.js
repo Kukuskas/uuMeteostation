@@ -26,19 +26,41 @@ export const GraphLoaded = createVisualComponent({
 
   render(props) {
     console.log("graph-loaded props", props.datasetDataList);
-
+    if (!props.datasetDataList[0]) {
+      return (
+        <UU5.Bricks.Box colorSchema="orange" style="display:flex, justify-content: center">
+          <UU5.Bricks.Header style="text-align: center">
+            No data avaible.
+          </UU5.Bricks.Header>
+          <br/>
+        </UU5.Bricks.Box>
+      );
+    }
     let datasetArray = props.datasetDataList[0].data.data;
     if (props.datasetDataList.length > 1) {
       let itemListLength = props.datasetDataList[props.datasetDataList.length - 1].data.itemList;
       let allData = [];
+      let count = 0
       for (let i = 0; i < itemListLength.length; i++) {
         const element = itemListLength[i];
         for (let i = 0; i < element.data.length; i++) {
           const x = element.data[i];
-          //   if (x.avg.temperature == null) {
+            if (x.avg.temperature == null) {
+count=+1
+              }
           allData.push(x);
           //   }
         }
+      }
+      if (count==allData.length) {
+        return (
+          <UU5.Bricks.Box  style="display:flex, justify-content: center">
+          <UU5.Bricks.Header style="text-align: center">
+            Sorry, we miss data for this period of time.
+          </UU5.Bricks.Header>
+          <br/>
+        </UU5.Bricks.Box>
+        )
       }
       datasetArray = allData;
     }

@@ -29,7 +29,7 @@ let Calls = {
   },
 
   datasetListByDates(baseUri, dtoIn){
-    console.log("datasetCalls", baseUri, dtoIn);
+    // console.log("datasetCalls", baseUri, dtoIn);
     let commandUri = Calls.getCommandUri("dataset/listByDates", baseUri);
     return Calls.call("get", commandUri, dtoIn);
   },

@@ -43,46 +43,52 @@ export const GatewayDetail = createComponent({
     // if (!props.gateway) {
     //   return null;
     // }
-function propsToDetail() {
-  props.onDetail({gatewayId:props.gateway.id, gatewayCode:props.gateway.code, uuEe:props.gateway.uuEe})
-}
+    function propsToDetail() {
+      props.onDetail({ gatewayId: props.gateway.id, gatewayCode: props.gateway.code, uuEe: props.gateway.uuEe });
+    }
     return (
       <>
-        <UU5.Bricks.Card colorSchema={props.colorSchema} >
-          <UU5.Bricks.Box display="flex">
-          <UU5.Bricks.Button style="float:left"
-                  bgStyle="transparent"
-                  onClick={propsToDetail}
-                ><UU5.Bricks.Icon  icon="glyphicon-info-sign" /></UU5.Bricks.Button>
-                                <UU5.Bricks.Button
-                  bgStyle="transparent"
-                  onClick={() => {
-                    props.onDelete(props.gateway.id, props.gateway.name);
-                  }}
-                ><UU5.Bricks.Icon style="float:right" icon="glyphicon-trash" /></UU5.Bricks.Button>
-          <GatewayEditForm 
-            onDetail={props.onDetail}
-            onUpdate={props.onUpdate}
-            onDelete={props.onDelete}></GatewayEditForm>
-
-                
-
+        <UU5.Bricks.Card colorSchema={props.colorSchema} style="width:290px, height:290px">
+          <UU5.Bricks.Box>
+            <UU5.Bricks.Button style="float:left" bgStyle="transparent" onClick={propsToDetail}>
+              <UU5.Bricks.Icon icon="glyphicon-info-sign" />
+            </UU5.Bricks.Button>
+            <UU5.Bricks.Button
+              style="position: absolute;right:16px;top:16px"
+              bgStyle="transparent"
+              onClick={() => {
+                props.onDelete(props.gateway.id, props.gateway.name);
+              }}
+            >
+              <UU5.Bricks.Icon icon="glyphicon-trash" />
+            </UU5.Bricks.Button>
+            <GatewayEditForm
+              onDetail={props.onDetail}
+              onUpdate={props.onUpdate}
+              onDelete={props.onDelete}
+            ></GatewayEditForm>
           </UU5.Bricks.Box>
-          <UU5.Bricks.Box display="flex" >
+          <UU5.Bricks.Box>
             <UU5.Bricks.Row>
-              <UU5.Bricks.Column colWidth="s-3 s-5" content={"Název:"} />
-              <UU5.Bricks.Column colWidth="s-3 s-5" content={props.gateway.name} />
+              <UU5.Bricks.Column content={"Name:"} />
+              <UU5.Bricks.Column content={props.gateway.name} />
+            </UU5.Bricks.Row>
+            <br />
+            <UU5.Bricks.Row style="height:50px">
+              <UU5.Bricks.Column content={"Location:"} />
+              <UU5.Bricks.Column content={props.gateway.locationDesc} />
             </UU5.Bricks.Row>
             <br />
             <UU5.Bricks.Row>
-              <UU5.Bricks.Column colWidth="s-3 s-5" content={"Umístění:"} />
-              <UU5.Bricks.Column colWidth="s-3 s-5" content={props.gateway.location} />
+              <UU5.Bricks.Column content={"Temperature:"} />
+              <UU5.Bricks.Column content={props.gateway.current.temperature + "°C"} />
             </UU5.Bricks.Row>
             <br />
             <UU5.Bricks.Row>
-              <UU5.Bricks.Column colWidth="s-3 s-5" content={"Teplota:"} />
-              <UU5.Bricks.Column colWidth="s-3 s-5" content={props.gateway.current.temperature} />
+              <UU5.Bricks.Column content={"Humidity:"} />
+              <UU5.Bricks.Column content={props.gateway.current.humidity + "%"} />
             </UU5.Bricks.Row>
+            <br />
           </UU5.Bricks.Box>
         </UU5.Bricks.Card>
       </>
