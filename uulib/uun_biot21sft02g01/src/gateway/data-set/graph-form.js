@@ -24,33 +24,44 @@ export const GraphForm = createVisualComponent({
   render(props) {
     let currentDate = new Date();
     currentDate = currentDate.toISOString();
-    const [selected, setSelected] = useState(
-      "Hourly"
-    );
-    const [datePicked, setDatePicked] = useState(
-        null
-      );
-      const [datePick, setDatePick] = useState(
-        currentDate
-      );
+    const [selected, setSelected] = useState("Hourly");
+    const [datePicked, setDatePicked] = useState(null);
+    const [datePick, setDatePick] = useState(currentDate);
 
     function handleType(params) {
-      setSelected(params)
+      setSelected(params);
     }
-    let oneDate = <UU5.Forms.DatePicker label="Date" name="date"  value={datePick} required onChange={(value)=>setDatePick(value.value)}/>
-    let moreDate = <UU5.Forms.DateRangePicker label="Date" name="dateInterval" value={datePicked} placeholder="From - To" required onChange={(value)=>setDatePicked(value.value)}/>
-    let datePicker 
-    let type = oneDate
+    let oneDate = (
+      <UU5.Forms.DatePicker
+        label="Date"
+        name="date"
+        value={datePick}
+        required
+        onChange={(value) => setDatePick(value.value)}
+      />
+    );
+    let moreDate = (
+      <UU5.Forms.DateRangePicker
+        label="Date"
+        name="dateInterval"
+        value={datePicked}
+        placeholder="From - To"
+        required
+        onChange={(value) => setDatePicked(value.value)}
+      />
+    );
+    let datePicker;
+    let type = oneDate;
 
     if (selected === "Hourly") {
-        type = oneDate;
-      } else{
-        type = moreDate;
-      } 
+      type = oneDate;
+    } else {
+      type = moreDate;
+    }
 
-      if (type) {
-        datePicker = type;
-      }
+    if (type) {
+      datePicker = type;
+    }
 
     return (
       <>
@@ -64,15 +75,13 @@ export const GraphForm = createVisualComponent({
                 value={selected}
                 onChange={(value) => handleType(value.value)}
               >
-                <UU5.Forms.Select.Option value="Hourly" />
-                <UU5.Forms.Select.Option value="Daily" />
-                <UU5.Forms.Select.Option value="Monthly" />
-                <UU5.Forms.Select.Option value="Yearly" />
+                <UU5.Forms.Select.Option name="hourly" value="Hourly" />
+                <UU5.Forms.Select.Option name="daily" value="Daily" />
+                <UU5.Forms.Select.Option name="monthly" value="Monthly" disabled />
+                <UU5.Forms.Select.Option name="yearly" value="Yearly" disabled />
               </UU5.Forms.Select>
             </UU5.Bricks.Column>
-            <UU5.Bricks.Column colWidth="s-4">
-                {datePicker}
-            </UU5.Bricks.Column>
+            <UU5.Bricks.Column colWidth="s-4">{datePicker}</UU5.Bricks.Column>
             <UU5.Bricks.Column colWidth="s-4">
               <UU5.Forms.Controls
                 buttonSubmitProps={{ content: "Submit", colorSchema: "default" }}

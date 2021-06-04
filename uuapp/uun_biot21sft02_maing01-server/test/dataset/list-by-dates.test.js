@@ -43,7 +43,7 @@ describe("Testing dataSet/list-by-dates HDS", () => {
     };
 
     const result = await calls.listByDates(dtoIn)
-    console.log(result)
+    
 
     expect(result.status).toBe(200);
     expect(result.uuAppErrorMap).toEqual({});

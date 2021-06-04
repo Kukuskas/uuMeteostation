@@ -37,6 +37,7 @@ export const GatewayLoader = createComponent({
     //@@viewOn:handlers
     async function handleLoad() {
       console.log(dtoIn);
+     // console.log("ddtoOut dataInfo", await Calls.gatewayGet(baseUri,dtoIn));
       return await Calls.gatewayGet(baseUri,dtoIn);
     }
 

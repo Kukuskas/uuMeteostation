@@ -35,7 +35,7 @@ export const Current = createVisualComponent({
     const testData = useGateway().data;
     const [actualDate, setActualDate] = useState(new Date());
     useEffect(() => {
-      const timer = setInterval(() => setActualDate(new Date()), 1000);
+      const timer = setInterval(() => setActualDate(new Date()), 60000);
       return function cleanup() {
         clearInterval(timer);
       };
@@ -87,10 +87,10 @@ export const Current = createVisualComponent({
             </UU5.Bricks.Text>
           </UU5.Bricks.Row>
           <UU5.Bricks.Row style="margin:10px">
-            <UU5.Bricks.Text style="margin-right:10px">{gatewayData.location}</UU5.Bricks.Text>
+            <UU5.Bricks.Text style="margin-right:10px">{gatewayData.locationDesc}</UU5.Bricks.Text>
           </UU5.Bricks.Row>
         </UU5.Bricks.Section>
-        <MinMax gatewayData={gatewayData} ></MinMax>
+        {/* <MinMax gatewayData={gatewayData} ></MinMax> */}
       </UU5.Bricks.Box>
     );
     //@@viewOff:render

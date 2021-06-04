@@ -1,5 +1,5 @@
 import UU5 from "uu5g04";
-import { createComponent, useDataObject } from "uu5g04-hooks";
+import { createComponent, useDataList } from "uu5g04-hooks";
 import "uu_plus4u5g01-bricks";
 
 import Config from "../config/config";
@@ -7,9 +7,9 @@ import Calls from "calls";
 import { DatasetContext } from "./context/context";
 //@@viewOff:imports
 
-export const GatewayLoader = createComponent({
+export const DatasetLoader = createComponent({
   //@@viewOn:statics
-  displayName: Config.TAG + "GatewayLoader",
+  displayName: Config.TAG + "DatasetLoader",
   //@@viewOff:statics
 
   //@@viewOn:propTypes
@@ -24,19 +24,44 @@ export const GatewayLoader = createComponent({
   },
   //@@viewOff:defaultProps
 
-  render({ baseUri, children }) {
+  render({ baseUri, children, gatewayCode, type, startDate, endDate }) {
     //@@viewOn:hooks
-    const datasetDataObject = useDataObject({
+    const datasetDataList = useDataList({
       handlerMap: {
         load: handleLoad,
+        reload: handleReload,
       },
       initialDtoIn: {},
     });
     //@@viewOff:hooks
 
     //@@viewOn:handlers
-    async function handleLoad(dtoIn) {
-      return await Calls.datasetGet(baseUri, dtoIn);
+    async function handleLoad() {
+      const dtoIn = {
+        gatewayCode,
+        type,
+        startDate,
+        endDate,
+      };
+      console.log("dtoIn", dtoIn);
+      baseUri = "https://uuapp.plus4u.net/uun-biot21sft02-maing01/44701e7183e94852859303f2bfca9a7f/";
+      return await Calls.datasetListByDates(baseUri, dtoIn);
+    }
+
+    async function handleReload(gatewayCode, type, startDate, endDate, date) {
+      if (date) {
+        startDate = date;
+        endDate = date;
+      }
+      const dtoIn = {
+        gatewayCode,
+        type,
+        startDate,
+        endDate,
+      };
+      // console.log("dtoIn of RELOAD", dtoIn);
+      baseUri = "https://uuapp.plus4u.net/uun-biot21sft02-maing01/44701e7183e94852859303f2bfca9a7f/";
+      return await Calls.datasetListByDates(baseUri, dtoIn);
     }
 
     //@@viewOff:handlers
@@ -45,7 +70,7 @@ export const GatewayLoader = createComponent({
     //@@viewOff:private
 
     //@@viewOn:render
-    return <DatasetContext.Provider value={datasetDataObject}>{children}</DatasetContext.Provider>;
+    return <DatasetContext.Provider value={datasetDataList}>{children}</DatasetContext.Provider>;
     //@@viewOff:render
   },
 });
@@ -53,4 +78,4 @@ export const GatewayLoader = createComponent({
 //@@viewOn:helpers
 //@@viewOff:helpers
 
-export default GatewayLoader;
+export default DatasetLoader;

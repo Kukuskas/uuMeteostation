@@ -28,6 +28,12 @@ let Calls = {
     return Calls.call("post", commandUri, dtoIn);
   },
 
+  datasetListByDates(baseUri, dtoIn){
+    console.log("datasetCalls", baseUri, dtoIn);
+    let commandUri = Calls.getCommandUri("dataset/listByDates", baseUri);
+    return Calls.call("get", commandUri, dtoIn);
+  },
+
   gatewaySetState(baseUri, dtoIn) {
     let commandUri = Calls.getCommandUri("gateway/setState", baseUri);
     return Calls.call("post", commandUri, dtoIn);

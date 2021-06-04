@@ -31,7 +31,7 @@ export const Current = createVisualComponent({
     //@@viewOn:hooks
 
     //@@viewOff:hooks
-
+console.log("minMax", props);
     //@@viewOn:private
 
     //@@viewOff:handlers
