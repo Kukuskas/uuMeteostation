@@ -25,7 +25,7 @@ export const GraphLoaded = createVisualComponent({
   //@@viewOff:defaultProps
 
   render(props) {
-    console.log("graph-loaded props", props.datasetDataList);
+    console.log("graph-loaded props", props);
     if (!props.datasetDataList[0]) {
       return (
         <UU5.Bricks.Box colorSchema="orange" style="display:flex, justify-content: center">
@@ -36,6 +36,7 @@ export const GraphLoaded = createVisualComponent({
         </UU5.Bricks.Box>
       );
     }
+    let type;
     let datasetArray = props.datasetDataList[0].data.data;
     if (props.datasetDataList.length > 1) {
       let itemListLength = props.datasetDataList[props.datasetDataList.length - 1].data.itemList;
@@ -43,14 +44,17 @@ export const GraphLoaded = createVisualComponent({
       let count = 0
       for (let i = 0; i < itemListLength.length; i++) {
         const element = itemListLength[i];
+        type= element.type
+        
         for (let i = 0; i < element.data.length; i++) {
           const x = element.data[i];
+        if (Date.parse(props.dates[0])<=Date.parse(x.timestamp.slice(0, 10)) && Date.parse(props.dates[1])>=Date.parse(x.timestamp.slice(0, 10)) ) {
             if (x.avg.temperature == null) {
 count=+1
               }
           allData.push(x);
           //   }
-        }
+        }}
       }
       if (count==allData.length) {
         return (
@@ -83,7 +87,7 @@ count=+1
         }
       }
     }
-    console.log(min, max);
+    // console.log(min, max);
     // let dataset =[]
 
     // for (let i = 0; i < datasetArray.length; i++) {
@@ -91,7 +95,23 @@ count=+1
 
     // }
     let graphData;
-    if (datasetArray.length < 25) {
+    if(type == "monthly"){
+      graphData = datasetArray.map((item) => {
+        return {
+          label: item.timestamp.slice(0, 7),
+          value: item.avg.temperature,
+          value2: item.avg.humidity,
+        }});
+        
+    }else if (type == "yearly") {
+      graphData = datasetArray.map((item) => {
+        return {
+          label: item.timestamp.slice(0, 7),
+          value: item.avg.temperature,
+          value2: item.avg.humidity,
+        };
+      });
+    }else if (datasetArray.length < 25) {
       graphData = datasetArray.map((item) => {
         return {
           label: item.timestamp.match(/\d\d:\d\d/),
@@ -108,7 +128,7 @@ count=+1
         };
       });
     }
-    console.log("FUUUUUUUUUUUH", graphData);
+    // console.log("FUUUUUUUUUUUH", graphData);
 
     return (
       <>
@@ -129,7 +149,6 @@ count=+1
           ]}
           data={graphData}
         />
-        hello
       </>
     );
   },

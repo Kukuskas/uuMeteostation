@@ -24,12 +24,19 @@ export const GraphForm = createVisualComponent({
   render(props) {
     let currentDate = new Date();
     currentDate = currentDate.toISOString();
-    const [selected, setSelected] = useState("Hourly");
+    const [selected, setSelected] = useState("hourly");
     const [datePicked, setDatePicked] = useState(null);
     const [datePick, setDatePick] = useState(currentDate);
+    const [stepSelected, setStepSelected] = useState("days");
 
     function handleType(params) {
       setSelected(params);
+      if (params=="monthly") {
+        setStepSelected("months")
+      }else if (params=="yearly") {
+        setStepSelected("years")
+      }
+      
     }
     let oneDate = (
       <UU5.Forms.DatePicker
@@ -46,6 +53,7 @@ export const GraphForm = createVisualComponent({
         name="dateInterval"
         value={datePicked}
         placeholder="From - To"
+        step={stepSelected}
         required
         onChange={(value) => setDatePicked(value.value)}
       />
@@ -53,7 +61,7 @@ export const GraphForm = createVisualComponent({
     let datePicker;
     let type = oneDate;
 
-    if (selected === "Hourly") {
+    if (selected === "hourly") {
       type = oneDate;
     } else {
       type = moreDate;
@@ -75,10 +83,10 @@ export const GraphForm = createVisualComponent({
                 value={selected}
                 onChange={(value) => handleType(value.value)}
               >
-                <UU5.Forms.Select.Option name="hourly" value="Hourly" />
-                <UU5.Forms.Select.Option name="daily" value="Daily" />
-                <UU5.Forms.Select.Option name="monthly" value="Monthly" disabled />
-                <UU5.Forms.Select.Option name="yearly" value="Yearly" disabled />
+                <UU5.Forms.Select.Option name="Hourly" value="hourly" />
+                <UU5.Forms.Select.Option name="Daily" value="daily" />
+                <UU5.Forms.Select.Option name="Monthly" value="monthly"  />
+                <UU5.Forms.Select.Option name="Yearly" value="yearly"  />
               </UU5.Forms.Select>
             </UU5.Bricks.Column>
             <UU5.Bricks.Column colWidth="s-4">{datePicker}</UU5.Bricks.Column>
