@@ -35,6 +35,8 @@ export const GraphForm = createVisualComponent({
         setStepSelected("months")
       }else if (params=="yearly") {
         setStepSelected("years")
+      }else{
+        setStepSelected("days")
       }
       
     }
